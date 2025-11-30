@@ -9,3 +9,7 @@ target/
 *.iws
 *.iml
 *.ipr
+.env
+
+src/main/resources/schema.sql
+src/main/resources/data.sql
