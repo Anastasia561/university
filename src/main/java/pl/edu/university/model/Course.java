@@ -2,6 +2,7 @@ package pl.edu.university.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,7 +17,18 @@ public class Course {
     private Integer credit;
     private String description;
     @OneToMany(mappedBy = "course")
-    private List<Enrollment> enrollments;
+    private List<Enrollment> enrollments = new ArrayList<Enrollment>();
+
+    public Course() {
+
+    }
+
+    public Course(String name, String code, Integer credit, String description) {
+        this.name = name;
+        this.code = code;
+        this.credit = credit;
+        this.description = description;
+    }
 
     public Integer getId() {
         return id;

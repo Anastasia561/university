@@ -11,10 +11,10 @@ public class Enrollment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ManyToOne
-    @JoinColumn(name = "course")
+    @JoinColumn(name = "course_id")
     private Course course;
     @ManyToOne
-    @JoinColumn(name = "student")
+    @JoinColumn(name = "student_id")
     private Student student;
     @Column(name = "final_grade")
     private Double finalGrade;
