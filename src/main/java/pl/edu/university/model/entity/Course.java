@@ -1,4 +1,4 @@
-package pl.edu.university.model;
+package pl.edu.university.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

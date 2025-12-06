@@ -1,6 +1,6 @@
-package pl.edu.university.model;
+package pl.edu.university.model.entity;
 
-import jakarta.persistence.*;
+import  jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;

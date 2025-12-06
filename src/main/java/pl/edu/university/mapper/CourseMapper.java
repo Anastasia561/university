@@ -1,12 +1,11 @@
 package pl.edu.university.mapper;
 
 import org.springframework.stereotype.Component;
-import pl.edu.university.model.Course;
+import pl.edu.university.model.entity.Course;
 import pl.edu.university.model.dtos.course.CourseCreateDto;
 import pl.edu.university.model.dtos.course.CoursePreviewDto;
 import pl.edu.university.model.dtos.course.CourseViewDto;
 import pl.edu.university.model.dtos.course.StudentForCourseDetailsDto;
-import pl.edu.university.model.dtos.enrollment.CourseForEnrollmentDto;
 import pl.edu.university.repository.EnrollmentRepository;
 
 import java.util.List;
@@ -56,15 +55,6 @@ public class CourseMapper {
                 .name(dto.getCourseName())
                 .credit(dto.getCredit())
                 .description(dto.getDescription())
-                .build();
-    }
-
-    public CourseForEnrollmentDto toCourseForEnrollmentDto(Course c) {
-        return CourseForEnrollmentDto.builder()
-                .code(c.getCode())
-                .name(c.getName())
-                .credit(c.getCredit())
-                .description(c.getDescription())
                 .build();
     }
 }

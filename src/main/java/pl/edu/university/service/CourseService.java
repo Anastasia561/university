@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.university.exception.CourseNotFoundException;
 import pl.edu.university.mapper.CourseMapper;
-import pl.edu.university.model.Course;
+import pl.edu.university.model.entity.Course;
 import pl.edu.university.model.dtos.course.CourseCreateDto;
 import pl.edu.university.model.dtos.course.CoursePreviewDto;
 import pl.edu.university.model.dtos.course.CourseViewDto;
