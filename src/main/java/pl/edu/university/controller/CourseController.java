@@ -4,9 +4,9 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.university.model.dtos.CourseCreateDto;
-import pl.edu.university.model.dtos.CoursePreviewDto;
-import pl.edu.university.model.dtos.CourseViewDto;
+import pl.edu.university.model.dtos.course.CourseCreateDto;
+import pl.edu.university.model.dtos.course.CoursePreviewDto;
+import pl.edu.university.model.dtos.course.CourseViewDto;
 import pl.edu.university.service.CourseService;
 
 import java.util.List;
@@ -21,18 +21,18 @@ public class CourseController {
     }
 
     @GetMapping
-    public List<CoursePreviewDto> getAllCoursesPreview() {
-        return courseService.getAllPreview();
+    public ResponseEntity<List<CoursePreviewDto>> getAllCoursesPreview() {
+        return ResponseEntity.ok(courseService.getAllPreview());
     }
 
     @GetMapping("/details/{id}")
-    public CourseViewDto getCourseDetails(@PathVariable Integer id) {
-        return courseService.getCourseDetails(id);
+    public ResponseEntity<CourseViewDto> getCourseDetails(@PathVariable Integer id) {
+        return ResponseEntity.ok(courseService.getCourseDetails(id));
     }
 
     @GetMapping("/{id}")
-    public CoursePreviewDto getCoursePreview(@PathVariable Integer id) {
-        return courseService.getCoursePreview(id);
+    public ResponseEntity<CoursePreviewDto> getCoursePreview(@PathVariable Integer id) {
+        return ResponseEntity.ok(courseService.getCoursePreview(id));
     }
 
     @PutMapping("/{id}")
@@ -40,19 +40,16 @@ public class CourseController {
             @PathVariable Integer id,
             @RequestBody @Valid CourseCreateDto dto
     ) {
-        CourseViewDto updated = courseService.updateCourse(id, dto);
-        return ResponseEntity.ok(updated);
+        return ResponseEntity.ok(courseService.updateCourse(id, dto));
     }
 
     @PostMapping
     public ResponseEntity<CourseViewDto> createCourse(
             @RequestBody @Valid CourseCreateDto dto
     ) {
-        CourseViewDto created = courseService.createCourse(dto);
-
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(created);
+                .body(courseService.createCourse(dto));
     }
 
     @DeleteMapping("/{id}")

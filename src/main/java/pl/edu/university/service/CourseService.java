@@ -1,12 +1,13 @@
 package pl.edu.university.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.edu.university.exception.CourseNotFoundException;
 import pl.edu.university.mapper.CourseMapper;
 import pl.edu.university.model.Course;
-import pl.edu.university.model.dtos.CourseCreateDto;
-import pl.edu.university.model.dtos.CoursePreviewDto;
-import pl.edu.university.model.dtos.CourseViewDto;
+import pl.edu.university.model.dtos.course.CourseCreateDto;
+import pl.edu.university.model.dtos.course.CoursePreviewDto;
+import pl.edu.university.model.dtos.course.CourseViewDto;
 import pl.edu.university.repository.CourseRepository;
 
 import java.util.List;
@@ -40,12 +41,14 @@ public class CourseService {
                 .orElseThrow(() -> new CourseNotFoundException(courseId));
     }
 
+    @Transactional
     public CourseViewDto createCourse(CourseCreateDto dto) {
         Course course = courseMapper.toCourse(dto);
         Course savedCourse = courseRepository.save(course);
         return courseMapper.toCourseViewDto(savedCourse);
     }
 
+    @Transactional
     public CourseViewDto updateCourse(Integer courseId, CourseCreateDto dto) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new CourseNotFoundException(courseId));
@@ -55,11 +58,10 @@ public class CourseService {
         course.setCredit(dto.getCredit());
         course.setDescription(dto.getDescription());
 
-        Course updatedCourse = courseRepository.save(course);
-
-        return courseMapper.toCourseViewDto(updatedCourse);
+        return courseMapper.toCourseViewDto(course);
     }
 
+    @Transactional
     public void deleteCourse(Integer courseId) {
         if (!courseRepository.existsById(courseId)) {
             throw new CourseNotFoundException(courseId);

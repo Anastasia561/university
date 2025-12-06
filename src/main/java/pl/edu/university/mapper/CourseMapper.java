@@ -2,13 +2,15 @@ package pl.edu.university.mapper;
 
 import org.springframework.stereotype.Component;
 import pl.edu.university.model.Course;
-import pl.edu.university.model.dtos.CourseCreateDto;
-import pl.edu.university.model.dtos.CoursePreviewDto;
-import pl.edu.university.model.dtos.CourseViewDto;
-import pl.edu.university.model.dtos.StudentDetailsDto;
+import pl.edu.university.model.dtos.course.CourseCreateDto;
+import pl.edu.university.model.dtos.course.CoursePreviewDto;
+import pl.edu.university.model.dtos.course.CourseViewDto;
+import pl.edu.university.model.dtos.course.StudentForCourseDetailsDto;
+import pl.edu.university.model.dtos.enrollment.CourseForEnrollmentDto;
 import pl.edu.university.repository.EnrollmentRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CourseMapper {
@@ -19,23 +21,50 @@ public class CourseMapper {
     }
 
     public CoursePreviewDto toCoursePreviewDto(Course c) {
-        return new CoursePreviewDto(c.getId(), c.getName(), c.getCode(), c.getCredit());
+        return CoursePreviewDto.builder()
+                .id(c.getId())
+                .courseName(c.getName())
+                .courseCode(c.getCode())
+                .credit(c.getCredit())
+                .build();
     }
 
     public CourseViewDto toCourseViewDto(Course c) {
-        CourseViewDto courseViewDto = new CourseViewDto(c.getId(), c.getName(),
-                c.getCode(), c.getCredit(), c.getDescription());
+        CourseViewDto dto = CourseViewDto.builder()
+                .id(c.getId())
+                .courseName(c.getName())
+                .courseCode(c.getCode())
+                .credit(c.getCredit())
+                .description(c.getDescription())
+                .build();
 
-        List<StudentDetailsDto> studentDetailsDtos = enrollmentRepository.findByCourse(c).stream()
-                .map(e ->
-                        new StudentDetailsDto(e.getStudent().getEmail(), e.getFinalGrade())).toList();
+        List<StudentForCourseDetailsDto> studentDetailsDtos = enrollmentRepository.findByCourse(c).stream()
+                .map(e -> {
+                    return StudentForCourseDetailsDto.builder()
+                            .studentEmail(e.getStudent().getEmail())
+                            .finalGrade(e.getFinalGrade())
+                            .build();
+                }).collect(Collectors.toList());
 
-        courseViewDto.setStudents(studentDetailsDtos);
-        return courseViewDto;
+        dto.setStudents(studentDetailsDtos);
+        return dto;
     }
 
     public Course toCourse(CourseCreateDto dto) {
-        return new Course(dto.getCourseName(), dto.getCourseCode(),
-                dto.getCredit(), dto.getDescription());
+        return Course.builder()
+                .code(dto.getCourseCode())
+                .name(dto.getCourseName())
+                .credit(dto.getCredit())
+                .description(dto.getDescription())
+                .build();
+    }
+
+    public CourseForEnrollmentDto toCourseForEnrollmentDto(Course c) {
+        return CourseForEnrollmentDto.builder()
+                .code(c.getCode())
+                .name(c.getName())
+                .credit(c.getCredit())
+                .description(c.getDescription())
+                .build();
     }
 }
