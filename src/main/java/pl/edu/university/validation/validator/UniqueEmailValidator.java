@@ -3,7 +3,7 @@ package pl.edu.university.validation.validator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.stereotype.Component;
-import pl.edu.university.repository.StudentRepository;
+import pl.edu.university.student.repository.StudentRepository;
 import pl.edu.university.validation.annotation.UniqueEmail;
 
 @Component

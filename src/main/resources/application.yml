@@ -14,3 +14,7 @@ spring:
 
   sql.init.mode: never
   config.import: optional:file:.env[.properties]
+
+server:
+  servlet:
+    context-path: /api
