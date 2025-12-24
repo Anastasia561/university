@@ -9,7 +9,7 @@ import StudentsUpdate from './students/StudentsUpdate'
 
 import '../styles/GeneralStyles.css';
 
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom'
 
 function Main() {
     return (
@@ -22,6 +22,8 @@ function Main() {
                     <Route path="/students/:id/details" element={<StudentsDetails/>}/>
                     <Route path="/students/:id/delete" element={<StudentsDelete/>}/>
                     <Route path="/students/:id/update" element={<StudentsUpdate/>}/>
+
+                    <Route path="*" element={<Navigate to="/home" replace/>}/>
                 </Routes>
             </Router>
         </React.Fragment>
