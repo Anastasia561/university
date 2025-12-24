@@ -93,20 +93,6 @@ textarea:focus {
     background-color: #0056b3;
 }
 
-.btn-cancel {
-    background-color: #ccc;
-    color: #333;
-    padding: 8px 16px;
-    border-radius: 5px;
-    text-decoration: none;
-    display: inline-block;
-    font-weight: bold;
-}
-
-.btn-cancel:hover {
-    background-color: #aaa;
-}
-
 select {
     padding: 8px 12px;
     border-radius: 5px;

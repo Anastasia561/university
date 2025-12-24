@@ -1,9 +1,3 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    padding: 20px;
-}
-
 .container {
     max-width: 70%;
     margin: 50px auto;
@@ -14,12 +8,13 @@ body {
     width: 60%;
 }
 
-h1, h2 {
+.header {
     text-align: center;
     margin-bottom: 20px;
+    color: black;
 }
 
-ul{
+ul {
     list-style: none;
     padding: 0;
     margin-bottom: 30px;
@@ -42,18 +37,15 @@ th, td {
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #0056b3;
 }
 
-.btn {
-    display: inline-block;
-    padding: 6px 12px;
-    margin: 5px 2px 0 0;
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: bold;
-    color: #fff;
+.btn-back {
+    background-color: #007bff;
+    color: white;
+    width: 150px;
 }
 
-.btn-back { background-color: #007bff; }
-.btn-back:hover { background-color: #0056b3; }
+.btn-back:hover {
+    background-color: #0056b3;
+}
