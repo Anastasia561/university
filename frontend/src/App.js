@@ -1,4 +1,4 @@
-import Main from './components/Main'
+import Main from './routes/Main'
 import React from 'react';
 
 function App() {
