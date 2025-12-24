@@ -6,6 +6,7 @@ import Students from './students/Students'
 import StudentsDetails from './students/StudentsDetails'
 import StudentsDelete from './students/StudentsDelete'
 import StudentsUpdate from './students/StudentsUpdate'
+import StudentsCreate from './students/StudentsCreate'
 
 import '../styles/GeneralStyles.css';
 
@@ -22,7 +23,7 @@ function Main() {
                     <Route path="/students/:id/details" element={<StudentsDetails/>}/>
                     <Route path="/students/:id/delete" element={<StudentsDelete/>}/>
                     <Route path="/students/:id/update" element={<StudentsUpdate/>}/>
-
+                    <Route path="/students/create" element={<StudentsCreate/>}/>
                     <Route path="*" element={<Navigate to="/home" replace/>}/>
                 </Routes>
             </Router>

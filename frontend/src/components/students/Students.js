@@ -29,7 +29,7 @@ function Students() {
 
             <div className="table-container">
                 <div className="toolbar">
-                    <Link className="link create-link" to="/students/add">Add Student</Link>
+                    <Link className="link create-link" to="/students/create">Add Student</Link>
                 </div>
 
                 <table>

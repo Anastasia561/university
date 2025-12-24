@@ -38,7 +38,7 @@ input, select {
     width: 100%;
     max-width: 480px;
     padding: 10px;
-    margin: 10px auto 10px;
+    margin: 5px auto 10px;
     display: block;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -67,10 +67,18 @@ textarea:focus {
 .error {
     display: block;
     margin-top: 4px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     color: #d9534f;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 500;
+}
+
+.general-error {
+    color: #d9534f;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: large;
 }
 
 .btn {

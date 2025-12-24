@@ -3,15 +3,37 @@ import React, {useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
 
 function StudentsDetails() {
-    const { id } = useParams();
+    const {id} = useParams();
 
+    const [serverMessage, setServerMessage] = useState('');
     const [student, setStudent] = useState(null);
 
     useEffect(() => {
-        fetch(`/api/students/details/${id}`)
-            .then(res => res.json())
-            .then(data => setStudent(data))
-            .catch(err => console.error(err));
+        const fetchStudent = async () => {
+            try {
+                const res = await fetch(`/api/students/details/${id}`);
+
+                if (!res.ok) {
+                    if (res.status === 404) {
+                        setServerMessage('Student not found');
+                    } else {
+                        const data = await res.json();
+                        setServerMessage(data.message);
+                    }
+                    setStudent(null);
+                    return;
+                }
+
+                const data = await res.json();
+                setStudent(data);
+                setServerMessage('');
+            } catch (err) {
+                console.error(err);
+                setServerMessage('Failed to fetch student details');
+                setStudent(null);
+            }
+        };
+        fetchStudent();
     }, [id]);
 
     if (!student) {
@@ -21,6 +43,8 @@ function StudentsDetails() {
     return (
         <div className="container">
             <h1 className="header">Student Details</h1>
+
+            {serverMessage && <div className="error general-error">{serverMessage}</div>}
 
             <ul>
                 <li><strong>First Name:</strong> {student.firstName}</li>
