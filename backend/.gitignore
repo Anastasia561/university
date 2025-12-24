@@ -1,0 +1,8 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+backend/src/main/resources/schema.sql
+backend/src/main/resources/data.sql
+db/

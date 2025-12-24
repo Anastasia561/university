@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: backend
+
+  datasource:
+    url: ${DB_URL}
+    driverClassName: org.h2.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate.ddl-auto: none
+
+  sql.init.mode: always
+  config.import: optional:file:.env[.properties]
+
+server:
+  servlet:
+    context-path: /api
