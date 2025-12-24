@@ -1,54 +1,64 @@
-import React from 'react'
 import '../../styles/DetailedViewStyles.css';
-import {Link} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Link, useParams} from 'react-router-dom';
 
 function StudentsDetails() {
+    const { id } = useParams();
+
+    const [student, setStudent] = useState(null);
+
+    useEffect(() => {
+        fetch(`/api/students/details/${id}`)
+            .then(res => res.json())
+            .then(data => setStudent(data))
+            .catch(err => console.error(err));
+    }, [id]);
+
+    if (!student) {
+        return <p>Loading student details...</p>;
+    }
+
     return (
-        <React.Fragment>
-            <div className="container">
-                <h1 className="header">Student Details</h1>
+        <div className="container">
+            <h1 className="header">Student Details</h1>
 
-                <ul>
-                    <li><strong>First Name:</strong> Anna</li>
-                    <li><strong>Last Name:</strong> Kowalska</li>
-                    <li><strong>Email:</strong> anna.kowalska@example.com</li>
-                    <li><strong>Student Number:</strong> s30200</li>
-                    <li><strong>Birth Date:</strong> 2001-05-12</li>
-                </ul>
+            <ul>
+                <li><strong>First Name:</strong> {student.firstName}</li>
+                <li><strong>Last Name:</strong> {student.lastName}</li>
+                <li><strong>Email:</strong> {student.email}</li>
+                <li><strong>Birth Date:</strong> {student.birthdate}</li>
+            </ul>
 
-                <h2 className="header">Enrollments</h2>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Course Code</th>
-                        <th>Date</th>
-                        <th>Final Grade</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>ALG</td>
-                        <td>2024-02-10</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>APBD</td>
-                        <td>2024-03-15</td>
-                        <td>4.5</td>
-                    </tr>
-                    <tr>
-                        <td>SYC</td>
-                        <td>2024-04-20</td>
-                        <td>4</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <h2 className="header">Enrollments</h2>
 
-                <Link className="btn  btn-back" to="/students">Back to Students List</Link>
+            <table>
+                <thead>
+                <tr>
+                    <th>Course Code</th>
+                    <th>Date</th>
+                    <th>Final Grade</th>
+                </tr>
+                </thead>
+                <tbody>
+                {student.enrollments.length === 0 ? (
+                    <tr>
+                        <td colSpan="3">No enrollments</td>
+                    </tr>
+                ) : (
+                    student.enrollments.map((e, index) => (
+                        <tr key={index}>
+                            <td>{e.courseCode}</td>
+                            <td>{e.enrollmentDate}</td>
+                            <td>{e.finalGrade}</td>
+                        </tr>
+                    ))
+                )}
+                </tbody>
+            </table>
 
-            </div>
-        </React.Fragment>
-    )
+            <Link className="btn btn-back" to="/students">Back to Students List</Link>
+        </div>
+    );
 }
 
 export default StudentsDetails;

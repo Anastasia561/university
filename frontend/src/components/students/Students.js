@@ -7,7 +7,7 @@ function Students() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch('api/students')
+        fetch('/api/students')
             .then(res => res.json())
             .then(data => {
                 setStudents(data);

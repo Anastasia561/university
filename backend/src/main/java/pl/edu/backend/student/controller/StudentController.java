@@ -27,22 +27,22 @@ public class StudentController {
     private final StudentService studentService;
 
     @GetMapping
-    public List<StudentPreviewDto> getAllCoursesPreview() {
+    public List<StudentPreviewDto> getAllStudentsPreview() {
         return studentService.getAllPreview();
     }
 
     @GetMapping("/details/{id}")
-    public StudentViewDto getCourseDetails(@PathVariable(name = "id") Integer id) {
+    public StudentViewDto getStudentDetails(@PathVariable(name = "id") Integer id) {
         return studentService.getStudentDetails(id);
     }
 
     @GetMapping("/{id}")
-    public StudentPreviewDto getCoursePreview(@PathVariable(name = "id") Integer id) {
+    public StudentPreviewDto getStudentPreview(@PathVariable(name = "id") Integer id) {
         return studentService.getStudentPreview(id);
     }
 
     @PutMapping("/{id}")
-    public StudentViewDto updateCourse(
+    public StudentViewDto updateStudent(
             @PathVariable(name = "id") Integer id,
             @RequestBody @Valid StudentUpdateDto dto
     ) {
@@ -51,7 +51,7 @@ public class StudentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public StudentViewDto createCourse(
+    public StudentViewDto createStudent(
             @RequestBody @Valid StudentCreateDto dto
     ) {
         return studentService.createStudent(dto);
@@ -59,7 +59,7 @@ public class StudentController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCourse(@PathVariable Integer id) {
+    public void deleteStudent(@PathVariable Integer id) {
         studentService.deleteStudent(id);
     }
 }
