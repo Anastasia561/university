@@ -1,66 +1,97 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import '../../styles/FormStyles.css';
-import {Link, useNavigate} from 'react-router-dom';
+import {validateStudent} from '../../validation/StudentValidation';
+import {Link, useParams, useNavigate} from 'react-router-dom';
 
-function StudentsUpdate({student}) {
+function StudentsUpdate() {
+    const {id} = useParams();
     const navigate = useNavigate();
 
-    // const [firstName, setFirstName] = useState(student.firstName);
-    // const [lastName, setLastName] = useState(student.lastName);
-    // const [email, setEmail] = useState(student.email);
-    // const [birthDate, setBirthDate] = useState(student.birthDate);
+    const [student, setStudent] = useState(null);
+    const [errors, setErrors] = useState({});
+    const [serverMessage, setServerMessage] = useState('');
+    const [loading, setLoading] = useState(true);
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        const fetchStudent = async () => {
+            try {
+                const res = await fetch(`/api/students/details/${id}`);
+                const data = await res.json();
+                if (!res.ok) {
+                    setServerMessage(data.message);
+                }
+                setStudent(data);
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchStudent();
+    }, [id]);
+
+    const handleChange = (e) => {
+        const {name, value} = e.target;
+        setStudent(prev => ({...prev, [name]: value}));
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // api call
-        alert(`Updated student`);
-        navigate('/students');
+
+        const validationErrors = validateStudent(student);
+        setErrors(validationErrors);
+
+        if (Object.keys(validationErrors).length > 0) {
+            setServerMessage("Validation error");
+            return;
+        }
+
+        try {
+            const res = await fetch(`/api/students/${id}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(student),
+            });
+
+            if (!res.ok) {
+                const data = await res.json();
+                if (data.fieldErrors) setErrors(data.fieldErrors);
+                if (data.message) setServerMessage(data.message);
+            } else {
+                navigate('/students');
+            }
+        } catch (err) {
+            console.error(err);
+        }
     };
+
+    if (loading) return <p>Loading student data...</p>;
 
     return (
         <div className="container">
             <h1>Update Student</h1>
+            {serverMessage && <div className="error general-error">{serverMessage}</div>}
 
             <form onSubmit={handleSubmit} noValidate>
-                <label htmlFor="first_name">First Name:</label>
-                <input
-                    id="first_name"
-                    name="first_name"
-                    type="text"
-                    // value={firstName}
-                    // onChange={(e) => setFirstName(e.target.value)}
-                    required
-                />
+                <label htmlFor="firstName">First Name:</label>
+                <input id="firstName" name="firstName" type="text"
+                       value={student.firstName || ''} onChange={handleChange}/>
+                {errors.firstName && <span className="error">{errors.firstName}</span>}
 
-                <label htmlFor="last_name">Last Name:</label>
-                <input
-                    id="last_name"
-                    name="last_name"
-                    type="text"
-                    // value={lastName}
-                    // onChange={(e) => setLastName(e.target.value)}
-                    required
-                />
+                <label htmlFor="lastName">Last Name:</label>
+                <input id="lastName" name="lastName" type="text"
+                       value={student.lastName || ''} onChange={handleChange}/>
+                {errors.lastName && <span className="error">{errors.lastName}</span>}
 
                 <label htmlFor="email">Email:</label>
-                <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    // value={email}
-                    // onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
+                <input id="email" name="email" type="email"
+                       value={student.email || ''} onChange={handleChange}/>
+                {errors.email && <span className="error">{errors.email}</span>}
 
-                <label htmlFor="birth_date">Birth Date:</label>
-                <input
-                    id="birth_date"
-                    name="birth_date"
-                    type="date"
-                    // value={birthDate}
-                    // onChange={(e) => setBirthDate(e.target.value)}
-                    required
-                />
+                <label htmlFor="birthdate">Birth Date:</label>
+                <input id="birthdate" name="birthdate" type="date"
+                       value={student.birthdate || ''} onChange={handleChange}/>
+                {errors.birthdate && <span className="error">{errors.birthdate}</span>}
 
                 <button className="btn btn-submit" type="submit">Update</button>
                 <Link className="btn btn-cancel" to="/students">Cancel</Link>

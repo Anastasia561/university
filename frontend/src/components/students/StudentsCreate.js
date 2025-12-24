@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import '../../styles/FormStyles.css';
+import {validateStudent} from '../../validation/StudentValidation';
 import {useNavigate, Link} from 'react-router-dom';
 
 function StudentsCreate() {
@@ -14,48 +15,6 @@ function StudentsCreate() {
         birthdate: ''
     });
 
-    const validate = () => {
-        const newErrors = {};
-
-        if (student.firstName.trim() === "") {
-            newErrors.firstName = "First name is required";
-        } else if (student.firstName.length < 3) {
-            newErrors.firstName = "First name can not be less then 3 characters";
-        } else if (student.firstName.length > 30) {
-            newErrors.firstName = "First name can not be more then 30 characters";
-        }
-
-        if (student.lastName.trim() === "") {
-            newErrors.lastName = "Last name is required";
-        } else if (student.lastName.length < 3) {
-            newErrors.lastName = "Last name can not be less then 3 characters";
-        } else if (student.lastName.length > 30) {
-            newErrors.lastName = "Last name can not be more then 30 characters";
-        }
-
-        let now = new Date();
-        let date = new Date(student.birthdate);
-        if (!student.birthdate) {
-            newErrors.birthdate = "Birthdate field is required";
-        } else if (date > now) {
-            newErrors.birthdate = "Birthdate can not be in the future";
-        } else if (now.getFullYear() - date.getFullYear() < 18) {
-            newErrors.birthdate = "Minimum age is required : 18 years";
-        }
-
-        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-        if (student.email.trim() === "") {
-            newErrors.email = "Email is required";
-        } else if (!emailPattern.test(student.email.trim())) {
-            newErrors.email = "Email is not valid";
-        }
-
-        setErrors(newErrors);
-
-        return Object.keys(newErrors).length === 0;
-    };
-
     const handleChange = (e) => {
         setStudent({
             ...student,
@@ -66,7 +25,10 @@ function StudentsCreate() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!validate()) {
+        const validationErrors = validateStudent(student);
+        setErrors(validationErrors);
+
+        if (Object.keys(validationErrors).length > 0) {
             setServerMessage("Validation error");
             return;
         }
