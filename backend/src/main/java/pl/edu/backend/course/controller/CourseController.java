@@ -19,6 +19,7 @@ import pl.edu.backend.course.dto.CourseViewDto;
 import pl.edu.backend.course.service.CourseService;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/courses")
@@ -32,18 +33,18 @@ public class CourseController {
     }
 
     @GetMapping("/details/{id}")
-    public CourseViewDto getCourseDetails(@PathVariable Integer id) {
+    public CourseViewDto getCourseDetails(@PathVariable(name = "id") UUID id) {
         return courseService.getCourseDetails(id);
     }
 
     @GetMapping("/{id}")
-    public CoursePreviewDto getCoursePreview(@PathVariable Integer id) {
+    public CoursePreviewDto getCoursePreview(@PathVariable(name = "id") UUID id) {
         return courseService.getCoursePreview(id);
     }
 
     @PutMapping("/{id}")
     public CourseViewDto updateCourse(
-            @PathVariable(name = "id") Integer id,
+            @PathVariable(name = "id") UUID id,
             @RequestBody @Valid CourseUpdateDto dto
     ) {
         return courseService.updateCourse(id, dto);
@@ -59,7 +60,7 @@ public class CourseController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCourse(@PathVariable Integer id) {
+    public void deleteCourse(@PathVariable(name = "id") UUID id) {
         courseService.deleteCourse(id);
     }
 }

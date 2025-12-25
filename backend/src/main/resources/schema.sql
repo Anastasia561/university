@@ -21,6 +21,7 @@ CREATE TABLE student
 CREATE TABLE course
 (
     id          INTEGER AUTO_INCREMENT PRIMARY KEY,
+    uuid UUID DEFAULT RANDOM_UUID() NOT NULL UNIQUE,
     name        VARCHAR(50)  NOT NULL,
     code        VARCHAR(5)   NOT NULL,
     credit      INTEGER      NOT NULL,

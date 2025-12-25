@@ -6,17 +6,18 @@ import pl.edu.backend.course.dto.CourseUpdateDto;
 import pl.edu.backend.course.dto.CourseViewDto;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface CourseService {
     List<CoursePreviewDto> getAllPreview();
 
-    CourseViewDto getCourseDetails(Integer courseId);
+    CourseViewDto getCourseDetails(UUID courseId);
 
-    CoursePreviewDto getCoursePreview(Integer courseId);
+    CoursePreviewDto getCoursePreview(UUID courseId);
 
     CourseViewDto createCourse(CourseCreateDto dto);
 
-    CourseViewDto updateCourse(Integer courseId, CourseUpdateDto dto);
+    CourseViewDto updateCourse(UUID courseId, CourseUpdateDto dto);
 
-    void deleteCourse(Integer courseId);
+    void deleteCourse(UUID courseId);
 }

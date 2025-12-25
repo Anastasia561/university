@@ -13,6 +13,7 @@ import pl.edu.backend.enrollment.model.Enrollment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -22,6 +23,8 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable = false, unique = true, updatable = false)
+    private UUID uuid;
     private String name;
     @Column(unique = true)
     private String code;

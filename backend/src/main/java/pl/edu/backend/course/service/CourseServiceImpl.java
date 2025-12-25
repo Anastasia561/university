@@ -13,6 +13,7 @@ import pl.edu.backend.course.model.Course;
 import pl.edu.backend.course.repository.CourseRepository;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,15 +30,15 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseViewDto getCourseDetails(Integer courseId) {
-        return courseRepository.findById(courseId)
+    public CourseViewDto getCourseDetails(UUID courseId) {
+        return courseRepository.findByUuid(courseId)
                 .map(courseMapper::toCourseViewDto)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
     }
 
     @Override
-    public CoursePreviewDto getCoursePreview(Integer courseId) {
-        return courseRepository.findById(courseId)
+    public CoursePreviewDto getCoursePreview(UUID courseId) {
+        return courseRepository.findByUuid(courseId)
                 .map(courseMapper::toCoursePreviewDto)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
     }
@@ -52,8 +53,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
-    public CourseViewDto updateCourse(Integer courseId, CourseUpdateDto dto) {
-        Course course = courseRepository.findById(courseId)
+    public CourseViewDto updateCourse(UUID courseId, CourseUpdateDto dto) {
+        Course course = courseRepository.findByUuid(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
         if (!course.getCode().equals(dto.code()) && courseRepository.existsByCode(dto.code())) {
@@ -64,10 +65,10 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void deleteCourse(Integer courseId) {
-        if (!courseRepository.existsById(courseId)) {
+    public void deleteCourse(UUID courseId) {
+        if (!courseRepository.existsByUuid(courseId)) {
             throw new EntityNotFoundException("Course not found");
         }
-        courseRepository.deleteById(courseId);
+        courseRepository.deleteByUuid(courseId);
     }
 }

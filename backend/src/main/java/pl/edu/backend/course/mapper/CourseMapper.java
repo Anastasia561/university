@@ -15,8 +15,10 @@ import pl.edu.backend.enrollment.model.Enrollment;
 
 @Mapper(componentModel = "spring")
 public interface CourseMapper {
+    @Mapping(source = "uuid", target = "id")
     CoursePreviewDto toCoursePreviewDto(Course course);
 
+    @Mapping(source = "uuid", target = "id")
     @Mapping(source = "enrollments", target = "students")
     CourseViewDto toCourseViewDto(Course course);
 
