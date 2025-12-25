@@ -19,6 +19,7 @@ import pl.edu.backend.student.dto.StudentViewDto;
 import pl.edu.backend.student.service.StudentService;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/students")
@@ -32,18 +33,18 @@ public class StudentController {
     }
 
     @GetMapping("/details/{id}")
-    public StudentViewDto getStudentDetails(@PathVariable(name = "id") Integer id) {
+    public StudentViewDto getStudentDetails(@PathVariable(name = "id") UUID id) {
         return studentService.getStudentDetails(id);
     }
 
     @GetMapping("/{id}")
-    public StudentPreviewDto getStudentPreview(@PathVariable(name = "id") Integer id) {
+    public StudentPreviewDto getStudentPreview(@PathVariable(name = "id") UUID id) {
         return studentService.getStudentPreview(id);
     }
 
     @PutMapping("/{id}")
     public StudentViewDto updateStudent(
-            @PathVariable(name = "id") Integer id,
+            @PathVariable(name = "id") UUID id,
             @RequestBody @Valid StudentUpdateDto dto
     ) {
         return studentService.updateStudent(id, dto);
@@ -59,7 +60,7 @@ public class StudentController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteStudent(@PathVariable Integer id) {
+    public void deleteStudent(@PathVariable(name = "id") UUID id) {
         studentService.deleteStudent(id);
     }
 }

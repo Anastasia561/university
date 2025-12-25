@@ -13,6 +13,7 @@ CREATE TABLE users
 CREATE TABLE student
 (
     id         INTEGER PRIMARY KEY,
+    uuid UUID DEFAULT RANDOM_UUID() NOT NULL UNIQUE,
     birth_date DATE        NOT NULL,
     CONSTRAINT student_users_fk FOREIGN KEY (id) REFERENCES users (id)
 );

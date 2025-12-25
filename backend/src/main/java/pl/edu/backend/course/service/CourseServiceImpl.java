@@ -65,6 +65,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public void deleteCourse(UUID courseId) {
         if (!courseRepository.existsByUuid(courseId)) {
             throw new EntityNotFoundException("Course not found");

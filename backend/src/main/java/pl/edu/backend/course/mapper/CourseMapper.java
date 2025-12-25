@@ -18,7 +18,6 @@ public interface CourseMapper {
     @Mapping(source = "uuid", target = "id")
     CoursePreviewDto toCoursePreviewDto(Course course);
 
-    @Mapping(source = "uuid", target = "id")
     @Mapping(source = "enrollments", target = "students")
     CourseViewDto toCourseViewDto(Course course);
 

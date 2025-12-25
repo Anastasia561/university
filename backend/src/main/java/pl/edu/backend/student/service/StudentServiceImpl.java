@@ -13,6 +13,7 @@ import pl.edu.backend.student.model.Student;
 import pl.edu.backend.student.repository.StudentRepository;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,15 +30,15 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentViewDto getStudentDetails(Integer id) {
-        return studentRepository.findById(id)
+    public StudentViewDto getStudentDetails(UUID id) {
+        return studentRepository.findByUuid(id)
                 .map(studentMapper::toStudentViewDto)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found"));
     }
 
     @Override
-    public StudentPreviewDto getStudentPreview(Integer id) {
-        return studentRepository.findById(id)
+    public StudentPreviewDto getStudentPreview(UUID id) {
+        return studentRepository.findByUuid(id)
                 .map(studentMapper::toStudentPreviewDto)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
     }
@@ -52,8 +53,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional
-    public StudentViewDto updateStudent(Integer id, StudentUpdateDto dto) {
-        Student student = studentRepository.findById(id)
+    public StudentViewDto updateStudent(UUID id, StudentUpdateDto dto) {
+        Student student = studentRepository.findByUuid(id)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found"));
 
         if (!student.getEmail().equals(dto.email()) && studentRepository.existsByEmail(dto.email())) {
@@ -65,10 +66,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void deleteStudent(Integer id) {
-        if (!studentRepository.existsById(id)) {
+    @Transactional
+    public void deleteStudent(UUID id) {
+        if (!studentRepository.existsByUuid(id)) {
             throw new EntityNotFoundException("Student not found");
         }
-        studentRepository.deleteById(id);
+        studentRepository.deleteByUuid(id);
     }
 }

@@ -15,6 +15,7 @@ import pl.edu.backend.student.model.Student;
 
 @Mapper(componentModel = "spring")
 public interface StudentMapper {
+    @Mapping(source = "uuid", target = "id")
     StudentPreviewDto toStudentPreviewDto(Student student);
 
     StudentViewDto toStudentViewDto(Student student);

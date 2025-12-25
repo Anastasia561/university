@@ -1,7 +1,9 @@
 package pl.edu.backend.student.dto;
 
+import java.util.UUID;
+
 public record StudentPreviewDto(
-        Integer id,
+        UUID id,
         String firstName,
         String lastName,
         String email
