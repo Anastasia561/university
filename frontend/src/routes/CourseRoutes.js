@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Courses from '../components/courses/Courses'
+import CoursesDetails from "../components/courses/CoursesDetails";
 // import StudentsDetails from '../components/students/StudentsDetails'
 // import StudentsDelete from '../components/students/StudentsDelete'
 // import StudentsUpdate from '../components/students/StudentsUpdate'
@@ -13,7 +14,7 @@ function CourseRoutes() {
         <Routes>
             <Route index element={<Courses />} />
             {/*<Route path="/students/create" element={<StudentsCreate/>}/>*/}
-            {/*<Route path="/students/:id/details" element={<StudentsDetails/>}/>*/}
+            <Route path=":id" element={<CoursesDetails/>}/>
             {/*<Route path="/students/:id/update" element={<StudentsUpdate/>}/>*/}
             {/*<Route path="/students/:id/delete" element={<StudentsDelete/>}/>*/}
         </Routes>

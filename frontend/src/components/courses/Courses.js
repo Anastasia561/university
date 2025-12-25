@@ -29,7 +29,7 @@ function Courses() {
 
             <div className="table-container">
                 <div className="toolbar">
-                    <Link className="link create-link" to="/students/create">Add Course</Link>
+                    <Link className="link create-link" to="/courses/create">Add Course</Link>
                 </div>
 
                 <table>
@@ -51,13 +51,13 @@ function Courses() {
                             <td>{course.code}</td>
                             <td>{course.credit}</td>
                             <td>
-                                <Link className="link delete-link" to={`/students/${course.id}/delete`}>Delete</Link>
+                                <Link className="link delete-link" to={`/courses/${course.id}/delete`}>Delete</Link>
                             </td>
                             <td>
-                                <Link className="link update-link" to={`/students/${course.id}/update`}>Update</Link>
+                                <Link className="link update-link" to={`/courses/${course.id}/update`}>Update</Link>
                             </td>
                             <td>
-                                <Link className="link view-link" to={`/students/${course.id}/details`}>Details</Link>
+                                <Link className="link view-link" to={`/courses/${course.id}`}>Details</Link>
                             </td>
                         </tr>
                     ))}

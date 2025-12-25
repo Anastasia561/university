@@ -14,6 +14,13 @@
     color: black;
 }
 
+.details-list {
+    text-align: left;
+    margin: 20px auto;
+    padding-left: 0;
+    max-width: 600px;
+}
+
 ul {
     list-style: none;
     padding: 0;
