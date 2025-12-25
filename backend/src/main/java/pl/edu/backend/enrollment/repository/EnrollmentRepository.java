@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.edu.backend.enrollment.model.Enrollment;
 
+import java.util.Optional;
+import java.util.UUID;
+
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Integer> {
     @Query("SELECT CASE WHEN COUNT(e) > 0 THEN true ELSE false END " +
             "FROM Enrollment e " +
@@ -12,4 +15,10 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Integer>
             "AND e.course.code = :code")
     boolean isStudentAlreadyEnrolled(@Param("email") String studentEmail,
                                      @Param("code") String courseCode);
+
+    Optional<Enrollment> findByUuid(UUID uuid);
+
+    boolean existsByUuid(UUID uuid);
+
+    void deleteByUuid(UUID uuid);
 }

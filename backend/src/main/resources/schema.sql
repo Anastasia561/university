@@ -33,6 +33,7 @@ CREATE TABLE course
 CREATE TABLE enrollment
 (
     id              INTEGER AUTO_INCREMENT PRIMARY KEY,
+    uuid UUID DEFAULT RANDOM_UUID() NOT NULL UNIQUE,
     course_id       INTEGER NOT NULL,
     student_id      INTEGER NOT NULL,
     enrollment_date DATE    NOT NULL,

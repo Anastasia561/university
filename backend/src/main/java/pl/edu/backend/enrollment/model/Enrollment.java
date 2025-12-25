@@ -14,6 +14,7 @@ import pl.edu.backend.course.model.Course;
 import pl.edu.backend.student.model.Student;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -23,6 +24,8 @@ public class Enrollment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable = false, unique = true, updatable = false)
+    private UUID uuid = UUID.randomUUID();
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;

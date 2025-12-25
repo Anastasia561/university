@@ -18,6 +18,7 @@ import pl.edu.backend.enrollment.dto.EnrollmentViewDto;
 import pl.edu.backend.enrollment.service.EnrollmentService;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/enrollments")
@@ -31,18 +32,18 @@ public class EnrollmentController {
     }
 
     @GetMapping("/details/{id}")
-    public EnrollmentViewDto getEnrollmentDetails(@PathVariable(name = "id") Integer id) {
+    public EnrollmentViewDto getEnrollmentDetails(@PathVariable(name = "id") UUID id) {
         return enrollmentService.getEnrollmentDetails(id);
     }
 
     @GetMapping("/{id}")
-    public EnrollmentPreviewDto getEnrollmentPreview(@PathVariable(name = "id") Integer id) {
+    public EnrollmentPreviewDto getEnrollmentPreview(@PathVariable(name = "id") UUID id) {
         return enrollmentService.getEnrollmentPreview(id);
     }
 
     @PutMapping("/{id}")
     public EnrollmentViewDto updateCourse(
-            @PathVariable(name = "id") Integer id,
+            @PathVariable(name = "id") UUID id,
             @RequestBody @Valid EnrollmentCreateDto dto
     ) {
         return enrollmentService.updateEnrollment(id, dto);
@@ -58,7 +59,7 @@ public class EnrollmentController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCourse(@PathVariable Integer id) {
+    public void deleteCourse(@PathVariable(name = "id") UUID id) {
         enrollmentService.deleteEnrollment(id);
     }
 }

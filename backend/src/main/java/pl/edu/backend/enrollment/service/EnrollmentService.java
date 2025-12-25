@@ -6,17 +6,18 @@ import pl.edu.backend.enrollment.dto.EnrollmentPreviewDto;
 import pl.edu.backend.enrollment.dto.EnrollmentViewDto;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface EnrollmentService {
     List<EnrollmentPreviewDto> getAllPreview();
 
-    EnrollmentViewDto getEnrollmentDetails(Integer id);
+    EnrollmentViewDto getEnrollmentDetails(UUID id);
 
-    EnrollmentPreviewDto getEnrollmentPreview(Integer id);
+    EnrollmentPreviewDto getEnrollmentPreview(UUID id);
 
     EnrollmentViewDto createEnrollment(EnrollmentCreateDto dto);
 
-    EnrollmentViewDto updateEnrollment(Integer id, EnrollmentCreateDto dto);
+    EnrollmentViewDto updateEnrollment(UUID id, EnrollmentCreateDto dto);
 
-    void deleteEnrollment(Integer id);
+    void deleteEnrollment(UUID id);
 }

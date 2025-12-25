@@ -17,6 +17,7 @@ import pl.edu.backend.student.model.Student;
 import pl.edu.backend.student.repository.StudentRepository;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,15 +36,15 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     }
 
     @Override
-    public EnrollmentViewDto getEnrollmentDetails(Integer id) {
-        return enrollmentRepository.findById(id)
+    public EnrollmentViewDto getEnrollmentDetails(UUID id) {
+        return enrollmentRepository.findByUuid(id)
                 .map(enrollmentMapper::toEnrollmentViewDto)
                 .orElseThrow(() -> new EntityNotFoundException("Enrollment not found"));
     }
 
     @Override
-    public EnrollmentPreviewDto getEnrollmentPreview(Integer id) {
-        return enrollmentRepository.findById(id)
+    public EnrollmentPreviewDto getEnrollmentPreview(UUID id) {
+        return enrollmentRepository.findByUuid(id)
                 .map(enrollmentMapper::toEnrollmentPreviewDto)
                 .orElseThrow(() -> new EntityNotFoundException("Enrollment not found"));
     }
@@ -69,8 +70,8 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
     @Override
     @Transactional
-    public EnrollmentViewDto updateEnrollment(Integer id, EnrollmentCreateDto dto) {
-        Enrollment enrollment = enrollmentRepository.findById(id)
+    public EnrollmentViewDto updateEnrollment(UUID id, EnrollmentCreateDto dto) {
+        Enrollment enrollment = enrollmentRepository.findByUuid(id)
                 .orElseThrow(() -> new EntityNotFoundException("Enrollment not found"));
         Course course = courseRepository.findByCode(dto.courseCode())
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
@@ -85,11 +86,12 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     }
 
     @Override
-    public void deleteEnrollment(Integer id) {
-        if (!enrollmentRepository.existsById(id)) {
+    @Transactional
+    public void deleteEnrollment(UUID id) {
+        if (!enrollmentRepository.existsByUuid(id)) {
             throw new EntityNotFoundException("Enrollment not found");
         }
-        enrollmentRepository.deleteById(id);
+        enrollmentRepository.deleteByUuid(id);
     }
 
     private boolean studentNotEnrolled(String email, String code) {

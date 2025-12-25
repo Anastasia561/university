@@ -15,6 +15,7 @@ public interface EnrollmentMapper {
     @Mapping(source = "enrollmentDate", target = "date")
     Enrollment toEnrollment(EnrollmentCreateDto dto);
 
+    @Mapping(source = "uuid", target = "id")
     @Mapping(source = "course.code", target = "courseCode")
     @Mapping(source = "student.email", target = "studentEmail")
     @Mapping(source = "date", target = "enrollmentDate")
