@@ -13,17 +13,12 @@ function StudentsDetails() {
             try {
                 const res = await fetch(`/api/students/details/${id}`);
 
+                const data = await res.json();
                 if (!res.ok) {
-                    if (res.status === 404) {
-                        setServerMessage('Student not found');
-                    } else {
-                        const data = await res.json();
-                        setServerMessage(data.message);
-                    }
+                    setServerMessage(data.message);
                     return;
                 }
 
-                const data = await res.json();
                 setStudent(data);
             } catch (err) {
                 console.error(err);
@@ -31,6 +26,12 @@ function StudentsDetails() {
         };
         fetchStudent();
     }, [id]);
+
+    if (serverMessage) {
+        return <div className="container">
+            <div className="error general-error">{serverMessage}</div>
+        </div>;
+    }
 
     if (!student) {
         return <p>Loading student details...</p>;

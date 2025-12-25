@@ -2,25 +2,25 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import '../../styles/ConfirmStyles.css';
 
-function StudentsDelete() {
+function CoursesDelete() {
     const {id} = useParams();
     const navigate = useNavigate();
 
-    const [student, setStudent] = useState(null);
+    const [course, setCourse] = useState(null);
     const [serverMessage, setServerMessage] = useState('');
     const [loading, setLoading] = useState(true);
 
     const handleDelete = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch(`/api/students/${id}`, {
+            const res = await fetch(`/api/courses/${id}`, {
                 method: 'DELETE',
             });
             if (!res.ok) {
                 const data = await res.json();
                 setServerMessage(data.message);
             } else {
-                navigate('/students');
+                navigate('/courses');
             }
         } catch (err) {
             console.log(err);
@@ -28,24 +28,24 @@ function StudentsDelete() {
     };
 
     useEffect(() => {
-        const fetchStudent = async () => {
+        const fetchCourse = async () => {
             try {
-                const res = await fetch(`/api/students/details/${id}`);
+                const res = await fetch(`/api/courses/${id}`);
                 const data = await res.json();
                 if (!res.ok) {
                     setServerMessage(data.message);
                 }
-                setStudent(data);
+                setCourse(data);
             } catch (err) {
                 console.error(err);
             } finally {
                 setLoading(false);
             }
         };
-        fetchStudent();
+        fetchCourse();
     }, [id]);
 
-    if (loading) return <p>Loading student data...</p>;
+    if (loading) return <p>Loading course data...</p>;
 
     return (
         <div className="confirm-box">
@@ -55,17 +55,16 @@ function StudentsDelete() {
                 <div className="error general-error">{serverMessage}</div>
             ) : (
                 <React.Fragment>
-                    <p>Are you sure you want to delete this student?</p>
+                    <p>Are you sure you want to delete this course?</p>
                     <ul>
-                        <li><strong>First Name: </strong>{student.firstName}</li>
-                        <li><strong>Last Name: </strong>{student.lastName}</li>
-                        <li><strong>Email: </strong>{student.email}</li>
-                        <li><strong>Birth Date: </strong>{student.birthdate}</li>
+                        <li><strong>Course Name: </strong>{course.name}</li>
+                        <li><strong>Course Code: </strong>{course.code}</li>
+                        <li><strong>Credit: </strong>{course.credit}</li>
                     </ul>
 
                     <div>
                         <button onClick={handleDelete} className="btn btn-delete">Delete</button>
-                        <button onClick={() => navigate('/students')} className="btn btn-cancel">Cancel</button>
+                        <button onClick={() => navigate('/courses')} className="btn btn-cancel">Cancel</button>
                     </div>
                 </React.Fragment>
             )}
@@ -73,4 +72,4 @@ function StudentsDelete() {
     );
 }
 
-export default StudentsDelete;
+export default CoursesDelete;
