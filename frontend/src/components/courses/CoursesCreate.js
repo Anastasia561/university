@@ -25,6 +25,11 @@ function CoursesCreate() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        const courseToSend = {
+            ...course,
+            code: course.code.toUpperCase()
+        };
+
         const validationErrors = validateCourse(course);
         setErrors(validationErrors);
 
@@ -36,7 +41,7 @@ function CoursesCreate() {
         fetch('/api/courses', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(course)
+            body: JSON.stringify(courseToSend)
         })
             .then(async (res) => {
                 if (!res.ok) {

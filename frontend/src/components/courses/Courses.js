@@ -54,7 +54,7 @@ function Courses() {
                                 <Link className="link delete-link" to={`/courses/${course.id}/delete`}>Delete</Link>
                             </td>
                             <td>
-                                <Link className="link update-link" to={`/courses/${course.id}/update`}>Update</Link>
+                                <Link className="link update-link" to={`/courses/${course.id}/edit`}>Update</Link>
                             </td>
                             <td>
                                 <Link className="link view-link" to={`/courses/${course.id}`}>Details</Link>

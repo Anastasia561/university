@@ -14,7 +14,7 @@ function StudentRoutes() {
             <Route index element={<Students />} />
             <Route path="create" element={<StudentsCreate/>}/>
             <Route path=":id" element={<StudentsDetails/>}/>
-            <Route path=":id/update" element={<StudentsUpdate/>}/>
+            <Route path=":id/edit" element={<StudentsUpdate/>}/>
             <Route path=":id/delete" element={<StudentsDelete/>}/>
         </Routes>
     )
