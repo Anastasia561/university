@@ -38,7 +38,7 @@ function Enrollments() {
                         <th>#</th>
                         <th>Course code</th>
                         <th>Student email</th>
-                        <th>Date</th>
+                        <th>Due Date</th>
                         <th>Final grade</th>
                         <th colSpan="4"></th>
                     </tr>

@@ -1,4 +1,6 @@
 package pl.edu.backend.course.dto;
 
-public record StudentForCourseDetailsDto(String email, Double finalGrade) {
+import java.time.LocalDate;
+
+public record StudentForCourseDetailsDto(String email, Double finalGrade, LocalDate enrollmentDate) {
 }

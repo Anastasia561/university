@@ -57,6 +57,7 @@ function CoursesDetails() {
                 <thead>
                 <tr>
                     <th>Student Email</th>
+                    <th>Due Date</th>
                     <th>Final Grade</th>
                 </tr>
                 </thead>
@@ -69,6 +70,7 @@ function CoursesDetails() {
                     course.students.map((s, index) => (
                         <tr key={index}>
                             <td>{s.email}</td>
+                            <td>{s.enrollmentDate}</td>
                             <td>{s.finalGrade != null ? s.finalGrade : '-'}</td>
                         </tr>
                     ))

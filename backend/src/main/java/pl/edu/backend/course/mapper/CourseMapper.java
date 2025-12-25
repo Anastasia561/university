@@ -27,5 +27,6 @@ public interface CourseMapper {
     void updateFromDto(CourseUpdateDto dto, @MappingTarget Course entity);
 
     @Mapping(source = "student.email", target = "email")
+    @Mapping(source = "date", target = "enrollmentDate")
     StudentForCourseDetailsDto enrollmentToStudentForCourseDetailsDto(Enrollment enrollment);
 }

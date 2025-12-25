@@ -73,14 +73,25 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public EnrollmentViewDto updateEnrollment(UUID id, EnrollmentCreateDto dto) {
         Enrollment enrollment = enrollmentRepository.findByUuid(id)
                 .orElseThrow(() -> new EntityNotFoundException("Enrollment not found"));
-        Course course = courseRepository.findByCode(dto.courseCode())
-                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
-        Student student = studentRepository.findByEmail(dto.studentEmail())
-                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+
+        boolean studentChanged = !enrollment.getStudent().getEmail().equals(dto.studentEmail());
+        boolean courseChanged = !enrollment.getCourse().getCode().equals(dto.courseCode());
+
+        if (studentChanged || courseChanged) {
+            if (studentNotEnrolled(dto.studentEmail(), dto.courseCode())) {
+                throw new IllegalArgumentException("Student already enrolled in this course");
+            }
+
+            Course course = courseRepository.findByCode(dto.courseCode())
+                    .orElseThrow(() -> new EntityNotFoundException("Course not found"));
+            Student student = studentRepository.findByEmail(dto.studentEmail())
+                    .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+
+            enrollment.setCourse(course);
+            enrollment.setStudent(student);
+        }
 
         enrollmentMapper.updateFromDto(dto, enrollment);
-        enrollment.setCourse(course);
-        enrollment.setStudent(student);
 
         return enrollmentMapper.toEnrollmentViewDto(enrollment);
     }

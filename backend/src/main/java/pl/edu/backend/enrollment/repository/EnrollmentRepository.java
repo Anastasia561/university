@@ -9,10 +9,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Integer> {
-    @Query("SELECT CASE WHEN COUNT(e) > 0 THEN true ELSE false END " +
-            "FROM Enrollment e " +
-            "WHERE e.student.email = :email " +
-            "AND e.course.code = :code")
+    @Query("""
+            SELECT CASE WHEN COUNT(e) > 0 THEN true ELSE false END
+                        FROM Enrollment e
+                        WHERE e.student.email = :email
+                        AND e.course.code = :code
+                        AND e.date > CURRENT_DATE
+            """)
     boolean isStudentAlreadyEnrolled(@Param("email") String studentEmail,
                                      @Param("code") String courseCode);
 

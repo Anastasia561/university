@@ -66,7 +66,7 @@ function EnrollmentsDetails() {
             <table>
                 <thead>
                 <tr>
-                    <th>Enrollment Date</th>
+                    <th>Enrollment Due Date</th>
                     <th>Final Grade</th>
                 </tr>
                 </thead>

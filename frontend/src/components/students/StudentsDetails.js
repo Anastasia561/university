@@ -56,7 +56,7 @@ function StudentsDetails() {
                 <thead>
                 <tr>
                     <th>Course Code</th>
-                    <th>Date</th>
+                    <th>Due Date</th>
                     <th>Final Grade</th>
                 </tr>
                 </thead>
