@@ -51,7 +51,7 @@ function Enrollments() {
                             <td>{enrollment.courseCode}</td>
                             <td>{enrollment.studentEmail}</td>
                             <td>{enrollment.enrollmentDate}</td>
-                            <td>{enrollment.finalGrade}</td>
+                            <td>{enrollment.finalGrade != null ? enrollment.finalGrade : '-'}</td>
                             <td>
                                 <Link className="link delete-link"
                                       to={`/enrollments/${enrollment.id}/delete`}>Delete</Link>

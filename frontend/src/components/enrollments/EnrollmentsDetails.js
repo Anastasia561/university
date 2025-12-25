@@ -73,7 +73,7 @@ function EnrollmentsDetails() {
                 <tbody>
                 <tr>
                     <td>{enrollment.enrollmentDate}</td>
-                    <td>{enrollment.finalGrade}</td>
+                    <td>{enrollment.finalGrade != null ? enrollment.finalGrade : '-'}</td>
                 </tr>
                 </tbody>
             </table>

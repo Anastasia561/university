@@ -70,7 +70,7 @@ function StudentsDetails() {
                         <tr key={index}>
                             <td>{e.courseCode}</td>
                             <td>{e.enrollmentDate}</td>
-                            <td>{e.finalGrade}</td>
+                            <td>{e.finalGrade != null ? e.finalGrade : '-'}</td>
                         </tr>
                     ))
                 )}

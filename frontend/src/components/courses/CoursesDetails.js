@@ -69,7 +69,7 @@ function CoursesDetails() {
                     course.students.map((s, index) => (
                         <tr key={index}>
                             <td>{s.email}</td>
-                            <td>{s.finalGrade}</td>
+                            <td>{s.finalGrade != null ? s.finalGrade : '-'}</td>
                         </tr>
                     ))
                 )}
