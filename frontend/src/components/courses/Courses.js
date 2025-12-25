@@ -2,15 +2,15 @@ import React, {useEffect, useState} from 'react';
 import '../../styles/TableStyles.css';
 import {Link} from 'react-router-dom';
 
-function Students() {
-    const [students, setStudents] = useState([]);
+function Courses() {
+    const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch('/api/students')
+        fetch('/api/courses')
             .then(res => res.json())
             .then(data => {
-                setStudents(data);
+                setCourses(data);
                 setLoading(false);
             })
             .catch(err => {
@@ -20,44 +20,44 @@ function Students() {
     }, []);
 
     if (loading) {
-        return <p>Loading students...</p>;
+        return <p>Loading courses...</p>;
     }
 
     return (
         <React.Fragment>
-            <h1>Students Data</h1>
+            <h1>Courses Data</h1>
 
             <div className="table-container">
                 <div className="toolbar">
-                    <Link className="link create-link" to="/students/create">Add Student</Link>
+                    <Link className="link create-link" to="/students/create">Add Course</Link>
                 </div>
 
                 <table>
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Code</th>
+                        <th>Credit</th>
                         <th colSpan="3"></th>
                     </tr>
                     </thead>
 
                     <tbody>
-                    {students.map((student, index) => (
-                        <tr key={student.id}>
+                    {courses.map((course, index) => (
+                        <tr key={course.id}>
                             <td>{index + 1}</td>
-                            <td>{student.firstName}</td>
-                            <td>{student.lastName}</td>
-                            <td>{student.email}</td>
+                            <td>{course.name}</td>
+                            <td>{course.code}</td>
+                            <td>{course.credit}</td>
                             <td>
-                                <Link className="link delete-link" to={`/students/${student.id}/delete`}>Delete</Link>
+                                <Link className="link delete-link" to={`/students/${course.id}/delete`}>Delete</Link>
                             </td>
                             <td>
-                                <Link className="link update-link" to={`/students/${student.id}/update`}>Update</Link>
+                                <Link className="link update-link" to={`/students/${course.id}/update`}>Update</Link>
                             </td>
                             <td>
-                                <Link className="link view-link" to={`/students/${student.id}`}>Details</Link>
+                                <Link className="link view-link" to={`/students/${course.id}/details`}>Details</Link>
                             </td>
                         </tr>
                     ))}
@@ -68,4 +68,4 @@ function Students() {
     );
 }
 
-export default Students;
+export default Courses;
