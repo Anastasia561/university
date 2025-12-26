@@ -4,17 +4,22 @@ spring:
 
   datasource:
     url: ${DB_URL}
-    driverClassName: org.h2.Driver
+    driverClassName: com.mysql.cj.jdbc.Driver
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate.ddl-auto: none
 
-  sql.init.mode: never
+#  sql.init.mode: never
   config.import: optional:file:.env[.properties]
 
 server:
   servlet:
     context-path: /api
+
+jwt:
+  secret: ${SECRET}
+  accessTokenExpirationTimeMs: 900_000 #15 min
+  refreshTokenExpirationTimeMs: 2_592_000_000 #30 days
