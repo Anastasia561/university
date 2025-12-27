@@ -1,12 +1,12 @@
 package pl.edu.backend.auth.service;
 
 import pl.edu.backend.auth.dto.AuthRequestDto;
-import pl.edu.backend.auth.dto.AuthResponseDto;
+import pl.edu.backend.auth.dto.TokenResponseDto;
 
 public interface AuthService {
-    AuthResponseDto login(AuthRequestDto request);
+    TokenResponseDto login(AuthRequestDto request);
 
-    AuthResponseDto refresh(String refreshToken);
+    TokenResponseDto refresh(String refreshToken);
 
     void logout(String refreshToken);
 }

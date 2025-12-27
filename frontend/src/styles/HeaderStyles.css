@@ -33,6 +33,7 @@
     font-weight: bold;
     padding: 6px 12px;
     border-radius: 4px;
+    text-align: center;
 }
 
 .nav-links a:hover {

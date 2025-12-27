@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import pl.edu.backend.auth.core.CustomUserDetails;
 import pl.edu.backend.auth.dto.AuthRequestDto;
-import pl.edu.backend.auth.dto.AuthResponseDto;
+import pl.edu.backend.auth.dto.TokenResponseDto;
 import pl.edu.backend.auth.jwt.service.JwtService;
 import pl.edu.backend.auth.refreshtoken.service.RefreshTokenService;
 import pl.edu.backend.exception.InvalidRefreshTokenException;
@@ -30,7 +30,7 @@ public class AuthServiceImpl implements AuthService {
     private final RefreshTokenService refreshTokenService;
 
     @Override
-    public AuthResponseDto login(AuthRequestDto request) {
+    public TokenResponseDto login(AuthRequestDto request) {
         try {
             Authentication authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
@@ -44,14 +44,14 @@ public class AuthServiceImpl implements AuthService {
 
             refreshTokenService.createToken(user, refreshToken);
 
-            return new AuthResponseDto(accessToken, refreshToken);
+            return new TokenResponseDto(accessToken, refreshToken);
         } catch (BadCredentialsException ex) {
             throw new BadCredentialsException("Invalid email or password");
         }
     }
 
     @Override
-    public AuthResponseDto refresh(String refreshToken) {
+    public TokenResponseDto refresh(String refreshToken) {
         try {
             if (!jwtService.isRefreshToken(refreshToken)) {
                 throw new InvalidRefreshTokenException("Token is not a refresh token");
@@ -68,7 +68,7 @@ public class AuthServiceImpl implements AuthService {
             refreshTokenService.rotateToken(refreshToken, newRefresh);
             String newAccess = jwtService.generateAccessToken(userDetails);
 
-            return new AuthResponseDto(newAccess, newRefresh);
+            return new TokenResponseDto(newAccess, newRefresh);
 
         } catch (JwtException | IllegalArgumentException e) {
             throw new InvalidRefreshTokenException("Invalid refresh token");

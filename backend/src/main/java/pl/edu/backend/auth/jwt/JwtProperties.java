@@ -13,4 +13,8 @@ public class JwtProperties {
     private String secret;
     private long accessTokenExpirationTimeMs;
     private long refreshTokenExpirationTimeMs;
+
+    public long getRefreshTokenExpirationTimeSec() {
+        return refreshTokenExpirationTimeMs / 1000;
+    }
 }

@@ -5,6 +5,7 @@ import Home from '../components/Home'
 import StudentRoutes from './StudentRoutes';
 import CourseRoutes from "./CourseRoutes";
 import EnrollmentRoutes from "./EnrollmentRoute";
+import Login from "../components/auth/Login"
 
 import '../styles/GeneralStyles.css';
 
@@ -19,6 +20,7 @@ function Main() {
                 <Route path="/students/*" element={<StudentRoutes/>}/>
                 <Route path="/courses/*" element={<CourseRoutes/>}/>
                 <Route path="/enrollments/*" element={<EnrollmentRoutes/>}/>
+                <Route path="/login" element={<Login/>}/>
                 <Route path="/" element={<Navigate to="/home" replace/>}/>
             </Routes>
         </Router>
