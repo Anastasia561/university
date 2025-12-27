@@ -2,6 +2,8 @@ package pl.edu.backend.course.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.backend.course.dto.CourseCreateDto;
@@ -11,8 +13,10 @@ import pl.edu.backend.course.dto.CourseViewDto;
 import pl.edu.backend.course.mapper.CourseMapper;
 import pl.edu.backend.course.model.Course;
 import pl.edu.backend.course.repository.CourseRepository;
+import pl.edu.backend.enrollment.model.Enrollment;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -24,9 +28,20 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CoursePreviewDto> getAllPreview() {
-        return courseRepository.findAll().stream()
-                .map(courseMapper::toCoursePreviewDto)
-                .collect(Collectors.toList());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        String email = auth.getName();
+        boolean isStudent = auth.getAuthorities().stream()
+                .anyMatch(a -> Objects.equals(a.getAuthority(), "ROLE_STUDENT"));
+
+        List<Course> courses;
+        if (isStudent) {
+            courses = courseRepository.findByStudentEmail(email);
+        } else {
+            courses = courseRepository.findAll();
+        }
+
+        return courses.stream().map(courseMapper::toCoursePreviewDto).toList();
     }
 
     @Override

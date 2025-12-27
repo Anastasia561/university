@@ -3,6 +3,8 @@ package pl.edu.backend.enrollment.service;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import pl.edu.backend.course.model.Course;
 import pl.edu.backend.course.repository.CourseRepository;
@@ -17,6 +19,7 @@ import pl.edu.backend.student.model.Student;
 import pl.edu.backend.student.repository.StudentRepository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -30,9 +33,20 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
     @Override
     public List<EnrollmentPreviewDto> getAllPreview() {
-        return enrollmentRepository.findAll().stream()
-                .map(enrollmentMapper::toEnrollmentPreviewDto)
-                .collect(Collectors.toList());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        String email = auth.getName();
+        boolean isAdmin = auth.getAuthorities().stream()
+                .anyMatch(a -> Objects.equals(a.getAuthority(), "ROLE_ADMIN"));
+
+        List<Enrollment> enrollments;
+        if (isAdmin) {
+            enrollments = enrollmentRepository.findAll();
+        } else {
+            enrollments = enrollmentRepository.findByStudentEmail(email);
+        }
+
+        return enrollments.stream().map(enrollmentMapper::toEnrollmentPreviewDto).toList();
     }
 
     @Override

@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import '../../styles/FormStyles.css';
 import {validateCourse} from '../../validation/CourseValidation';
 import {useNavigate, Link} from 'react-router-dom';
+import AuthContext from "../../context/AuthProvider";
 
 function CoursesCreate() {
     const navigate = useNavigate();
+    const {auth} = useContext(AuthContext);
 
     const [serverMessage, setServerMessage] = useState('');
     const [errors, setErrors] = useState({});
@@ -40,7 +42,10 @@ function CoursesCreate() {
 
         fetch('/api/courses', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${auth.accessToken}`
+            },
             body: JSON.stringify(courseToSend)
         })
             .then(async (res) => {

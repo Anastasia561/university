@@ -1,10 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import '../../styles/ConfirmStyles.css';
+import AuthContext from "../../context/AuthProvider";
 
 function CoursesDelete() {
     const {id} = useParams();
     const navigate = useNavigate();
+    const {auth} = useContext(AuthContext);
 
     const [course, setCourse] = useState(null);
     const [serverMessage, setServerMessage] = useState('');
@@ -15,6 +17,9 @@ function CoursesDelete() {
         try {
             const res = await fetch(`/api/courses/${id}`, {
                 method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${auth.accessToken}`
+                },
             });
             if (!res.ok) {
                 const data = await res.json();
@@ -30,7 +35,12 @@ function CoursesDelete() {
     useEffect(() => {
         const fetchCourse = async () => {
             try {
-                const res = await fetch(`/api/courses/${id}`);
+                const res = await fetch(`/api/courses/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${auth.accessToken}`
+                        }
+                    }
+                );
                 const data = await res.json();
                 if (!res.ok) {
                     setServerMessage(data.message);
@@ -43,7 +53,7 @@ function CoursesDelete() {
             }
         };
         fetchCourse();
-    }, [id]);
+    }, [id, auth.accessToken]);
 
     if (loading) return <p>Loading course data...</p>;
 
@@ -54,7 +64,7 @@ function CoursesDelete() {
             {serverMessage ? (
                 <div className="error general-error">{serverMessage}</div>
             ) : (
-                <React.Fragment>
+                <>
                     <p>Are you sure you want to delete this course?</p>
                     <ul>
                         <li><strong>Course Name: </strong>{course.name}</li>
@@ -66,7 +76,7 @@ function CoursesDelete() {
                         <button onClick={handleDelete} className="btn btn-delete">Delete</button>
                         <button onClick={() => navigate('/courses')} className="btn btn-cancel">Cancel</button>
                     </div>
-                </React.Fragment>
+                </>
             )}
         </div>
     );

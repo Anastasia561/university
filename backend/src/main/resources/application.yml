@@ -4,15 +4,15 @@ spring:
 
   datasource:
     url: ${DB_URL}
-    driverClassName: com.mysql.cj.jdbc.Driver
+    driverClassName: org.h2.Driver
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate.ddl-auto: none
 
-#  sql.init.mode: never
+  sql.init.mode: never
   config.import: optional:file:.env[.properties]
 
 server:

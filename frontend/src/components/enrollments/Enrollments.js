@@ -1,13 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import '../../styles/TableStyles.css';
 import {Link} from 'react-router-dom';
+import AuthContext from "../../context/AuthProvider";
 
 function Enrollments() {
     const [enrollments, setEnrollments] = useState([]);
     const [loading, setLoading] = useState(true);
+    const {auth} = useContext(AuthContext);
 
     useEffect(() => {
-        fetch('/api/enrollments')
+        fetch('/api/enrollments', {
+            headers: {
+                Authorization: `Bearer ${auth.accessToken}`
+            },
+            credentials: 'include'
+        })
             .then(res => res.json())
             .then(data => {
                 setEnrollments(data);
@@ -17,20 +24,22 @@ function Enrollments() {
                 console.error(err);
                 setLoading(false);
             });
-    }, []);
+    }, [auth.accessToken]);
 
     if (loading) {
         return <p>Loading enrollments...</p>;
     }
 
     return (
-        <React.Fragment>
+        <>
             <h1>Enrollments Data</h1>
 
             <div className="table-container">
-                <div className="toolbar">
-                    <Link className="link create-link" to="/enrollments/create">Add Enrollment</Link>
-                </div>
+                {auth.accessToken && auth.role === "ROLE_ADMIN" && (
+                    <div className="toolbar">
+                        <Link className="link create-link" to="/enrollments/create">Add Enrollment</Link>
+                    </div>
+                )}
 
                 <table>
                     <thead>
@@ -40,7 +49,10 @@ function Enrollments() {
                         <th>Student email</th>
                         <th>Due Date</th>
                         <th>Final grade</th>
-                        <th colSpan="4"></th>
+                        {auth.accessToken && auth.role === "ROLE_ADMIN" && (
+                            <th colSpan="4"></th>
+                        )}
+
                     </tr>
                     </thead>
 
@@ -52,23 +64,30 @@ function Enrollments() {
                             <td>{enrollment.studentEmail}</td>
                             <td>{enrollment.enrollmentDate}</td>
                             <td>{enrollment.finalGrade != null ? enrollment.finalGrade : '-'}</td>
-                            <td>
-                                <Link className="link delete-link"
-                                      to={`/enrollments/${enrollment.id}/delete`}>Delete</Link>
-                            </td>
-                            <td>
-                                <Link className="link update-link"
-                                      to={`/enrollments/${enrollment.id}/edit`}>Update</Link>
-                            </td>
-                            <td>
-                                <Link className="link view-link" to={`/enrollments/${enrollment.id}`}>Details</Link>
-                            </td>
+
+                            {auth.accessToken && auth.role === "ROLE_ADMIN" && (
+                                <>
+                                    <td>
+                                        <Link className="link delete-link"
+                                              to={`/enrollments/${enrollment.id}/delete`}>Delete</Link>
+                                    </td>
+                                    <td>
+                                        <Link className="link update-link"
+                                              to={`/enrollments/${enrollment.id}/edit`}>Update</Link>
+                                    </td>
+                                    <td>
+                                        <Link className="link view-link" to={`/enrollments/${enrollment.id}`}>Details
+                                        </Link>
+                                    </td>
+                                </>
+
+                            )}
                         </tr>
                     ))}
                     </tbody>
                 </table>
             </div>
-        </React.Fragment>
+        </>
     );
 }
 

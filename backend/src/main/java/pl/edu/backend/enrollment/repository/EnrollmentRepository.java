@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.edu.backend.enrollment.model.Enrollment;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,6 +19,8 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Integer>
             """)
     boolean isStudentAlreadyEnrolled(@Param("email") String studentEmail,
                                      @Param("code") String courseCode);
+
+    List<Enrollment> findByStudentEmail(@Param("email") String email);
 
     Optional<Enrollment> findByUuid(UUID uuid);
 

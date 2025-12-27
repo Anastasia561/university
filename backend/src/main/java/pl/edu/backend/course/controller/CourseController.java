@@ -3,6 +3,7 @@ package pl.edu.backend.course.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,16 +33,19 @@ public class CourseController {
         return courseService.getAllPreview();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/details/{id}")
     public CourseViewDto getCourseDetails(@PathVariable(name = "id") UUID id) {
         return courseService.getCourseDetails(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public CoursePreviewDto getCoursePreview(@PathVariable(name = "id") UUID id) {
         return courseService.getCoursePreview(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public CourseViewDto updateCourse(
             @PathVariable(name = "id") UUID id,
@@ -50,6 +54,7 @@ public class CourseController {
         return courseService.updateCourse(id, dto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CourseViewDto createCourse(
@@ -58,6 +63,7 @@ public class CourseController {
         return courseService.createCourse(dto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCourse(@PathVariable(name = "id") UUID id) {

@@ -1,11 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import '../../styles/FormStyles.css';
 import {validateCourse} from '../../validation/CourseValidation';
 import {Link, useParams, useNavigate} from 'react-router-dom';
+import AuthContext from "../../context/AuthProvider";
 
 function CoursesUpdate() {
     const {id} = useParams();
     const navigate = useNavigate();
+    const {auth} = useContext(AuthContext);
 
     const [course, setCourse] = useState(null);
     const [errors, setErrors] = useState({});
@@ -15,7 +17,11 @@ function CoursesUpdate() {
     useEffect(() => {
         const fetchCourse = async () => {
             try {
-                const res = await fetch(`/api/courses/details/${id}`);
+                const res = await fetch(`/api/courses/details/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${auth.accessToken}`
+                    }
+                });
                 const data = await res.json();
                 if (!res.ok) {
                     setServerMessage(data.message);
@@ -28,7 +34,7 @@ function CoursesUpdate() {
             }
         };
         fetchCourse();
-    }, [id]);
+    }, [id, auth.accessToken]);
 
     const handleChange = (e) => {
         const {name, value} = e.target;
@@ -54,7 +60,10 @@ function CoursesUpdate() {
         try {
             const res = await fetch(`/api/courses/${id}`, {
                 method: 'PUT',
-                headers: {'Content-Type': 'application/json'},
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${auth.accessToken}`
+                },
                 body: JSON.stringify(courseToSend),
             });
 

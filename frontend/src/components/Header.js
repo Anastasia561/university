@@ -24,7 +24,7 @@ const Header = () => {
 
                     {auth.accessToken && auth.role === "ROLE_STUDENT" && (
                         <>
-                            <li><Link to="/courses">Courses</Link></li>
+                            <li><Link to="/courses">My Courses</Link></li>
                             <li><Link to="/enrollments">My Enrollments</Link></li>
                             <li><Link to="#" onClick={logout}>Logout</Link></li>
                         </>

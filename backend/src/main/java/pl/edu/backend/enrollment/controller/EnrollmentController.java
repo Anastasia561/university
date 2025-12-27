@@ -3,6 +3,7 @@ package pl.edu.backend.enrollment.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,21 +27,25 @@ import java.util.UUID;
 public class EnrollmentController {
     private final EnrollmentService enrollmentService;
 
+    @PreAuthorize("hasAnyRole('STUDENT', 'ADMIN')")
     @GetMapping
     public List<EnrollmentPreviewDto> getAllEnrollmentsPreview() {
         return enrollmentService.getAllPreview();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/details/{id}")
     public EnrollmentViewDto getEnrollmentDetails(@PathVariable(name = "id") UUID id) {
         return enrollmentService.getEnrollmentDetails(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public EnrollmentPreviewDto getEnrollmentPreview(@PathVariable(name = "id") UUID id) {
         return enrollmentService.getEnrollmentPreview(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public EnrollmentViewDto updateCourse(
             @PathVariable(name = "id") UUID id,
@@ -49,6 +54,7 @@ public class EnrollmentController {
         return enrollmentService.updateEnrollment(id, dto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public EnrollmentViewDto createCourse(
@@ -57,6 +63,7 @@ public class EnrollmentController {
         return enrollmentService.createEnrollment(dto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCourse(@PathVariable(name = "id") UUID id) {
