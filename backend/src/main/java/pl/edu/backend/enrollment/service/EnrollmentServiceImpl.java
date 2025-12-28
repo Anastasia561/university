@@ -21,7 +21,6 @@ import pl.edu.backend.student.repository.StudentRepository;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -91,11 +90,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         boolean studentChanged = !enrollment.getStudent().getEmail().equals(dto.studentEmail());
         boolean courseChanged = !enrollment.getCourse().getCode().equals(dto.courseCode());
 
-        if (studentChanged || courseChanged) {
-            if (studentNotEnrolled(dto.studentEmail(), dto.courseCode())) {
-                throw new IllegalArgumentException("Student already enrolled in this course");
-            }
-
+        if ((studentChanged || courseChanged) && studentNotEnrolled(dto.studentEmail(), dto.courseCode())) {
             Course course = courseRepository.findByCode(dto.courseCode())
                     .orElseThrow(() -> new EntityNotFoundException("Course not found"));
             Student student = studentRepository.findByEmail(dto.studentEmail())

@@ -24,6 +24,7 @@ public interface EnrollmentMapper {
     @Mapping(source = "date", target = "enrollmentDate")
     EnrollmentViewDto toEnrollmentViewDto(Enrollment enrollment);
 
+    @Mapping(source = "enrollmentDate", target = "date")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateFromDto(EnrollmentCreateDto dto, @MappingTarget Enrollment entity);
 }
