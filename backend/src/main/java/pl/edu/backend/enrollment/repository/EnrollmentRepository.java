@@ -20,6 +20,14 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Integer>
     boolean isStudentAlreadyEnrolled(@Param("email") String studentEmail,
                                      @Param("code") String courseCode);
 
+    @Query("""
+            SELECT e FROM Enrollment e
+                        WHERE e.student.email = :email
+                        AND e.course.code = :code
+            """)
+    List<Enrollment> findByStudentEmailAndCourseCode(@Param("email") String studentEmail,
+                                                     @Param("code") String code);
+
     List<Enrollment> findByStudentEmail(@Param("email") String email);
 
     Optional<Enrollment> findByUuid(UUID uuid);

@@ -48,9 +48,7 @@ function Courses() {
                         <th>Name</th>
                         <th>Code</th>
                         <th>Credit</th>
-                        {auth.accessToken && auth.role === "ROLE_ADMIN" && (
-                            <th colSpan="3"></th>
-                        )}
+                        <th colSpan="3"></th>
                     </tr>
                     </thead>
 
@@ -71,10 +69,13 @@ function Courses() {
                                         <Link className="link update-link"
                                               to={`/courses/${course.id}/edit`}>Update</Link>
                                     </td>
-                                    <td>
-                                        <Link className="link view-link" to={`/courses/${course.id}`}>Details</Link>
-                                    </td>
                                 </>
+                            )}
+
+                            {auth.accessToken && (auth.role === "ROLE_STUDENT" || auth.role === "ROLE_ADMIN") && (
+                                <td>
+                                    <Link className="link view-link" to={`/courses/${course.id}`}>Details</Link>
+                                </td>
                             )}
                         </tr>
                     ))}

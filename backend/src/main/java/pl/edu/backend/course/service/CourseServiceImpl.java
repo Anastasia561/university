@@ -10,21 +10,22 @@ import pl.edu.backend.course.dto.CourseCreateDto;
 import pl.edu.backend.course.dto.CoursePreviewDto;
 import pl.edu.backend.course.dto.CourseUpdateDto;
 import pl.edu.backend.course.dto.CourseViewDto;
+import pl.edu.backend.course.dto.StudentForCourseDetailsDto;
 import pl.edu.backend.course.mapper.CourseMapper;
 import pl.edu.backend.course.model.Course;
 import pl.edu.backend.course.repository.CourseRepository;
-import pl.edu.backend.enrollment.model.Enrollment;
+import pl.edu.backend.enrollment.repository.EnrollmentRepository;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
+    private final EnrollmentRepository enrollmentRepository;
 
     @Override
     public List<CoursePreviewDto> getAllPreview() {
@@ -46,9 +47,28 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseViewDto getCourseDetails(UUID courseId) {
-        return courseRepository.findByUuid(courseId)
-                .map(courseMapper::toCourseViewDto)
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        String email = auth.getName();
+
+        Course course = courseRepository.findByUuid(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
+
+        boolean isStudent = auth.getAuthorities().stream()
+                .anyMatch(a -> Objects.equals(a.getAuthority(), "ROLE_STUDENT"));
+
+        CourseViewDto courseViewDto = courseMapper.toCourseViewDto(course);
+        if (isStudent) {
+            List<StudentForCourseDetailsDto> enrollmentsInfo =
+                    enrollmentRepository.findByStudentEmailAndCourseCode(email, course.getCode()).stream()
+                            .map(e ->
+                                    new StudentForCourseDetailsDto(email, e.getFinalGrade(), e.getDate()))
+                            .toList();
+            courseViewDto = new CourseViewDto(course.getName(), course.getCode(), course.getCredit(),
+                    course.getDescription(), enrollmentsInfo);
+        }
+
+        return courseViewDto;
     }
 
     @Override

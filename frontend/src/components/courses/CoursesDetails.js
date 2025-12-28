@@ -57,12 +57,20 @@ function CoursesDetails() {
                 <li><strong>Description:</strong> {course.description}</li>
             </ul>
 
-            <h2 className="header">Enrolled Students</h2>
+            {auth.accessToken && auth.role === "ROLE_ADMIN" && (
+                <h2 className="header">Enrolled Students</h2>
+            )}
+
+            {auth.accessToken && auth.role === "ROLE_STUDENT" && (
+                <h2 className="header">Enrollments</h2>
+            )}
 
             <table>
                 <thead>
                 <tr>
-                    <th>Student Email</th>
+                    {auth.accessToken && auth.role === "ROLE_ADMIN" && (
+                        <th>Student Email</th>
+                    )}
                     <th>Due Date</th>
                     <th>Final Grade</th>
                 </tr>
@@ -75,7 +83,9 @@ function CoursesDetails() {
                 ) : (
                     course.students.map((s, index) => (
                         <tr key={index}>
-                            <td>{s.email}</td>
+                            {auth.accessToken && auth.role === "ROLE_ADMIN" && (
+                                <td>{s.email}</td>
+                            )}
                             <td>{s.enrollmentDate}</td>
                             <td>{s.finalGrade != null ? s.finalGrade : '-'}</td>
                         </tr>

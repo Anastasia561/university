@@ -33,7 +33,7 @@ public class CourseController {
         return courseService.getAllPreview();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('STUDENT', 'ADMIN')")
     @GetMapping("/details/{id}")
     public CourseViewDto getCourseDetails(@PathVariable(name = "id") UUID id) {
         return courseService.getCourseDetails(id);
