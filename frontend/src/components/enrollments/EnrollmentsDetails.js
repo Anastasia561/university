@@ -1,9 +1,11 @@
 import '../../styles/DetailedViewStyles.css';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
+import AuthContext from "../../context/AuthProvider";
 
 function EnrollmentsDetails() {
     const {id} = useParams();
+    const {auth} = useContext(AuthContext);
 
     const [serverMessage, setServerMessage] = useState('');
     const [enrollment, setEnrollment] = useState(null);
@@ -11,7 +13,11 @@ function EnrollmentsDetails() {
     useEffect(() => {
         const fetchEnrollment = async () => {
             try {
-                const res = await fetch(`/api/enrollments/details/${id}`);
+                const res = await fetch(`/api/enrollments/details/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${auth.accessToken}`
+                    }
+                });
 
                 const data = await res.json();
                 if (!res.ok) {
@@ -25,7 +31,7 @@ function EnrollmentsDetails() {
             }
         };
         fetchEnrollment();
-    }, [id]);
+    }, [id, auth.accessToken]);
 
     if (serverMessage) {
         return <div className="container">

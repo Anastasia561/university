@@ -1,10 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import '../../styles/FormStyles.css';
 import {useNavigate, Link} from 'react-router-dom';
 import {validateEnrollment} from "../../validation/EnrollmentValidation";
+import AuthContext from "../../context/AuthProvider";
 
 function EnrollmentsCreate() {
     const navigate = useNavigate();
+    const {auth} = useContext(AuthContext);
 
     const [serverMessage, setServerMessage] = useState('');
     const [errors, setErrors] = useState({});
@@ -18,7 +20,11 @@ function EnrollmentsCreate() {
     });
 
     useEffect(() => {
-        fetch('/api/students')
+        fetch('/api/students', {
+            headers: {
+                Authorization: `Bearer ${auth.accessToken}`
+            }
+        })
             .then(res => res.json())
             .then(data => setStudents(data))
             .catch(err => console.error(err));
@@ -27,7 +33,7 @@ function EnrollmentsCreate() {
             .then(res => res.json())
             .then(data => setCourses(data))
             .catch(err => console.error(err));
-    }, []);
+    }, [auth.accessToken]);
 
     const handleChange = (e) => {
         setEnrollment({
@@ -49,7 +55,10 @@ function EnrollmentsCreate() {
 
         fetch('/api/enrollments', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${auth.accessToken}`
+            },
             body: JSON.stringify(enrollment)
         })
             .then(async (res) => {

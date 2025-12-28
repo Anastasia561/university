@@ -48,7 +48,9 @@ function Courses() {
                         <th>Name</th>
                         <th>Code</th>
                         <th>Credit</th>
-                        <th colSpan="3"></th>
+                        {auth.accessToken && (
+                            <th colSpan="3"></th>
+                        )}
                     </tr>
                     </thead>
 
