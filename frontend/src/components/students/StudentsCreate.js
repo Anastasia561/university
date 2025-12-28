@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import '../../styles/FormStyles.css';
 import {validateStudent} from '../../validation/StudentValidation';
 import {useNavigate, Link} from 'react-router-dom';
+import AuthContext from "../../context/AuthProvider";
 
 function StudentsCreate() {
     const navigate = useNavigate();
+    const {auth} = useContext(AuthContext);
 
     const [serverMessage, setServerMessage] = useState('');
     const [errors, setErrors] = useState({});
@@ -35,7 +37,10 @@ function StudentsCreate() {
 
         fetch('/api/students', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${auth.accessToken}`
+            },
             body: JSON.stringify(student)
         })
             .then(async (res) => {

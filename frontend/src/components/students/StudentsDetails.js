@@ -1,31 +1,39 @@
 import '../../styles/DetailedViewStyles.css';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
+import AuthContext from "../../context/AuthProvider";
 
 function StudentsDetails() {
     const {id} = useParams();
+    const {auth} = useContext(AuthContext);
 
     const [serverMessage, setServerMessage] = useState('');
     const [student, setStudent] = useState(null);
 
     useEffect(() => {
-        const fetchStudent = async () => {
-            try {
-                const res = await fetch(`/api/students/details/${id}`);
+            const fetchStudent = async () => {
+                try {
+                    const res = await fetch(`/api/students/details/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${auth.accessToken}`
+                        }
+                    });
 
-                const data = await res.json();
-                if (!res.ok) {
-                    setServerMessage(data.message);
-                    return;
+                    const data = await res.json();
+                    if (!res.ok) {
+                        setServerMessage(data.message);
+                        return;
+                    }
+
+                    setStudent(data);
+                } catch
+                    (err) {
+                    console.error(err);
                 }
-
-                setStudent(data);
-            } catch (err) {
-                console.error(err);
-            }
-        };
-        fetchStudent();
-    }, [id]);
+            };
+            fetchStudent();
+        }, [id, auth.accessToken]
+    );
 
     if (serverMessage) {
         return <div className="container">

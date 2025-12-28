@@ -1,13 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import '../../styles/TableStyles.css';
 import {Link} from 'react-router-dom';
+import AuthContext from "../../context/AuthProvider";
 
 function Students() {
     const [students, setStudents] = useState([]);
     const [loading, setLoading] = useState(true);
+    const {auth} = useContext(AuthContext);
 
     useEffect(() => {
-        fetch('/api/students')
+        fetch('/api/students', {
+            headers: {
+                Authorization: `Bearer ${auth.accessToken}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 setStudents(data);
@@ -17,14 +23,14 @@ function Students() {
                 console.error(err);
                 setLoading(false);
             });
-    }, []);
+    }, [auth.accessToken]);
 
     if (loading) {
         return <p>Loading students...</p>;
     }
 
     return (
-        <React.Fragment>
+        <>
             <h1>Students Data</h1>
 
             <div className="table-container">
@@ -64,7 +70,7 @@ function Students() {
                     </tbody>
                 </table>
             </div>
-        </React.Fragment>
+        </>
     );
 }
 

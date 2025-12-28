@@ -1,10 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import '../../styles/ConfirmStyles.css';
+import AuthContext from "../../context/AuthProvider";
 
 function StudentsDelete() {
     const {id} = useParams();
     const navigate = useNavigate();
+    const {auth} = useContext(AuthContext);
 
     const [student, setStudent] = useState(null);
     const [serverMessage, setServerMessage] = useState('');
@@ -15,6 +17,10 @@ function StudentsDelete() {
         try {
             const res = await fetch(`/api/students/${id}`, {
                 method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${auth.accessToken}`
+                },
             });
             if (!res.ok) {
                 const data = await res.json();
@@ -28,22 +34,28 @@ function StudentsDelete() {
     };
 
     useEffect(() => {
-        const fetchStudent = async () => {
-            try {
-                const res = await fetch(`/api/students/details/${id}`);
-                const data = await res.json();
-                if (!res.ok) {
-                    setServerMessage(data.message);
+            const fetchStudent = async () => {
+                try {
+                    const res = await fetch(`/api/students/details/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${auth.accessToken}`
+                        }
+                    });
+                    const data = await res.json();
+                    if (!res.ok) {
+                        setServerMessage(data.message);
+                    }
+                    setStudent(data);
+                } catch
+                    (err) {
+                    console.error(err);
+                } finally {
+                    setLoading(false);
                 }
-                setStudent(data);
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchStudent();
-    }, [id]);
+            };
+            fetchStudent();
+        }, [id, auth.accessToken]
+    );
 
     if (loading) return <p>Loading student data...</p>;
 
@@ -54,7 +66,7 @@ function StudentsDelete() {
             {serverMessage ? (
                 <div className="error general-error">{serverMessage}</div>
             ) : (
-                <React.Fragment>
+                <>
                     <p>Are you sure you want to delete this student?</p>
                     <ul>
                         <li><strong>First Name: </strong>{student.firstName}</li>
@@ -67,7 +79,7 @@ function StudentsDelete() {
                         <button onClick={handleDelete} className="btn btn-delete">Delete</button>
                         <button onClick={() => navigate('/students')} className="btn btn-cancel">Cancel</button>
                     </div>
-                </React.Fragment>
+                </>
             )}
         </div>
     );

@@ -1,11 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import '../../styles/FormStyles.css';
 import {validateStudent} from '../../validation/StudentValidation';
 import {Link, useParams, useNavigate} from 'react-router-dom';
+import AuthContext from "../../context/AuthProvider";
 
 function StudentsUpdate() {
     const {id} = useParams();
     const navigate = useNavigate();
+    const {auth} = useContext(AuthContext);
 
     const [student, setStudent] = useState(null);
     const [errors, setErrors] = useState({});
@@ -15,7 +17,11 @@ function StudentsUpdate() {
     useEffect(() => {
         const fetchStudent = async () => {
             try {
-                const res = await fetch(`/api/students/details/${id}`);
+                const res = await fetch(`/api/students/details/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${auth.accessToken}`
+                    }
+                });
                 const data = await res.json();
                 if (!res.ok) {
                     setServerMessage(data.message);
@@ -28,7 +34,7 @@ function StudentsUpdate() {
             }
         };
         fetchStudent();
-    }, [id]);
+    }, [id, auth.accessToken]);
 
     const handleChange = (e) => {
         const {name, value} = e.target;
@@ -49,7 +55,10 @@ function StudentsUpdate() {
         try {
             const res = await fetch(`/api/students/${id}`, {
                 method: 'PUT',
-                headers: {'Content-Type': 'application/json'},
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${auth.accessToken}`
+                },
                 body: JSON.stringify(student),
             });
 
