@@ -2,6 +2,10 @@ package pl.edu.backend.course.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -28,21 +32,22 @@ public class CourseServiceImpl implements CourseService {
     private final EnrollmentRepository enrollmentRepository;
 
     @Override
-    public List<CoursePreviewDto> getAllPreview() {
+    public Page<CoursePreviewDto> getAllPreview(int page, int size) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         String email = auth.getName();
         boolean isStudent = auth.getAuthorities().stream()
                 .anyMatch(a -> Objects.equals(a.getAuthority(), "ROLE_STUDENT"));
 
-        List<Course> courses;
+        Page<Course> courses;
+        Pageable pageRequest = PageRequest.of(page, size, Sort.by("name").ascending());
         if (isStudent) {
-            courses = courseRepository.findByStudentEmail(email);
+            courses = courseRepository.findByStudentEmail(email, pageRequest);
         } else {
-            courses = courseRepository.findAll();
+            courses = courseRepository.findAll(pageRequest);
         }
 
-        return courses.stream().map(courseMapper::toCoursePreviewDto).toList();
+        return courses.map(courseMapper::toCoursePreviewDto);
     }
 
     @Override

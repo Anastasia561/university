@@ -7,6 +7,11 @@ import {authFetch} from "../auth/AuthFetch";
 function Courses() {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const [currentPage, setCurrentPage] = useState(0); // 0-based
+    const [totalPages, setTotalPages] = useState(0);
+    const [pageSize] = useState(5);
+
     const {auth, setAuth} = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -15,14 +20,16 @@ function Courses() {
             try {
                 let res;
                 if (auth?.accessToken) {
-                    res = await authFetch('/api/courses', {}, auth, setAuth);
+                    res = await authFetch(`/api/courses?page=${currentPage}&size=${pageSize}`, {}, auth, setAuth);
                 } else {
-                    res = await fetch('/api/courses');
+                    res = await fetch(`/api/courses?page=${currentPage}&size=${pageSize}`);
                 }
 
                 const data = await res.json();
 
-                setCourses(Array.isArray(data) ? data : []);
+                setCourses(Array.isArray(data.content) ? data.content : []);
+                setCurrentPage(data.number);
+                setTotalPages(data.totalPages);
             } catch (err) {
                 if (err.message === 'Session expired') {
                     navigate('/login');
@@ -35,7 +42,7 @@ function Courses() {
         };
 
         fetchCourses();
-    }, [auth?.accessToken]);
+    }, [auth?.accessToken, currentPage]);
 
     if (loading) {
         return <p>Loading courses...</p>;
@@ -68,7 +75,7 @@ function Courses() {
                     <tbody>
                     {Array.isArray(courses) && courses.map((course, index) => (
                         <tr key={course.id}>
-                            <td>{index + 1}</td>
+                            <td>{index + 1 + currentPage * pageSize}</td>
                             <td>{course.name}</td>
                             <td>{course.code}</td>
                             <td>{course.credit}</td>
@@ -94,6 +101,20 @@ function Courses() {
                     ))}
                     </tbody>
                 </table>
+            </div>
+
+            <div className="pagination">
+                <button
+                    disabled={currentPage === 0 || loading}
+                    onClick={() => setCurrentPage(prev => prev - 1)}>Previous
+                </button>
+
+                <span>Page {currentPage + 1} of {totalPages}</span>
+
+                <button
+                    disabled={currentPage + 1 >= totalPages || loading}
+                    onClick={() => setCurrentPage(prev => prev + 1)}>Next
+                </button>
             </div>
         </>
     );
