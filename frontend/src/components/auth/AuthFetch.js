@@ -8,7 +8,7 @@ export const authFetch = async (url, options = {}, auth, setAuth) => {
         });
 
         if (!refreshRes.ok) {
-            setAuth({accessToken: null, email: null, role: null});
+            setAuth({accessToken: null, role: null});
             throw new Error('Session expired');
         }
 

@@ -33,7 +33,6 @@ const Login = () => {
 
             const decoded = jwtDecode(data.accessToken);
             setAuth({
-                email,
                 accessToken: data.accessToken,
                 role: decoded.role
             });
