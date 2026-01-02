@@ -3,10 +3,11 @@ import '../../styles/FormStyles.css';
 import {useNavigate, Link} from 'react-router-dom';
 import {validateEnrollment} from "../../validation/EnrollmentValidation";
 import AuthContext from "../../context/AuthProvider";
+import {authFetch} from "../auth/AuthFetch";
 
 function EnrollmentsCreate() {
     const navigate = useNavigate();
-    const {auth} = useContext(AuthContext);
+    const {auth, setAuth} = useContext(AuthContext);
 
     const [serverMessage, setServerMessage] = useState('');
     const [errors, setErrors] = useState({});
@@ -20,20 +21,25 @@ function EnrollmentsCreate() {
     });
 
     useEffect(() => {
-        fetch('/api/students', {
-            headers: {
-                Authorization: `Bearer ${auth.accessToken}`
-            }
-        })
-            .then(res => res.json())
-            .then(data => setStudents(data))
-            .catch(err => console.error(err));
+        const fetchData = async () => {
+            try {
+                const studentsRes = await authFetch('/api/students', {}, auth, setAuth);
+                const studentsData = await studentsRes.json();
+                setStudents(Array.isArray(studentsData) ? studentsData : []);
 
-        fetch('/api/courses')
-            .then(res => res.json())
-            .then(data => setCourses(data))
-            .catch(err => console.error(err));
-    }, [auth.accessToken]);
+                const coursesRes = await authFetch('/api/courses', {}, auth, setAuth);
+                const coursesData = await coursesRes.json();
+                setCourses(Array.isArray(coursesData) ? coursesData : []);
+            } catch (err) {
+                if (err.message === 'Session expired') {
+                    navigate('/login');
+                }
+                console.error(err);
+            }
+        };
+
+        fetchData();
+    }, [auth?.accessToken]);
 
     const handleChange = (e) => {
         setEnrollment({
@@ -42,7 +48,7 @@ function EnrollmentsCreate() {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const validationErrors = validateEnrollment(enrollment);
@@ -53,28 +59,28 @@ function EnrollmentsCreate() {
             return;
         }
 
-        fetch('/api/enrollments', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${auth.accessToken}`
-            },
-            body: JSON.stringify(enrollment)
-        })
-            .then(async (res) => {
-                if (!res.ok) {
-                    const data = await res.json();
-                    if (data.fieldErrors) {
-                        setErrors(data.fieldErrors);
-                    }
-                    if (data.message) {
-                        setServerMessage(data.message);
-                    }
-                } else {
-                    navigate('/enrollments');
-                }
-            })
-            .catch(err => console.error(err));
+        try {
+            const res = await authFetch('/api/enrollments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(enrollment)
+            }, auth, setAuth);
+
+            if (!res.ok) {
+                const data = await res.json();
+                if (data.fieldErrors) setErrors(data.fieldErrors);
+                if (data.message) setServerMessage(data.message);
+            } else {
+                navigate('/enrollments');
+            }
+        } catch (err) {
+            if (err.message === 'Session expired') {
+                navigate('/login');
+            }
+            console.error(err);
+        }
     };
 
     return (

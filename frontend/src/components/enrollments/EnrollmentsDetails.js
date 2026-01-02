@@ -1,25 +1,23 @@
 import '../../styles/DetailedViewStyles.css';
 import React, {useContext, useEffect, useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useParams, useNavigate} from 'react-router-dom';
 import AuthContext from "../../context/AuthProvider";
+import {authFetch} from "../auth/AuthFetch";
 
 function EnrollmentsDetails() {
     const {id} = useParams();
-    const {auth} = useContext(AuthContext);
+    const {auth, setAuth} = useContext(AuthContext);
 
     const [serverMessage, setServerMessage] = useState('');
     const [enrollment, setEnrollment] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchEnrollment = async () => {
             try {
-                const res = await fetch(`/api/enrollments/details/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${auth.accessToken}`
-                    }
-                });
-
+                const res = await authFetch(`/api/enrollments/details/${id}`, {}, auth, setAuth);
                 const data = await res.json();
+
                 if (!res.ok) {
                     setServerMessage(data.message);
                     return;
@@ -27,11 +25,15 @@ function EnrollmentsDetails() {
 
                 setEnrollment(data);
             } catch (err) {
+                if (err.message === 'Session expired') {
+                    navigate('/login');
+                }
                 console.error(err);
             }
         };
+
         fetchEnrollment();
-    }, [id, auth.accessToken]);
+    }, [id, auth?.accessToken]);
 
     if (serverMessage) {
         return <div className="container">

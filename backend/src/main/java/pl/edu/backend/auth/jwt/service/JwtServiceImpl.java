@@ -49,7 +49,7 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String generateRefreshToken(CustomUserDetails user) {
         Map<String, Object> claims = buildBaseClaims(user);
-        return buildToken(claims, user.getUsername(), jwtProperties.getAccessTokenExpirationTimeMs(), REFRESH);
+        return buildToken(claims, user.getUsername(), jwtProperties.getRefreshTokenExpirationTimeMs(), REFRESH);
     }
 
     @Override

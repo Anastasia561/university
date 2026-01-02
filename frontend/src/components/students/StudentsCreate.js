@@ -3,10 +3,11 @@ import '../../styles/FormStyles.css';
 import {validateStudent} from '../../validation/StudentValidation';
 import {useNavigate, Link} from 'react-router-dom';
 import AuthContext from "../../context/AuthProvider";
+import {authFetch} from "../auth/AuthFetch";
 
 function StudentsCreate() {
     const navigate = useNavigate();
-    const {auth} = useContext(AuthContext);
+    const {auth, setAuth} = useContext(AuthContext);
 
     const [serverMessage, setServerMessage] = useState('');
     const [errors, setErrors] = useState({});
@@ -24,7 +25,7 @@ function StudentsCreate() {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const validationErrors = validateStudent(student);
@@ -35,28 +36,32 @@ function StudentsCreate() {
             return;
         }
 
-        fetch('/api/students', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${auth.accessToken}`
-            },
-            body: JSON.stringify(student)
-        })
-            .then(async (res) => {
-                if (!res.ok) {
-                    const data = await res.json();
-                    if (data.fieldErrors) {
-                        setErrors(data.fieldErrors);
-                    }
-                    if (data.message) {
-                        setServerMessage(data.message);
-                    }
-                } else {
-                    navigate('/students');
-                }
-            })
-            .catch(err => console.error(err));
+        try {
+            const res = await authFetch(
+                '/api/students',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(student)
+                },
+                auth, setAuth
+            );
+
+            if (!res.ok) {
+                const data = await res.json();
+                if (data.fieldErrors) setErrors(data.fieldErrors);
+                if (data.message) setServerMessage(data.message);
+            } else {
+                navigate('/students');
+            }
+        } catch (err) {
+            if (err.message === 'Session expired') {
+                navigate('/login');
+            }
+            console.error(err);
+        }
     };
 
     return (

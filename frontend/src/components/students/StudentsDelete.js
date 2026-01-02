@@ -2,11 +2,12 @@ import React, {useContext, useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import '../../styles/ConfirmStyles.css';
 import AuthContext from "../../context/AuthProvider";
+import {authFetch} from "../auth/AuthFetch";
 
 function StudentsDelete() {
     const {id} = useParams();
     const navigate = useNavigate();
-    const {auth} = useContext(AuthContext);
+    const {auth, setAuth} = useContext(AuthContext);
 
     const [student, setStudent] = useState(null);
     const [serverMessage, setServerMessage] = useState('');
@@ -14,14 +15,14 @@ function StudentsDelete() {
 
     const handleDelete = async (e) => {
         e.preventDefault();
+
         try {
-            const res = await fetch(`/api/students/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${auth.accessToken}`
-                },
-            });
+            const res = await authFetch(
+                `/api/students/${id}`,
+                {method: 'DELETE'},
+                auth, setAuth
+            );
+
             if (!res.ok) {
                 const data = await res.json();
                 setServerMessage(data.message);
@@ -29,33 +30,37 @@ function StudentsDelete() {
                 navigate('/students');
             }
         } catch (err) {
-            console.log(err);
+            if (err.message === 'Session expired') {
+                navigate('/login');
+            }
+            console.error(err);
         }
     };
 
     useEffect(() => {
-            const fetchStudent = async () => {
-                try {
-                    const res = await fetch(`/api/students/details/${id}`, {
-                        headers: {
-                            Authorization: `Bearer ${auth.accessToken}`
-                        }
-                    });
-                    const data = await res.json();
-                    if (!res.ok) {
-                        setServerMessage(data.message);
-                    }
-                    setStudent(data);
-                } catch
-                    (err) {
-                    console.error(err);
-                } finally {
-                    setLoading(false);
+        const fetchStudent = async () => {
+            try {
+                const res = await authFetch(`/api/students/details/${id}`, {}, auth, setAuth);
+                const data = await res.json();
+
+                if (!res.ok) {
+                    setServerMessage(data.message);
+                    return;
                 }
-            };
-            fetchStudent();
-        }, [id, auth.accessToken]
-    );
+
+                setStudent(data);
+            } catch (err) {
+                if (err.message === 'Session expired') {
+                    navigate('/login');
+                }
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchStudent();
+    }, [id, auth?.accessToken]);
 
     if (loading) return <p>Loading student data...</p>;
 

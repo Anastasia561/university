@@ -2,11 +2,12 @@ import React, {useContext, useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import '../../styles/ConfirmStyles.css';
 import AuthContext from "../../context/AuthProvider";
+import {authFetch} from "../auth/AuthFetch";
 
 function EnrollmentsDelete() {
     const {id} = useParams();
     const navigate = useNavigate();
-    const {auth} = useContext(AuthContext);
+    const {auth, setAuth} = useContext(AuthContext);
 
     const [enrollment, setEnrollment] = useState(null);
     const [serverMessage, setServerMessage] = useState('');
@@ -15,12 +16,9 @@ function EnrollmentsDelete() {
     const handleDelete = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch(`/api/enrollments/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    Authorization: `Bearer ${auth.accessToken}`
-                }
-            });
+            const res = await authFetch(`/api/enrollments/${id}`,
+                {method: 'DELETE'}, auth, setAuth);
+
             if (!res.ok) {
                 const data = await res.json();
                 setServerMessage(data.message);
@@ -28,31 +26,36 @@ function EnrollmentsDelete() {
                 navigate('/enrollments');
             }
         } catch (err) {
-            console.log(err);
+            if (err.message === 'Session expired') {
+                navigate('/login');
+            }
+            console.error(err);
         }
     };
 
     useEffect(() => {
         const fetchEnrollment = async () => {
             try {
-                const res = await fetch(`/api/enrollments/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${auth.accessToken}`
-                    }
-                });
+                const res = await authFetch(`/api/enrollments/${id}`, {}, auth, setAuth);
                 const data = await res.json();
+
                 if (!res.ok) {
                     setServerMessage(data.message);
+                } else {
+                    setEnrollment(data);
                 }
-                setEnrollment(data);
             } catch (err) {
+                if (err.message === 'Session expired') {
+                    navigate('/login');
+                }
                 console.error(err);
             } finally {
                 setLoading(false);
             }
         };
+
         fetchEnrollment();
-    }, [id, auth.accessToken]);
+    }, [id, auth?.accessToken]);
 
     if (loading) return <p>Loading enrollment data...</p>;
 

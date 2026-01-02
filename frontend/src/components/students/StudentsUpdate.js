@@ -3,11 +3,12 @@ import '../../styles/FormStyles.css';
 import {validateStudent} from '../../validation/StudentValidation';
 import {Link, useParams, useNavigate} from 'react-router-dom';
 import AuthContext from "../../context/AuthProvider";
+import {authFetch} from "../auth/AuthFetch";
 
 function StudentsUpdate() {
     const {id} = useParams();
     const navigate = useNavigate();
-    const {auth} = useContext(AuthContext);
+    const {auth, setAuth} = useContext(AuthContext);
 
     const [student, setStudent] = useState(null);
     const [errors, setErrors] = useState({});
@@ -17,17 +18,16 @@ function StudentsUpdate() {
     useEffect(() => {
         const fetchStudent = async () => {
             try {
-                const res = await fetch(`/api/students/details/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${auth.accessToken}`
-                    }
-                });
+                const res = await fetch(`/api/students/details/${id}`, {}, auth, setAuth);
                 const data = await res.json();
                 if (!res.ok) {
                     setServerMessage(data.message);
                 }
                 setStudent(data);
             } catch (err) {
+                if (err.message === 'Session expired') {
+                    navigate('/login');
+                }
                 console.error(err);
             } finally {
                 setLoading(false);
@@ -53,14 +53,16 @@ function StudentsUpdate() {
         }
 
         try {
-            const res = await fetch(`/api/students/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${auth.accessToken}`
-                },
-                body: JSON.stringify(student),
-            });
+            const res = await authFetch(`/api/students/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        ...student
+                    })
+                }, auth, setAuth
+            );
 
             if (!res.ok) {
                 const data = await res.json();
@@ -70,6 +72,9 @@ function StudentsUpdate() {
                 navigate('/students');
             }
         } catch (err) {
+            if (err.message === 'Session expired') {
+                navigate('/login');
+            }
             console.error(err);
         }
     };

@@ -3,10 +3,11 @@ import '../../styles/FormStyles.css';
 import {validateCourse} from '../../validation/CourseValidation';
 import {useNavigate, Link} from 'react-router-dom';
 import AuthContext from "../../context/AuthProvider";
+import {authFetch} from "../auth/AuthFetch";
 
 function CoursesCreate() {
     const navigate = useNavigate();
-    const {auth} = useContext(AuthContext);
+    const {auth, setAuth} = useContext(AuthContext);
 
     const [serverMessage, setServerMessage] = useState('');
     const [errors, setErrors] = useState({});
@@ -27,11 +28,6 @@ function CoursesCreate() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const courseToSend = {
-            ...course,
-            code: course.code.toUpperCase()
-        };
-
         const validationErrors = validateCourse(course);
         setErrors(validationErrors);
 
@@ -40,14 +36,20 @@ function CoursesCreate() {
             return;
         }
 
-        fetch('/api/courses', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${auth.accessToken}`
+        authFetch(
+            '/api/courses',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    ...course,
+                    code: course.code.toUpperCase()
+                })
             },
-            body: JSON.stringify(courseToSend)
-        })
+            auth, setAuth
+        )
             .then(async (res) => {
                 if (!res.ok) {
                     const data = await res.json();
@@ -61,7 +63,12 @@ function CoursesCreate() {
                     navigate('/courses');
                 }
             })
-            .catch(err => console.error(err));
+            .catch(err => {
+                if (err.message === 'Session expired') {
+                    navigate('/login');
+                }
+                console.error(err)
+            });
     };
 
     return (

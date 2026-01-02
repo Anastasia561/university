@@ -22,15 +22,6 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
         refreshTokenRepository.save(refreshToken);
     }
 
-
-    @Override
-    @Transactional
-    public void rotateToken(String oldTokenValue, String newTokenValue) {
-        RefreshToken oldToken = refreshTokenRepository.findByToken(oldTokenValue)
-                .orElseThrow(() -> new EntityNotFoundException("Token not found"));
-        oldToken.setToken(newTokenValue);
-    }
-
     @Override
     @Transactional
     public void revokeRefreshToken(String tokenValue) {

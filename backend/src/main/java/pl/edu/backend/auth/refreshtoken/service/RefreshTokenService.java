@@ -6,7 +6,5 @@ public interface RefreshTokenService {
 
     void createToken(User user, String tokenValue);
 
-    void rotateToken(String oldTokenValue, String newTokenValue);
-
     void revokeRefreshToken(String tokenValue);
 }

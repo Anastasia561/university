@@ -1,30 +1,41 @@
 import React, {useContext, useEffect, useState} from 'react';
 import '../../styles/TableStyles.css';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import AuthContext from "../../context/AuthProvider";
+import {authFetch} from "../auth/AuthFetch";
 
 function Courses() {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
-    const {auth} = useContext(AuthContext);
+    const {auth, setAuth} = useContext(AuthContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const headers = {};
-        if (auth?.accessToken) {
-            headers['Authorization'] = `Bearer ${auth.accessToken}`;
-        }
+        const fetchCourses = async () => {
+            try {
+                let res;
+                if (auth?.accessToken) {
+                    res = await authFetch('/api/courses', {}, auth, setAuth);
+                } else {
+                    res = await fetch('/api/courses');
+                }
 
-        fetch('/api/courses', {headers})
-            .then(res => res.json())
-            .then(data => {
-                setCourses(data);
-                setLoading(false);
-            })
-            .catch(err => {
+                const data = await res.json();
+
+                setCourses(Array.isArray(data) ? data : []);
+            } catch (err) {
+                if (err.message === 'Session expired') {
+                    navigate('/login');
+                }
                 console.error(err);
+                setCourses([]);
+            } finally {
                 setLoading(false);
-            });
-    }, [auth.accessToken]);
+            }
+        };
+
+        fetchCourses();
+    }, [auth?.accessToken]);
 
     if (loading) {
         return <p>Loading courses...</p>;

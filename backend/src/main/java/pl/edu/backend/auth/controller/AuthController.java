@@ -31,7 +31,7 @@ public class AuthController {
                 .secure(false)
                 .path("/api/auth")
                 .maxAge(jwtProperties.getRefreshTokenExpirationTimeSec())
-                .sameSite("Strict")
+                .sameSite("Lax")
                 .build();
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, refreshCookie.toString())
@@ -46,7 +46,7 @@ public class AuthController {
                 .secure(false)
                 .path("/api/auth")
                 .maxAge(jwtProperties.getRefreshTokenExpirationTimeSec())
-                .sameSite("Strict")
+                .sameSite("Lax")
                 .build();
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, refreshCookie.toString())

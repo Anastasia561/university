@@ -21,5 +21,5 @@ server:
 
 jwt:
   secret: ${SECRET}
-  accessTokenExpirationTimeMs: 900_000 #15 min
+  accessTokenExpirationTimeMs: 30_000   #30sec                     #15 min
   refreshTokenExpirationTimeMs: 2_592_000_000 #30 days

@@ -1,11 +1,13 @@
 import '../../styles/DetailedViewStyles.css';
 import React, {useContext, useEffect, useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import AuthContext from "../../context/AuthProvider";
+import {authFetch} from "../auth/AuthFetch";
 
 function CoursesDetails() {
     const {id} = useParams();
-    const {auth} = useContext(AuthContext);
+    const {auth, setAuth} = useContext(AuthContext);
+    const navigate = useNavigate()
 
     const [serverMessage, setServerMessage] = useState('');
     const [course, setCourse] = useState(null);
@@ -13,11 +15,7 @@ function CoursesDetails() {
     useEffect(() => {
         const fetchCourse = async () => {
             try {
-                const res = await fetch(`/api/courses/details/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${auth.accessToken}`
-                    }
-                });
+                const res = await authFetch(`/api/courses/details/${id}`, {}, auth, setAuth);
 
                 const data = await res.json();
                 if (!res.ok) {
@@ -27,11 +25,14 @@ function CoursesDetails() {
 
                 setCourse(data);
             } catch (err) {
+                if (err.message === 'Session expired') {
+                    navigate('/login');
+                }
                 console.error(err);
             }
         };
         fetchCourse();
-    }, [id, auth.accessToken]);
+    }, [id]);
 
     if (serverMessage) {
         return <div className="container">

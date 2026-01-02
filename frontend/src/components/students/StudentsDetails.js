@@ -1,23 +1,21 @@
 import '../../styles/DetailedViewStyles.css';
 import React, {useContext, useEffect, useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useParams, useNavigate} from 'react-router-dom';
 import AuthContext from "../../context/AuthProvider";
+import {authFetch} from "../auth/AuthFetch";
 
 function StudentsDetails() {
     const {id} = useParams();
-    const {auth} = useContext(AuthContext);
+    const {auth, setAuth} = useContext(AuthContext);
 
     const [serverMessage, setServerMessage] = useState('');
     const [student, setStudent] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
             const fetchStudent = async () => {
                 try {
-                    const res = await fetch(`/api/students/details/${id}`, {
-                        headers: {
-                            Authorization: `Bearer ${auth.accessToken}`
-                        }
-                    });
+                    const res = await authFetch(`/api/students/details/${id}`, {}, auth, setAuth);
 
                     const data = await res.json();
                     if (!res.ok) {
@@ -26,8 +24,10 @@ function StudentsDetails() {
                     }
 
                     setStudent(data);
-                } catch
-                    (err) {
+                } catch (err) {
+                    if (err.message === 'Session expired') {
+                        navigate('/login');
+                    }
                     console.error(err);
                 }
             };

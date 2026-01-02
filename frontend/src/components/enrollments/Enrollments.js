@@ -1,30 +1,39 @@
 import React, {useContext, useEffect, useState} from 'react';
 import '../../styles/TableStyles.css';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import AuthContext from "../../context/AuthProvider";
+import {authFetch} from "../auth/AuthFetch";
 
 function Enrollments() {
+    const navigate = useNavigate();
     const [enrollments, setEnrollments] = useState([]);
     const [loading, setLoading] = useState(true);
-    const {auth} = useContext(AuthContext);
+    const {auth, setAuth} = useContext(AuthContext);
 
     useEffect(() => {
-        fetch('/api/enrollments', {
-            headers: {
-                Authorization: `Bearer ${auth.accessToken}`
-            },
-            credentials: 'include'
-        })
-            .then(res => res.json())
-            .then(data => {
-                setEnrollments(data);
-                setLoading(false);
-            })
-            .catch(err => {
+        const fetchEnrollments = async () => {
+            try {
+                if (!auth?.accessToken) {
+                    await authFetch('/api/enrollments', {}, auth, setAuth);
+                }
+
+                const res = await authFetch('/api/enrollments', {}, auth, setAuth);
+                const data = await res.json();
+
+                setEnrollments(Array.isArray(data) ? data : []);
+            } catch (err) {
+                if (err.message === 'Session expired') {
+                    navigate('/login');
+                }
                 console.error(err);
+                setEnrollments([]);
+            } finally {
                 setLoading(false);
-            });
-    }, [auth.accessToken]);
+            }
+        };
+
+        fetchEnrollments();
+    }, [auth?.accessToken]);
 
     if (loading) {
         return <p>Loading enrollments...</p>;

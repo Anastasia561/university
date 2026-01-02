@@ -63,12 +63,9 @@ public class AuthServiceImpl implements AuthService {
             if (!jwtService.isTokenValid(refreshToken, userDetails)) {
                 throw new InvalidRefreshTokenException("Refresh token is invalid");
             }
-
-            String newRefresh = jwtService.generateRefreshToken(userDetails);
-            refreshTokenService.rotateToken(refreshToken, newRefresh);
             String newAccess = jwtService.generateAccessToken(userDetails);
 
-            return new TokenResponseDto(newAccess, newRefresh);
+            return new TokenResponseDto(newAccess, refreshToken);
 
         } catch (JwtException | IllegalArgumentException e) {
             throw new InvalidRefreshTokenException("Invalid refresh token");

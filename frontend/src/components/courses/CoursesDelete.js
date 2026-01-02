@@ -2,11 +2,12 @@ import React, {useContext, useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import '../../styles/ConfirmStyles.css';
 import AuthContext from "../../context/AuthProvider";
+import {authFetch} from "../auth/AuthFetch";
 
 function CoursesDelete() {
     const {id} = useParams();
     const navigate = useNavigate();
-    const {auth} = useContext(AuthContext);
+    const {auth, setAuth} = useContext(AuthContext);
 
     const [course, setCourse] = useState(null);
     const [serverMessage, setServerMessage] = useState('');
@@ -15,12 +16,11 @@ function CoursesDelete() {
     const handleDelete = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch(`/api/courses/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    Authorization: `Bearer ${auth.accessToken}`
+            const res = await authFetch(`/api/courses/${id}`, {
+                    method: 'DELETE'
                 },
-            });
+                auth, setAuth
+            );
             if (!res.ok) {
                 const data = await res.json();
                 setServerMessage(data.message);
@@ -28,6 +28,9 @@ function CoursesDelete() {
                 navigate('/courses');
             }
         } catch (err) {
+            if (err.message === 'Session expired') {
+                navigate('/login');
+            }
             console.log(err);
         }
     };
@@ -35,11 +38,12 @@ function CoursesDelete() {
     useEffect(() => {
         const fetchCourse = async () => {
             try {
-                const res = await fetch(`/api/courses/${id}`, {
+                const res = await authFetch(`/api/courses/${id}`, {
                         headers: {
-                            Authorization: `Bearer ${auth.accessToken}`
-                        }
-                    }
+                            'Content-Type': 'application/json'
+                        },
+                    },
+                    auth, setAuth
                 );
                 const data = await res.json();
                 if (!res.ok) {
@@ -47,13 +51,16 @@ function CoursesDelete() {
                 }
                 setCourse(data);
             } catch (err) {
+                if (err.message === 'Session expired') {
+                    navigate('/login');
+                }
                 console.error(err);
             } finally {
                 setLoading(false);
             }
         };
         fetchCourse();
-    }, [id, auth.accessToken]);
+    }, [id]);
 
     if (loading) return <p>Loading course data...</p>;
 
