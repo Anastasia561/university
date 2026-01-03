@@ -2,7 +2,9 @@ package pl.edu.backend.student.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.backend.student.dto.StudentCreateDto;
@@ -30,8 +33,15 @@ public class StudentController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
-    public List<StudentPreviewDto> getAllStudentsPreview() {
-        return studentService.getAllPreview();
+    public ResponseEntity<Page<StudentPreviewDto>> getAllStudentsPreviewPageable(@RequestParam(defaultValue = "0") int page,
+                                                                                 @RequestParam(defaultValue = "5") int size) {
+        return ResponseEntity.ok(studentService.getAllPreviewPageable(page, size));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/all")
+    public List<StudentPreviewDto> getAllStudentsPreviewNonPageable() {
+        return studentService.getAllPreviewNonPageable();
     }
 
     @PreAuthorize("hasRole('ADMIN')")

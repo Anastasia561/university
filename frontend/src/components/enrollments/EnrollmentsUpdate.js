@@ -23,12 +23,12 @@ function EnrollmentsUpdate() {
     });
 
     useEffect(() => {
-        authFetch('/api/students', {}, auth, setAuth)
+        authFetch('/api/students/all', {}, auth, setAuth)
             .then(res => res.json())
             .then(data => setStudents(data))
             .catch(err => console.error(err));
 
-        authFetch('/api/courses', {}, auth, setAuth)
+        authFetch('/api/courses/all', {}, auth, setAuth)
             .then(res => res.json())
             .then(data => setCourses(data))
             .catch(err => console.error(err));
@@ -113,7 +113,7 @@ function EnrollmentsUpdate() {
                 <select id="studentEmail" name="studentEmail" value={enrollment.studentEmail}
                         onChange={handleChange} required>
                     <option value="">Select Student</option>
-                    {students.map(s => (
+                    {Array.isArray(students) && students.map(s => (
                         <option key={s.id} value={s.email}>{s.email}</option>
                     ))}
                 </select>
@@ -123,7 +123,7 @@ function EnrollmentsUpdate() {
                 <select id="courseCode" name="courseCode" value={enrollment.courseCode}
                         onChange={handleChange} required>
                     <option value="">Select Course</option>
-                    {courses.map(c => (
+                    {Array.isArray(courses) && courses.map(c => (
                         <option key={c.id} value={c.code}>{c.code}</option>
                     ))}
                 </select>

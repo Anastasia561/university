@@ -32,9 +32,15 @@ public class CourseController {
     private final CourseService courseService;
 
     @GetMapping
-    public ResponseEntity<Page<CoursePreviewDto>> getAllCoursesPreview(@RequestParam(defaultValue = "0") int page,
-                                                                       @RequestParam(defaultValue = "5") int size) {
-        return ResponseEntity.ok(courseService.getAllPreview(page, size));
+    public ResponseEntity<Page<CoursePreviewDto>> getAllCoursesPreviewPageable(@RequestParam(defaultValue = "0") int page,
+                                                                               @RequestParam(defaultValue = "5") int size) {
+        return ResponseEntity.ok(courseService.getAllPreviewPageable(page, size));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/all")
+    public List<CoursePreviewDto> getAllCoursesPreviewNonPageable() {
+        return courseService.getAllPreviewNonPageable();
     }
 
     @PreAuthorize("hasAnyRole('STUDENT', 'ADMIN')")

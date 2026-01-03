@@ -74,7 +74,7 @@ function StudentsDetails() {
                         <td colSpan="3">No enrollments</td>
                     </tr>
                 ) : (
-                    student.enrollments.map((e, index) => (
+                    Array.isArray(student.enrollments) && student.enrollments.map((e, index) => (
                         <tr key={index}>
                             <td>{e.courseCode}</td>
                             <td>{e.enrollmentDate}</td>

@@ -8,7 +8,7 @@ function Courses() {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const [currentPage, setCurrentPage] = useState(0); // 0-based
+    const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [pageSize] = useState(5);
 
@@ -19,10 +19,11 @@ function Courses() {
         const fetchCourses = async () => {
             try {
                 let res;
+                let path = `/api/courses?page=${currentPage}&size=${pageSize}`;
                 if (auth?.accessToken) {
-                    res = await authFetch(`/api/courses?page=${currentPage}&size=${pageSize}`, {}, auth, setAuth);
+                    res = await authFetch(path, {}, auth, setAuth);
                 } else {
-                    res = await fetch(`/api/courses?page=${currentPage}&size=${pageSize}`);
+                    res = await fetch(path);
                 }
 
                 const data = await res.json();

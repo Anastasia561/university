@@ -32,7 +32,12 @@ public class CourseServiceImpl implements CourseService {
     private final EnrollmentRepository enrollmentRepository;
 
     @Override
-    public Page<CoursePreviewDto> getAllPreview(int page, int size) {
+    public List<CoursePreviewDto> getAllPreviewNonPageable() {
+        return courseRepository.findAll().stream().map(courseMapper::toCoursePreviewDto).toList();
+    }
+
+    @Override
+    public Page<CoursePreviewDto> getAllPreviewPageable(int page, int size) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         String email = auth.getName();

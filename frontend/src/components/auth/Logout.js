@@ -1,6 +1,7 @@
 import {useContext} from "react";
 import AuthContext from "../../context/AuthProvider";
 import {useNavigate} from "react-router-dom";
+import {authFetch} from "./AuthFetch";
 
 const useLogout = () => {
     const {auth, setAuth} = useContext(AuthContext);
@@ -8,25 +9,21 @@ const useLogout = () => {
 
     const logout = async () => {
         try {
-            const response = await fetch("/api/auth/logout", {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                    "Authorization": `Bearer ${auth.accessToken}`
-                }
-            });
-
-            if (!response.ok) {
-                const data = await response.json();
-                console.log(data.message);
-                return;
-            }
-
-            setAuth({});
-            navigate("/login");
+            await authFetch(
+                "/api/auth/logout",
+                {
+                    method: "POST"
+                }, auth, setAuth
+            );
         } catch (err) {
             console.error(err);
-            setAuth({});
+        } finally {
+            setAuth({
+                accessToken: null,
+                email: null,
+                role: null
+            });
+            navigate("/login");
         }
     };
 

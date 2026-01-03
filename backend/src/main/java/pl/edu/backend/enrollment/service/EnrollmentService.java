@@ -1,15 +1,14 @@
 package pl.edu.backend.enrollment.service;
 
-
+import org.springframework.data.domain.Page;
 import pl.edu.backend.enrollment.dto.EnrollmentCreateDto;
 import pl.edu.backend.enrollment.dto.EnrollmentPreviewDto;
 import pl.edu.backend.enrollment.dto.EnrollmentViewDto;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface EnrollmentService {
-    List<EnrollmentPreviewDto> getAllPreview();
+    Page<EnrollmentPreviewDto> getAllPreview(int page, int size);
 
     EnrollmentViewDto getEnrollmentDetails(UUID id);
 

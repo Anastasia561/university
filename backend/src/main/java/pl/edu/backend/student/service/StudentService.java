@@ -1,6 +1,7 @@
 package pl.edu.backend.student.service;
 
 
+import org.springframework.data.domain.Page;
 import pl.edu.backend.student.dto.StudentCreateDto;
 import pl.edu.backend.student.dto.StudentPreviewDto;
 import pl.edu.backend.student.dto.StudentUpdateDto;
@@ -10,7 +11,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface StudentService {
-    List<StudentPreviewDto> getAllPreview();
+    Page<StudentPreviewDto> getAllPreviewPageable(int page, int size);
+
+    List<StudentPreviewDto> getAllPreviewNonPageable();
 
     StudentViewDto getStudentDetails(UUID id);
 

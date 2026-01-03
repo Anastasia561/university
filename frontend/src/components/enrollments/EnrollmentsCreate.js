@@ -23,11 +23,11 @@ function EnrollmentsCreate() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const studentsRes = await authFetch('/api/students', {}, auth, setAuth);
+                const studentsRes = await authFetch('/api/students/all', {}, auth, setAuth);
                 const studentsData = await studentsRes.json();
                 setStudents(Array.isArray(studentsData) ? studentsData : []);
 
-                const coursesRes = await authFetch('/api/courses', {}, auth, setAuth);
+                const coursesRes = await authFetch('/api/courses/all', {}, auth, setAuth);
                 const coursesData = await coursesRes.json();
                 setCourses(Array.isArray(coursesData) ? coursesData : []);
             } catch (err) {
@@ -94,7 +94,7 @@ function EnrollmentsCreate() {
                 <select id="studentEmail" name="studentEmail"
                         value={enrollment.studentEmail} onChange={handleChange} required>
                     <option value="">Select Student</option>
-                    {students.map((s) => (
+                    {Array.isArray(students) && students.map((s) => (
                         <option key={s.id} value={s.email}>{s.email}</option>
                     ))}
                 </select>
@@ -102,9 +102,9 @@ function EnrollmentsCreate() {
 
                 <label htmlFor="courseCode">Course Code:</label>
                 <select id="courseCode" name="courseCode"
-                        value={enrollment.courseCode} onChange={handleChange} required>
+                        value={enrollment.courseCode} onChange={handleChange} size={5} required>
                     <option value="">Select Course</option>
-                    {courses.map((c) => (
+                    {Array.isArray(courses) && courses.map((c) => (
                         <option key={c.id} value={c.code}>{c.code}</option>
                     ))}
                 </select>

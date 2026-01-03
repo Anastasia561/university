@@ -7,20 +7,24 @@ import {authFetch} from "../auth/AuthFetch";
 function Students() {
     const [students, setStudents] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [pageSize] = useState(5);
+
     const {auth, setAuth} = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchEnrollments = async () => {
             try {
-                if (!auth?.accessToken) {
-                    await authFetch('/api/students', {}, auth, setAuth);
-                }
-
-                const res = await authFetch('/api/students', {}, auth, setAuth);
+                let path = `/api/students?page=${currentPage}&size=${pageSize}`;
+                const res = await authFetch(path, {}, auth, setAuth);
                 const data = await res.json();
 
-                setStudents(Array.isArray(data) ? data : []);
+                setStudents(Array.isArray(data.content) ? data.content : []);
+                setCurrentPage(data.number);
+                setTotalPages(data.totalPages);
             } catch (err) {
                 if (err.message === 'Session expired') {
                     navigate('/login');
@@ -33,7 +37,7 @@ function Students() {
         };
 
         fetchEnrollments();
-    }, [auth?.accessToken]);
+    }, [auth?.accessToken, currentPage]);
 
     if (loading) {
         return <p>Loading students...</p>;
@@ -60,9 +64,9 @@ function Students() {
                     </thead>
 
                     <tbody>
-                    {students.map((student, index) => (
+                    {Array.isArray(students) && students.map((student, index) => (
                         <tr key={student.id}>
-                            <td>{index + 1}</td>
+                            <td>{index + 1 + currentPage * pageSize}</td>
                             <td>{student.firstName}</td>
                             <td>{student.lastName}</td>
                             <td>{student.email}</td>
@@ -79,6 +83,20 @@ function Students() {
                     ))}
                     </tbody>
                 </table>
+            </div>
+
+            <div className="pagination">
+                <button
+                    disabled={currentPage === 0 || loading}
+                    onClick={() => setCurrentPage(prev => prev - 1)}>Previous
+                </button>
+
+                <span>Page {currentPage + 1} of {totalPages}</span>
+
+                <button
+                    disabled={currentPage + 1 >= totalPages || loading}
+                    onClick={() => setCurrentPage(prev => prev + 1)}>Next
+                </button>
             </div>
         </>
     );

@@ -2,7 +2,9 @@ package pl.edu.backend.enrollment.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.backend.enrollment.dto.EnrollmentCreateDto;
@@ -18,7 +21,6 @@ import pl.edu.backend.enrollment.dto.EnrollmentPreviewDto;
 import pl.edu.backend.enrollment.dto.EnrollmentViewDto;
 import pl.edu.backend.enrollment.service.EnrollmentService;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -29,8 +31,9 @@ public class EnrollmentController {
 
     @PreAuthorize("hasAnyRole('STUDENT', 'ADMIN')")
     @GetMapping
-    public List<EnrollmentPreviewDto> getAllEnrollmentsPreview() {
-        return enrollmentService.getAllPreview();
+    public ResponseEntity<Page<EnrollmentPreviewDto>> getAllEnrollmentsPreview(@RequestParam(defaultValue = "0") int page,
+                                                                               @RequestParam(defaultValue = "5") int size) {
+        return ResponseEntity.ok(enrollmentService.getAllPreview(page, size));
     }
 
     @PreAuthorize("hasRole('ADMIN')")

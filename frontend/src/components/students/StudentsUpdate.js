@@ -18,7 +18,7 @@ function StudentsUpdate() {
     useEffect(() => {
         const fetchStudent = async () => {
             try {
-                const res = await fetch(`/api/students/details/${id}`, {}, auth, setAuth);
+                const res = await authFetch(`/api/students/details/${id}`, {}, auth, setAuth);
                 const data = await res.json();
                 if (!res.ok) {
                     setServerMessage(data.message);

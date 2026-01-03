@@ -3,6 +3,10 @@ package pl.edu.backend.enrollment.service;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -18,7 +22,6 @@ import pl.edu.backend.exception.StudentAlreadyEnrolledException;
 import pl.edu.backend.student.model.Student;
 import pl.edu.backend.student.repository.StudentRepository;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -31,21 +34,22 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     private final EnrollmentMapper enrollmentMapper;
 
     @Override
-    public List<EnrollmentPreviewDto> getAllPreview() {
+    public Page<EnrollmentPreviewDto> getAllPreview(int page, int size) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         String email = auth.getName();
         boolean isAdmin = auth.getAuthorities().stream()
                 .anyMatch(a -> Objects.equals(a.getAuthority(), "ROLE_ADMIN"));
 
-        List<Enrollment> enrollments;
+        Page<Enrollment> enrollments;
+        Pageable pageRequest = PageRequest.of(page, size, Sort.by("date").ascending());
         if (isAdmin) {
-            enrollments = enrollmentRepository.findAll();
+            enrollments = enrollmentRepository.findAll(pageRequest);
         } else {
-            enrollments = enrollmentRepository.findByStudentEmail(email);
+            enrollments = enrollmentRepository.findByStudentEmail(email, pageRequest);
         }
 
-        return enrollments.stream().map(enrollmentMapper::toEnrollmentPreviewDto).toList();
+        return enrollments.map(enrollmentMapper::toEnrollmentPreviewDto);
     }
 
     @Override

@@ -82,7 +82,7 @@ function CoursesDetails() {
                         <td colSpan="3">No students</td>
                     </tr>
                 ) : (
-                    course.students.map((s, index) => (
+                    Array.isArray(course.students) && course.students.map((s, index) => (
                         <tr key={index}>
                             {auth.accessToken && auth.role === "ROLE_ADMIN" && (
                                 <td>{s.email}</td>
