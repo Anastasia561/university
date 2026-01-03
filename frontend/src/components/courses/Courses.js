@@ -49,6 +49,10 @@ function Courses() {
         return <p>Loading courses...</p>;
     }
 
+    if (!Array.isArray(courses) || courses.length === 0) {
+        return <h1>No courses available</h1>;
+    }
+
     return (
         <>
             <h1>Courses Data</h1>
@@ -74,6 +78,7 @@ function Courses() {
                     </thead>
 
                     <tbody>
+
                     {Array.isArray(courses) && courses.map((course, index) => (
                         <tr key={course.id}>
                             <td>{index + 1 + currentPage * pageSize}</td>

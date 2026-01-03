@@ -6,10 +6,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.backend.student.dto.StudentCreateDto;
 import pl.edu.backend.student.dto.StudentPreviewDto;
+import pl.edu.backend.student.dto.StudentRegisterDto;
 import pl.edu.backend.student.dto.StudentUpdateDto;
 import pl.edu.backend.student.dto.StudentViewDto;
 import pl.edu.backend.student.mapper.StudentMapper;
@@ -24,6 +26,7 @@ import java.util.UUID;
 public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final StudentMapper studentMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<StudentPreviewDto> getAllPreviewNonPageable() {
@@ -54,7 +57,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional
     public StudentViewDto createStudent(StudentCreateDto dto) {
-        Student student = studentMapper.toStudent(dto);
+        Student student = studentMapper.toStudent(dto, passwordEncoder);
         Student saved = studentRepository.save(student);
         return studentMapper.toStudentViewDto(saved);
     }
@@ -80,5 +83,16 @@ public class StudentServiceImpl implements StudentService {
             throw new EntityNotFoundException("Student not found");
         }
         studentRepository.deleteByUuid(id);
+    }
+
+    @Override
+    @Transactional
+    public StudentViewDto registerStudent(StudentRegisterDto dto) {
+        if (!dto.password().equals(dto.repeatPassword())) {
+            throw new IllegalArgumentException("Passwords do not match");
+        }
+        Student student = studentMapper.toStudentForRegistration(dto, passwordEncoder);
+        Student saved = studentRepository.save(student);
+        return studentMapper.toStudentViewDto(saved);
     }
 }

@@ -44,6 +44,10 @@ function Enrollments() {
         return <p>Loading enrollments...</p>;
     }
 
+    if (!Array.isArray(enrollments) || enrollments.length === 0) {
+        return <h1>No enrollments available</h1>;
+    }
+
     return (
         <>
             <h1>Enrollments Data</h1>

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.backend.student.dto.StudentCreateDto;
 import pl.edu.backend.student.dto.StudentPreviewDto;
+import pl.edu.backend.student.dto.StudentRegisterDto;
 import pl.edu.backend.student.dto.StudentUpdateDto;
 import pl.edu.backend.student.dto.StudentViewDto;
 import pl.edu.backend.student.service.StudentService;
@@ -72,6 +73,15 @@ public class StudentController {
             @RequestBody @Valid StudentCreateDto dto
     ) {
         return studentService.createStudent(dto);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public StudentViewDto registerStudent(
+            @RequestBody @Valid StudentRegisterDto dto
+    ) {
+        return studentService.registerStudent(dto);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

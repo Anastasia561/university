@@ -4,6 +4,7 @@ package pl.edu.backend.student.service;
 import org.springframework.data.domain.Page;
 import pl.edu.backend.student.dto.StudentCreateDto;
 import pl.edu.backend.student.dto.StudentPreviewDto;
+import pl.edu.backend.student.dto.StudentRegisterDto;
 import pl.edu.backend.student.dto.StudentUpdateDto;
 import pl.edu.backend.student.dto.StudentViewDto;
 
@@ -20,6 +21,8 @@ public interface StudentService {
     StudentPreviewDto getStudentPreview(UUID id);
 
     StudentViewDto createStudent(StudentCreateDto dto);
+
+    StudentViewDto registerStudent(StudentRegisterDto dto);
 
     StudentViewDto updateStudent(UUID id, StudentUpdateDto dto);
 
