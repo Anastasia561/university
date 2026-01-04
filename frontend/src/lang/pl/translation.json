@@ -4,6 +4,50 @@
   "error.validation": "Błąd walidacji",
 
 
+  "validation.student.fname.no": "Imię jest wymagane",
+  "validation.student.fname.less": "Imię nie może mieć mniej niż 3 znaki",
+  "validation.student.fname.more": "Imię nie może mieć więcej niż 30 znaków",
+
+  "validation.student.lname.no": "Nazwisko jest wymagane",
+  "validation.student.lname.less": "Nazwisko nie może mieć mniej niż 3 znaki",
+  "validation.student.lname.more": "Nazwisko nie może mieć więcej niż 30 znaków",
+
+  "validation.student.bdate.no": "Pole data urodzenia jest wymagane",
+  "validation.student.bdate.future": "Data urodzenia nie może być w przyszłości",
+  "validation.student.bdate.min": "Minimalny wymagany wiek: 18 lat",
+
+  "validation.student.email.no": "Email jest wymagany",
+  "validation.student.email.valid": "Email jest nieprawidłowy",
+
+  "validation.student.pass.no": "Hasło jest wymagane",
+  "validation.student.pass.size": "Hasło musi mieć co najmniej 8 znaków",
+  "validation.student.pass.digit": "Hasło musi zawierać co najmniej jedną cyfrę",
+  "validation.student.pass.char": "Hasło musi zawierać co najmniej jeden znak specjalny",
+
+  "validation.student.rpass.no": "Powtórzenie hasła jest wymagane",
+  "validation.student.rpass.match": "Hasła nie są zgodne",
+
+  "validation.enrollment.student": "Student jest wymagany",
+  "validation.enrollment.course": "Kurs jest wymagany",
+  "validation.enrollment.date.no": "Data zapisu jest wymagana",
+  "validation.enrollment.date.past": "Data zapisu nie może być w przeszłości",
+
+  "validation.course.name.no": "Nazwa kursu jest wymagana",
+  "validation.course.name.less": "Nazwa kursu nie może mieć mniej niż 3 znaki",
+  "validation.course.name.more": "Nazwa kursu nie może mieć więcej niż 50 znaków",
+
+  "validation.course.code.no": "Kod kursu jest wymagany",
+  "validation.course.code.less": "Kod kursu nie może mieć mniej niż 2 znaki",
+  "validation.course.code.more": "Kod kursu nie może mieć więcej niż 5 znaków",
+
+  "validation.course.descr.no": "Opis kursu jest wymagany",
+  "validation.course.descr.less": "Opis kursu nie może mieć mniej niż 2 znaki",
+  "validation.course.descr.more": "Opis kursu nie może mieć więcej niż 100 znaków",
+
+  "validation.course.credit.no": "Punkty ECTS są wymagane",
+  "validation.course.credit.valid": "Punkty ECTS muszą być liczbą większą niż 0",
+
+
   "label.login.header": "Platforma Uniwersytecka",
   "label.login.login": "Zaloguj się",
   "label.login.email": "Email",

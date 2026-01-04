@@ -53,7 +53,7 @@ function EnrollmentsCreate() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const validationErrors = validateEnrollment(enrollment);
+        const validationErrors = validateEnrollment(enrollment, t);
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length > 0) {

@@ -1,17 +1,17 @@
-export const validateEnrollment = (enrollment) => {
+export const validateEnrollment = (enrollment, t) => {
     const errors = {};
 
-    if (!enrollment.studentEmail) errors.studentEmail = "Student is required";
+    if (!enrollment.studentEmail) errors.studentEmail = t("validation.enrollment.student");
 
-    if (!enrollment.courseCode) errors.courseCode = "Course is required";
+    if (!enrollment.courseCode) errors.courseCode = t("validation.enrollment.course")
 
     if (!enrollment.enrollmentDate) {
-        errors.enrollmentDate = "Enrollment date is required";
+        errors.enrollmentDate = t("validation.enrollment.date.no")
     } else {
         const selectedDate = new Date(enrollment.enrollmentDate);
         const today = new Date();
         if (selectedDate < today) {
-            errors.enrollmentDate = "Enrollment date cannot be in the past";
+            errors.enrollmentDate = t("validation.enrollment.date.past")
         }
     }
 

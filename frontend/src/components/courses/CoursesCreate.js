@@ -30,7 +30,7 @@ function CoursesCreate() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const validationErrors = validateCourse(course);
+        const validationErrors = validateCourse(course, t);
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length > 0) {

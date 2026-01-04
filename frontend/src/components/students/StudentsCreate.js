@@ -30,7 +30,7 @@ function StudentsCreate() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const validationErrors = validateStudent(student);
+        const validationErrors = validateStudent(student, t);
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length > 0) {
