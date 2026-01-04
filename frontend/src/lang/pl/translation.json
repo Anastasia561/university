@@ -68,6 +68,8 @@
   "label.enrollment.back": "Powrót do listy zapisów",
 
 
+  "label.student.loading": "Ładowanie studentów...",
+  "label.student.data": "Dane studentów",
   "label.student.email.student": "Email studenta",
   "label.student.no": "Brak dostępnych studentów",
   "label.student.select": "Wybierz studenta",
@@ -75,6 +77,16 @@
   "label.student.fname": "Imię",
   "label.student.lname": "Nazwisko",
   "label.student.email": "Email",
+  "label.student.create": "Dodaj studenta",
+  "label.student.bdate": "Data urodzenia",
+  "label.student.delete.confirm": "Czy na pewno chcesz usunąć tego studenta?",
+  "label.student.details": "Szczegóły studenta",
+  "label.student.back": "Powrót do listy",
+  "label.student.register": "Zarejestruj się jako student",
+  "label.student.password": "Hasło",
+  "label.student.password.placeholder": "Wprowadź hasło",
+  "label.student.rpass": "Powtórz hasło",
+  "label.student.update": "Edytuj studenta",
 
 
   "label.home.admin.wellcome": "Witamy w panelu administracyjnym uczelni",

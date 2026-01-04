@@ -68,6 +68,8 @@
   "label.enrollment.back": "Back to Enrollments List",
 
 
+  "label.student.loading": "Loading students...",
+  "label.student.data": "Students Data",
   "label.student.email.student": "Student Email",
   "label.student.no": "No students available",
   "label.student.select": "Select student",
@@ -75,6 +77,16 @@
   "label.student.fname": "First Name",
   "label.student.lname": "Last Name",
   "label.student.email": "Email",
+  "label.student.create": "Add Student",
+  "label.student.bdate": "Birth Date",
+  "label.student.delete.confirm" : "Are you sure you want to delete this student?",
+  "label.student.details": "Student Details",
+  "label.student.back": "Back to Students List",
+  "label.student.register": "Register as Student",
+  "label.student.password": "Password",
+  "label.student.password.placeholder": "Enter password",
+  "label.student.rpass": "Repeat password",
+  "label.student.update": "Update Student",
 
 
   "label.home.admin.wellcome": "Welcome to University Admin Panel",

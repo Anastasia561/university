@@ -3,11 +3,13 @@ import {useNavigate, useParams} from 'react-router-dom';
 import '../../styles/ConfirmStyles.css';
 import AuthContext from "../../context/AuthProvider";
 import {authFetch} from "../auth/AuthFetch";
+import {useTranslation} from "react-i18next";
 
 function StudentsDelete() {
     const {id} = useParams();
     const navigate = useNavigate();
     const {auth, setAuth} = useContext(AuthContext);
+    const { t } = useTranslation();
 
     const [student, setStudent] = useState(null);
     const [serverMessage, setServerMessage] = useState('');
@@ -62,27 +64,29 @@ function StudentsDelete() {
         fetchStudent();
     }, [id, auth?.accessToken]);
 
-    if (loading) return <p>Loading student data...</p>;
+    if (loading) return <p>{t("label.student.loading")}</p>;
 
     return (
         <div className="confirm-box">
-            <h2>Confirm Deletion</h2>
+            <h2>{t("label.general.confirm")}</h2>
 
             {serverMessage ? (
                 <div className="error general-error">{serverMessage}</div>
             ) : (
                 <>
-                    <p>Are you sure you want to delete this student?</p>
+                    <p>{t("label.student.delete.confirm")}</p>
                     <ul>
-                        <li><strong>First Name: </strong>{student.firstName}</li>
-                        <li><strong>Last Name: </strong>{student.lastName}</li>
-                        <li><strong>Email: </strong>{student.email}</li>
-                        <li><strong>Birth Date: </strong>{student.birthdate}</li>
+                        <li><strong>{t("label.student.fname")}: </strong>{student.firstName}</li>
+                        <li><strong>{t("label.student.lname")}: </strong>{student.lastName}</li>
+                        <li><strong>{t("label.student.email")}: </strong>{student.email}</li>
+                        <li><strong>{t("label.student.bdate")}: </strong>{student.birthdate}</li>
                     </ul>
 
                     <div>
-                        <button onClick={handleDelete} className="btn btn-delete">Delete</button>
-                        <button onClick={() => navigate('/students')} className="btn btn-cancel">Cancel</button>
+                        <button onClick={handleDelete} className="btn btn-delete">
+                            {t("label.general.delete")}</button>
+                        <button onClick={() => navigate('/students')}
+                                className="btn btn-cancel">{t("label.general.cancel")}</button>
                     </div>
                 </>
             )}

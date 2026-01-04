@@ -4,10 +4,12 @@ import {validateStudent} from '../../validation/StudentValidation';
 import {useNavigate, Link} from 'react-router-dom';
 import AuthContext from "../../context/AuthProvider";
 import {authFetch} from "../auth/AuthFetch";
+import {useTranslation} from "react-i18next";
 
 function StudentsCreate() {
     const navigate = useNavigate();
     const {auth, setAuth} = useContext(AuthContext);
+    const { t } = useTranslation();
 
     const [serverMessage, setServerMessage] = useState('');
     const [errors, setErrors] = useState({});
@@ -32,7 +34,7 @@ function StudentsCreate() {
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length > 0) {
-            setServerMessage("Validation error");
+            setServerMessage(t("error.validation"));
             return;
         }
 
@@ -66,29 +68,29 @@ function StudentsCreate() {
 
     return (
         <div className="container">
-            <h1>Add Student</h1>
+            <h1>{t("label.student.create")}</h1>
 
             {serverMessage && <div className="error general-error">{serverMessage}</div>}
 
             <form onSubmit={handleSubmit} noValidate>
-                <label htmlFor="firstName">First Name: </label>
+                <label htmlFor="firstName">{t("label.student.fname")}: </label>
                 <input id="firstName" name="firstName" type="text" onChange={handleChange} required/>
                 {errors.firstName && <span className="error">{errors.firstName}</span>}
 
-                <label htmlFor="lastName">Last Name: </label>
+                <label htmlFor="lastName">{t("label.student.lname")}: </label>
                 <input id="lastName" name="lastName" type="text" onChange={handleChange} required/>
                 {errors.lastName && <span className="error">{errors.lastName}</span>}
 
-                <label htmlFor="email">Email: </label>
+                <label htmlFor="email">{t("label.student.email")}: </label>
                 <input id="email" name="email" type="email" onChange={handleChange} required/>
                 {errors.email && <span className="error">{errors.email}</span>}
 
-                <label htmlFor="birthdate">Birth Date:</label>
+                <label htmlFor="birthdate">{t("label.student.bdate")}:</label>
                 <input id="birthdate" name="birthdate" type="date" onChange={handleChange} required/>
                 {errors.birthdate && <span className="error">{errors.birthdate}</span>}
 
-                <button className="btn btn-submit" type="submit">Create</button>
-                <Link className="btn btn-cancel" to="/students">Cancel</Link>
+                <button className="btn btn-submit" type="submit">{t("label.general.create")}</button>
+                <Link className="btn btn-cancel" to="/students">{t("label.general.cancel")}</Link>
             </form>
         </div>
     );

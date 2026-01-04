@@ -4,11 +4,13 @@ import {validateStudent} from '../../validation/StudentValidation';
 import {Link, useParams, useNavigate} from 'react-router-dom';
 import AuthContext from "../../context/AuthProvider";
 import {authFetch} from "../auth/AuthFetch";
+import {useTranslation} from "react-i18next";
 
 function StudentsUpdate() {
     const {id} = useParams();
     const navigate = useNavigate();
     const {auth, setAuth} = useContext(AuthContext);
+    const { t } = useTranslation();
 
     const [student, setStudent] = useState(null);
     const [errors, setErrors] = useState({});
@@ -48,7 +50,7 @@ function StudentsUpdate() {
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length > 0) {
-            setServerMessage("Validation error");
+            setServerMessage(t("error.validation"));
             return;
         }
 
@@ -79,36 +81,36 @@ function StudentsUpdate() {
         }
     };
 
-    if (loading) return <p>Loading student data...</p>;
+    if (loading) return <p>{t("label.student.loading")}</p>;
 
     return (
         <div className="container">
-            <h1>Update Student</h1>
+            <h1>{t("label.student.update")}</h1>
             {serverMessage && <div className="error general-error">{serverMessage}</div>}
 
             <form onSubmit={handleSubmit} noValidate>
-                <label htmlFor="firstName">First Name:</label>
+                <label htmlFor="firstName">{t("label.student.fname")}:</label>
                 <input id="firstName" name="firstName" type="text"
                        value={student.firstName || ''} onChange={handleChange}/>
                 {errors.firstName && <span className="error">{errors.firstName}</span>}
 
-                <label htmlFor="lastName">Last Name:</label>
+                <label htmlFor="lastName">{t("label.student.lname")}:</label>
                 <input id="lastName" name="lastName" type="text"
                        value={student.lastName || ''} onChange={handleChange}/>
                 {errors.lastName && <span className="error">{errors.lastName}</span>}
 
-                <label htmlFor="email">Email:</label>
+                <label htmlFor="email">{t("label.student.email")}:</label>
                 <input id="email" name="email" type="email"
                        value={student.email || ''} onChange={handleChange}/>
                 {errors.email && <span className="error">{errors.email}</span>}
 
-                <label htmlFor="birthdate">Birth Date:</label>
+                <label htmlFor="birthdate">{t("label.student.bdate")}:</label>
                 <input id="birthdate" name="birthdate" type="date"
                        value={student.birthdate || ''} onChange={handleChange}/>
                 {errors.birthdate && <span className="error">{errors.birthdate}</span>}
 
-                <button className="btn btn-submit" type="submit">Update</button>
-                <Link className="btn btn-cancel" to="/students">Cancel</Link>
+                <button className="btn btn-submit" type="submit">{t("label.general.update")}</button>
+                <Link className="btn btn-cancel" to="/students">{t("label.general.cancel")}</Link>
             </form>
         </div>
     );

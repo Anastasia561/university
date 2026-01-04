@@ -3,6 +3,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Link, useParams, useNavigate} from 'react-router-dom';
 import AuthContext from "../../context/AuthProvider";
 import {authFetch} from "../auth/AuthFetch";
+import {useTranslation} from "react-i18next";
 
 function StudentsDetails() {
     const {id} = useParams();
@@ -11,6 +12,7 @@ function StudentsDetails() {
     const [serverMessage, setServerMessage] = useState('');
     const [student, setStudent] = useState(null);
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     useEffect(() => {
             const fetchStudent = async () => {
@@ -42,36 +44,36 @@ function StudentsDetails() {
     }
 
     if (!student) {
-        return <p>Loading student details...</p>;
+        return <p>{t("label.student.loading")}</p>;
     }
 
     return (
         <div className="container">
-            <h1 className="header">Student Details</h1>
+            <h1 className="header">{t("label.student.details")}</h1>
 
             {serverMessage && <div className="error general-error">{serverMessage}</div>}
 
             <ul className="details-list">
-                <li><strong>First Name:</strong> {student.firstName}</li>
-                <li><strong>Last Name:</strong> {student.lastName}</li>
-                <li><strong>Email:</strong> {student.email}</li>
-                <li><strong>Birth Date:</strong> {student.birthdate}</li>
+                <li><strong>{t("label.student.fname")}:</strong> {student.firstName}</li>
+                <li><strong>{t("label.student.lname")}:</strong> {student.lastName}</li>
+                <li><strong>{t("label.student.email")}:</strong> {student.email}</li>
+                <li><strong>{t("label.student.bdate")}:</strong> {student.birthdate}</li>
             </ul>
 
-            <h2 className="header">Enrollments</h2>
+            <h2 className="header">{t("label.nav.enrollments")}</h2>
 
             <table>
                 <thead>
                 <tr>
-                    <th>Course Code</th>
-                    <th>Due Date</th>
-                    <th>Final Grade</th>
+                    <th>{t("label.course.table.code")}</th>
+                    <th>{t("label.enrollment.date")}</th>
+                    <th>{t("label.enrollment.grade")}</th>
                 </tr>
                 </thead>
                 <tbody>
                 {student.enrollments.length === 0 ? (
                     <tr>
-                        <td colSpan="3">No enrollments</td>
+                        <td colSpan="3">{t("label.enrollment.no")}</td>
                     </tr>
                 ) : (
                     Array.isArray(student.enrollments) && student.enrollments.map((e, index) => (
@@ -85,7 +87,7 @@ function StudentsDetails() {
                 </tbody>
             </table>
 
-            <Link className="btn btn-back" to="/students">Back to Students List</Link>
+            <Link className="btn btn-back" to="/students">{t("label.student.back")}</Link>
         </div>
     );
 }

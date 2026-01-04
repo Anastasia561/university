@@ -4,12 +4,14 @@ import AuthContext from "../../context/AuthProvider";
 import {validateStudent} from "../../validation/StudentValidation";
 import {authFetch} from "../auth/AuthFetch";
 import {FaEye, FaEyeSlash} from "react-icons/fa";
+import {useTranslation} from "react-i18next";
 
 function StudentsCreate() {
     const navigate = useNavigate();
     const {auth, setAuth} = useContext(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
     const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+    const { t } = useTranslation();
 
     const [serverMessage, setServerMessage] = useState('');
     const [errors, setErrors] = useState({});
@@ -36,7 +38,7 @@ function StudentsCreate() {
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length > 0) {
-            setServerMessage("Validation error");
+            setServerMessage(t("error.validation"));
             return;
         }
 
@@ -70,24 +72,24 @@ function StudentsCreate() {
 
     return (
         <div className="container">
-            <h1>Register as Student</h1>
+            <h1>{t("label.student.register")}</h1>
 
             {serverMessage && <div className="error general-error">{serverMessage}</div>}
 
             <form onSubmit={handleSubmit} noValidate>
-                <label htmlFor="firstName">First Name: </label>
+                <label htmlFor="firstName">{t("label.student.fname")}: </label>
                 <input id="firstName" name="firstName" type="text" onChange={handleChange} required/>
                 {errors.firstName && <span className="error">{errors.firstName}</span>}
 
-                <label htmlFor="lastName">Last Name: </label>
+                <label htmlFor="lastName">{t("label.student.lname")}: </label>
                 <input id="lastName" name="lastName" type="text" onChange={handleChange} required/>
                 {errors.lastName && <span className="error">{errors.lastName}</span>}
 
-                <label htmlFor="email">Email: </label>
+                <label htmlFor="email">{t("label.student.email")}: </label>
                 <input id="email" name="email" type="email" onChange={handleChange} required/>
                 {errors.email && <span className="error">{errors.email}</span>}
 
-                <label>Password: </label>
+                <label>{t("label.student.password")}: </label>
                 <div>
                     <div style={{position: "relative", width: "100%"}}>
                         <input
@@ -95,7 +97,7 @@ function StudentsCreate() {
                             name="password"
                             value={student.password || ""}
                             onChange={handleChange}
-                            placeholder="Enter password"
+                            placeholder={t("label.student.password.placeholder")}
                         />
                         <span onClick={() => setShowPassword(prev => !prev)} className="passwordIcon">
                     {showPassword ? <FaEyeSlash/> : <FaEye/>}
@@ -104,7 +106,7 @@ function StudentsCreate() {
                     {errors.password && <span className="error">{errors.password}</span>}
                 </div>
 
-                <label>Repeat password: </label>
+                <label>{t("label.student.rpass")}: </label>
                 <div>
                     <div style={{position: "relative", width: "100%"}}>
                         <input
@@ -112,7 +114,7 @@ function StudentsCreate() {
                             name="repeatPassword"
                             value={student.repeatPassword || ""}
                             onChange={handleChange}
-                            placeholder="Repeat password"
+                            placeholder={t("label.student.rpass")}
                         />
                         <span onClick={() => setShowRepeatPassword(prev => !prev)} className="passwordIcon">
                     {showRepeatPassword ? <FaEyeSlash/> : <FaEye/>}
@@ -121,12 +123,12 @@ function StudentsCreate() {
                     {errors.repeatPassword && <span className="error">{errors.repeatPassword}</span>}
                 </div>
 
-                <label htmlFor="birthdate">Birth Date:</label>
+                <label htmlFor="birthdate">{t("label.student.bdate")}:</label>
                 <input id="birthdate" name="birthdate" type="date" onChange={handleChange} required/>
                 {errors.birthdate && <span className="error">{errors.birthdate}</span>}
 
-                <button className="btn btn-submit" type="submit">Create</button>
-                <Link className="btn btn-cancel" to="/students">Cancel</Link>
+                <button className="btn btn-submit" type="submit">{t("label.general.create")}</button>
+                <Link className="btn btn-cancel" to="/students">{t("label.general.cancel")}</Link>
             </form>
         </div>
     );
