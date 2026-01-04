@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDto> handleGenericException(Exception ex) {
-        ErrorResponseDto error = new ErrorResponseDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
+        ErrorResponseDto error = new ErrorResponseDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), "auth.server.error");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
@@ -56,8 +56,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponseDto> handleBadCredentials(BadCredentialsException ex) {
-        ErrorResponseDto error = new ErrorResponseDto(HttpStatus.UNAUTHORIZED.value(),
-                "Invalid email or password");
+        ErrorResponseDto error = new ErrorResponseDto(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
@@ -69,7 +68,7 @@ public class GlobalExceptionHandler {
                 errors.put(error.getField(), error.getDefaultMessage())
         );
         ValidationErrorResponseDto dto = new ValidationErrorResponseDto(HttpStatus.BAD_REQUEST.value(),
-                "Validation error", errors);
+                "error.validation", errors);
         return ResponseEntity.badRequest().body(dto);
     }
 }

@@ -3,8 +3,8 @@ import {jwtDecode} from "jwt-decode";
 import '../../styles/FormStyles.css';
 import AuthContext from "../../context/AuthProvider";
 import {useNavigate, Link} from "react-router-dom";
-import PasswordInput from "../PasswordInput";
 import {FaEye, FaEyeSlash} from "react-icons/fa";
+import {useTranslation} from "react-i18next";
 
 const Login = () => {
     const {setAuth} = useContext(AuthContext);
@@ -13,6 +13,7 @@ const Login = () => {
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,7 +29,7 @@ const Login = () => {
 
             const data = await response.json();
             if (!response.ok) {
-                setError(data.message);
+                setError(t(data.message));
                 return;
             }
 
@@ -44,7 +45,7 @@ const Login = () => {
     };
 
     return (
-        <React.Fragment>
+        <>
             <div className="header">
                 <h1>University Platform</h1>
             </div>
@@ -86,7 +87,7 @@ const Login = () => {
                     Don't have an account? <Link to="/students/register">Register</Link>
                 </p>
             </div>
-        </React.Fragment>
+        </>
     );
 };
 

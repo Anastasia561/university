@@ -4,10 +4,12 @@ import {validateCourse} from '../../validation/CourseValidation';
 import {useNavigate, Link} from 'react-router-dom';
 import AuthContext from "../../context/AuthProvider";
 import {authFetch} from "../auth/AuthFetch";
+import {useTranslation} from "react-i18next";
 
 function CoursesCreate() {
     const navigate = useNavigate();
     const {auth, setAuth} = useContext(AuthContext);
+    const {t} = useTranslation();
 
     const [serverMessage, setServerMessage] = useState('');
     const [errors, setErrors] = useState({});
@@ -32,7 +34,7 @@ function CoursesCreate() {
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length > 0) {
-            setServerMessage("Validation error");
+            setServerMessage(t("error.validation"));
             return;
         }
 
@@ -57,7 +59,7 @@ function CoursesCreate() {
                         setErrors(data.fieldErrors);
                     }
                     if (data.message) {
-                        setServerMessage(data.message);
+                        setServerMessage(t(data.message));
                     }
                 } else {
                     navigate('/courses');

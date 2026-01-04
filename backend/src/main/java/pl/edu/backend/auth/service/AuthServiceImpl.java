@@ -46,7 +46,7 @@ public class AuthServiceImpl implements AuthService {
 
             return new TokenResponseDto(accessToken, refreshToken);
         } catch (BadCredentialsException ex) {
-            throw new BadCredentialsException("Invalid email or password");
+            throw new BadCredentialsException("error.login.invalid");
         }
     }
 
