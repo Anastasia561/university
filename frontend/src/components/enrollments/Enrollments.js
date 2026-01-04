@@ -3,6 +3,7 @@ import '../../styles/TableStyles.css';
 import {Link, useNavigate} from 'react-router-dom';
 import AuthContext from "../../context/AuthProvider";
 import {authFetch} from "../auth/AuthFetch";
+import {useTranslation} from "react-i18next";
 
 function Enrollments() {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ function Enrollments() {
     const [pageSize] = useState(5);
 
     const {auth, setAuth} = useContext(AuthContext);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const fetchEnrollments = async () => {
@@ -41,21 +43,22 @@ function Enrollments() {
     }, [auth?.accessToken, currentPage]);
 
     if (loading) {
-        return <p>Loading enrollments...</p>;
+        return <p>{t("label.enrollment.loading")}</p>;
     }
 
     if (!Array.isArray(enrollments) || enrollments.length === 0) {
-        return <h1>No enrollments available</h1>;
+        return <h1>{t("label.enrollment.no")}</h1>;
     }
 
     return (
         <>
-            <h1>Enrollments Data</h1>
+            <h1>{t("label.enrollment.data")}</h1>
 
             <div className="table-container">
                 {auth.accessToken && auth.role === "ROLE_ADMIN" && (
                     <div className="toolbar">
-                        <Link className="link create-link" to="/enrollments/create">Add Enrollment</Link>
+                        <Link className="link create-link" to="/enrollments/create">
+                            {t("label.enrollment.create")}</Link>
                     </div>
                 )}
 
@@ -63,10 +66,10 @@ function Enrollments() {
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Course code</th>
-                        <th>Student email</th>
-                        <th>Due Date</th>
-                        <th>Final grade</th>
+                        <th>{t("label.course.table.code")}</th>
+                        <th>{t("label.student.email.student")}</th>
+                        <th>{t("label.enrollment.date")}</th>
+                        <th>{t("label.enrollment.grade")}</th>
                         {auth.accessToken && auth.role === "ROLE_ADMIN" && (
                             <th colSpan="4"></th>
                         )}
@@ -87,15 +90,17 @@ function Enrollments() {
                                 <>
                                     <td>
                                         <Link className="link delete-link"
-                                              to={`/enrollments/${enrollment.id}/delete`}>Delete</Link>
+                                              to={`/enrollments/${enrollment.id}/delete`}>
+                                            {t("label.general.delete")}</Link>
                                     </td>
                                     <td>
                                         <Link className="link update-link"
-                                              to={`/enrollments/${enrollment.id}/edit`}>Update</Link>
+                                              to={`/enrollments/${enrollment.id}/edit`}>
+                                            {t("label.general.update")}</Link>
                                     </td>
                                     <td>
-                                        <Link className="link view-link" to={`/enrollments/${enrollment.id}`}>Details
-                                        </Link>
+                                        <Link className="link view-link" to={`/enrollments/${enrollment.id}`}>
+                                            {t("label.general.details")}</Link>
                                     </td>
                                 </>
 
@@ -109,14 +114,16 @@ function Enrollments() {
             <div className="pagination">
                 <button
                     disabled={currentPage === 0 || loading}
-                    onClick={() => setCurrentPage(prev => prev - 1)}>Previous
+                    onClick={() => setCurrentPage(prev => prev - 1)}>
+                    {t("label.general.page.prev")}
                 </button>
 
-                <span>Page {currentPage + 1} of {totalPages}</span>
+                <span>{t("label.general.page.page")} {currentPage + 1} {t("label.general.page.of")} {totalPages}</span>
 
                 <button
                     disabled={currentPage + 1 >= totalPages || loading}
-                    onClick={() => setCurrentPage(prev => prev + 1)}>Next
+                    onClick={() => setCurrentPage(prev => prev + 1)}>
+                    {t("label.general.page.next")}
                 </button>
             </div>
         </>

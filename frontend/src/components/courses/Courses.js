@@ -118,8 +118,7 @@ function Courses() {
                     {t("label.general.page.prev")}
                 </button>
 
-                <span>{t("label.general.page.page")} {currentPage + 1}
-                    {t("label.general.page.of")} {totalPages}</span>
+                <span>{t("label.general.page.page")} {currentPage + 1} {t("label.general.page.of")} {totalPages}</span>
 
                 <button
                     disabled={currentPage + 1 >= totalPages || loading}

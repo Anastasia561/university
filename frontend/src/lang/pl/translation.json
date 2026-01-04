@@ -40,8 +40,8 @@
   "label.course.data": "Dane kursów",
   "label.course.create": "Dodaj kurs",
   "label.course.update": "Edytuj kurs",
-  "label.course.table.name": "Nazwa",
-  "label.course.table.code": "Kod",
+  "label.course.table.name": "Nazwa kursu",
+  "label.course.table.code": "Kod kursu",
   "label.course.table.credit": "Punkty ECTS",
   "label.course.description": "Opis",
   "label.course.create.header": "Dodaj kurs",
@@ -50,14 +50,31 @@
   "label.course.info": "Informacje o kursie",
   "label.course.students": "Zapisani studenci",
   "label.course.back": "Powrót do listy kursów",
+  "label.course.select": "Wybierz kurs",
+
+
+  "label.enrollment.no": "Brak dostępnych zapisów",
+  "label.enrollment.loading": "Ładowanie zapisów...",
+  "label.enrollment.data": "Dane zapisów",
+  "label.enrollment.update": "Edytuj zapis",
+  "label.enrollment.create": "Dodaj zapis",
+  "label.enrollment.date": "Termin zaliczenia",
+  "label.enrollment.grade": "Ocena końcowa",
+  "label.enrollment.full.date": "Termin zaliczenia",
+  "label.enrollment.grade.select": "Wybierz ocenę",
+  "label.enrollment.delete.confirm": "Czy na pewno chcesz usunąć ten zapis?",
+  "label.enrollment.details": "Szczegóły zapisu",
+  "label.enrollment.info": "Informacje o zapisie",
+  "label.enrollment.back": "Powrót do listy zapisów",
 
 
   "label.student.email.student": "Email studenta",
   "label.student.no": "Brak dostępnych studentów",
-
-
-  "label.enrollment.date": "Termin zaliczenia",
-  "label.enrollment.grade": "Ocena końcowa",
+  "label.student.select": "Wybierz studenta",
+  "label.student.info": "Informacje o studencie",
+  "label.student.fname": "Imię",
+  "label.student.lname": "Nazwisko",
+  "label.student.email": "Email",
 
 
   "label.home.admin.wellcome": "Witamy w panelu administracyjnym uczelni",

@@ -40,8 +40,8 @@
   "label.course.data": "Courses Data",
   "label.course.create": "Add Course",
   "label.course.update": "Update Course",
-  "label.course.table.name": "Name",
-  "label.course.table.code": "Code",
+  "label.course.table.name": "Course Name",
+  "label.course.table.code": "Course Code",
   "label.course.table.credit": "Credit",
   "label.course.description": "Description",
   "label.course.create.header": "Add course",
@@ -50,14 +50,31 @@
   "label.course.info": "Course Information",
   "label.course.students": "Enrolled Students",
   "label.course.back": "Back to Courses List",
+  "label.course.select": "Select course",
+
+
+  "label.enrollment.no": "No enrollments available",
+  "label.enrollment.loading": "Loading enrollments...",
+  "label.enrollment.data": "Enrollments Data",
+  "label.enrollment.update": "Update Enrollment",
+  "label.enrollment.create": "Add Enrollment",
+  "label.enrollment.date": "Due Date",
+  "label.enrollment.grade": "Final Grade",
+  "label.enrollment.full.date": "Enrollment Due Date",
+  "label.enrollment.grade.select": "Select grade",
+  "label.enrollment.delete.confirm" : "Are you sure you want to delete this enrollment?",
+  "label.enrollment.details": "Enrollment Details",
+  "label.enrollment.info": "Enrollment Information",
+  "label.enrollment.back": "Back to Enrollments List",
 
 
   "label.student.email.student": "Student Email",
   "label.student.no": "No students available",
-
-
-  "label.enrollment.date": "Due Date",
-  "label.enrollment.grade": "Final Grade",
+  "label.student.select": "Select student",
+  "label.student.info": "Student Information",
+  "label.student.fname": "First Name",
+  "label.student.lname": "Last Name",
+  "label.student.email": "Email",
 
 
   "label.home.admin.wellcome": "Welcome to University Admin Panel",

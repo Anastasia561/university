@@ -3,6 +3,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Link, useParams, useNavigate} from 'react-router-dom';
 import AuthContext from "../../context/AuthProvider";
 import {authFetch} from "../auth/AuthFetch";
+import {useTranslation} from "react-i18next";
 
 function EnrollmentsDetails() {
     const {id} = useParams();
@@ -11,6 +12,7 @@ function EnrollmentsDetails() {
     const [serverMessage, setServerMessage] = useState('');
     const [enrollment, setEnrollment] = useState(null);
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     useEffect(() => {
         const fetchEnrollment = async () => {
@@ -42,40 +44,40 @@ function EnrollmentsDetails() {
     }
 
     if (!enrollment) {
-        return <p>Loading enrollment details...</p>;
+        return <p>{t("label.enrollment.loading")}</p>;
     }
 
     return (
         <div className="container">
-            <h1>Enrollment Details</h1>
+            <h1>{t("label.enrollment.details")}</h1>
 
             <div className="info-container">
                 <div className="info-box">
-                    <h2 className="header">Student Information</h2>
+                    <h2 className="header">{t("label.student.info")}</h2>
                     <ul className="details-list">
-                        <li><strong>First Name:</strong> {enrollment.student.firstName}</li>
-                        <li><strong>Last Name:</strong> {enrollment.student.lastName}</li>
-                        <li><strong>Email:</strong> {enrollment.student.email}</li>
+                        <li><strong>{t("label.student.fname")}:</strong> {enrollment.student.firstName}</li>
+                        <li><strong>{t("label.student.lname")}:</strong> {enrollment.student.lastName}</li>
+                        <li><strong>{t("label.student.email")}:</strong> {enrollment.student.email}</li>
                     </ul>
                 </div>
 
                 <div className="info-box">
-                    <h2 className="header">Course Information</h2>
+                    <h2 className="header">{t("label.course.info")}</h2>
                     <ul className="details-list">
-                        <li><strong>Course Code:</strong> {enrollment.course.code}</li>
-                        <li><strong>Course Name:</strong> {enrollment.course.name}</li>
-                        <li><strong>Credits:</strong> {enrollment.course.credit}</li>
-                        <li><strong>Description:</strong> {enrollment.course.description}</li>
+                        <li><strong>{t("label.course.table.code")}:</strong> {enrollment.course.code}</li>
+                        <li><strong>{t("label.course.table.name")}:</strong> {enrollment.course.name}</li>
+                        <li><strong>{t("label.course.table.credit")}:</strong> {enrollment.course.credit}</li>
+                        <li><strong>{t("label.course.description")}:</strong> {enrollment.course.description}</li>
                     </ul>
                 </div>
             </div>
 
-            <h2 className="header">Enrollment Information</h2>
+            <h2 className="header">{t("label.enrollment.info")}</h2>
             <table>
                 <thead>
                 <tr>
-                    <th>Enrollment Due Date</th>
-                    <th>Final Grade</th>
+                    <th>{t("label.enrollment.full.date")}</th>
+                    <th>{t("label.enrollment.grade")}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -86,7 +88,7 @@ function EnrollmentsDetails() {
                 </tbody>
             </table>
 
-            <Link className="btn btn-back" to="/enrollments">Back to Enrollments List</Link>
+            <Link className="btn btn-back" to="/enrollments">{t("label.enrollment.back")}</Link>
         </div>
     );
 }

@@ -4,11 +4,13 @@ import {useNavigate, useParams, Link} from 'react-router-dom';
 import {validateEnrollment} from "../../validation/EnrollmentValidation";
 import AuthContext from "../../context/AuthProvider";
 import {authFetch} from "../auth/AuthFetch";
+import {useTranslation} from "react-i18next";
 
 function EnrollmentsUpdate() {
     const {id} = useParams();
     const navigate = useNavigate();
     const {auth, setAuth} = useContext(AuthContext);
+    const { t } = useTranslation();
 
     const [serverMessage, setServerMessage] = useState('');
     const [errors, setErrors] = useState({});
@@ -69,7 +71,7 @@ function EnrollmentsUpdate() {
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length > 0) {
-            setServerMessage("Validation error");
+            setServerMessage(t("error.validation"));
             return;
         }
 
@@ -100,41 +102,41 @@ function EnrollmentsUpdate() {
         }
     };
 
-    if (loading) return <p>Loading enrollment data...</p>;
+    if (loading) return <p>{t("label.enrollment.loading")}</p>;
 
     return (
         <div className="container">
-            <h1>Update Enrollment</h1>
+            <h1>{t("label.enrollment.update")}</h1>
 
             {serverMessage && <div className="error general-error">{serverMessage}</div>}
 
             <form onSubmit={handleSubmit} noValidate>
-                <label htmlFor="studentEmail">Student Email:</label>
+                <label htmlFor="studentEmail">{t("label.student.email.student")}:</label>
                 <select id="studentEmail" name="studentEmail" value={enrollment.studentEmail}
                         onChange={handleChange} required>
-                    <option value="">Select Student</option>
+                    <option value="">{t("label.student.select")}</option>
                     {Array.isArray(students) && students.map(s => (
                         <option key={s.id} value={s.email}>{s.email}</option>
                     ))}
                 </select>
                 {errors.studentEmail && <span className="error">{errors.studentEmail}</span>}
 
-                <label htmlFor="courseCode">Course Code:</label>
+                <label htmlFor="courseCode">{t("label.course.table.code")}:</label>
                 <select id="courseCode" name="courseCode" value={enrollment.courseCode}
                         onChange={handleChange} required>
-                    <option value="">Select Course</option>
+                    <option value="">{t("label.course.select")}</option>
                     {Array.isArray(courses) && courses.map(c => (
                         <option key={c.id} value={c.code}>{c.code}</option>
                     ))}
                 </select>
                 {errors.courseCode && <span className="error">{errors.courseCode}</span>}
 
-                <label htmlFor="enrollmentDate">Enrollment Date:</label>
+                <label htmlFor="enrollmentDate">{t("label.enrollment.date")}:</label>
                 <input type="date" id="enrollmentDate" name="enrollmentDate"
                        value={enrollment.enrollmentDate} onChange={handleChange} required/>
                 {errors.enrollmentDate && <span className="error">{errors.enrollmentDate}</span>}
 
-                <label htmlFor="finalGrade">Final Grade:</label>
+                <label htmlFor="finalGrade">{t("label.enrollment.grade")}:</label>
                 <select id="finalGrade" name="finalGrade" value={enrollment.finalGrade || ''}
                         onChange={handleChange}>
                     <option value="">Select Grade</option>
