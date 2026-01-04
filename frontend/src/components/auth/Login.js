@@ -47,22 +47,22 @@ const Login = () => {
     return (
         <>
             <div className="header">
-                <h1>University Platform</h1>
+                <h1>{t("label.login.header")}</h1>
             </div>
             <div className="container">
-                <h2 className="header">Login</h2>
+                <h2 className="header">{t("label.login.login")}</h2>
                 {error && <div className="error general-error">{error}</div>}
                 <form onSubmit={handleSubmit}>
-                    <label>Email</label>
+                    <label>{t("label.login.email")}</label>
                     <input
                         type="email"
-                        placeholder="Enter email"
+                        placeholder={t("label.login.email.placeholder")}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
                     />
 
-                    <label>Password: </label>
+                    <label>{t("label.login.password")}</label>
                     <div>
                         <div style={{position: "relative", width: "100%"}}>
                             <input
@@ -70,7 +70,7 @@ const Login = () => {
                                 name="password"
                                 value={password || ""}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Enter password"
+                                placeholder={t("label.login.password.placeholder")}
                             />
                             <span onClick={() => setShowPassword(prev => !prev)} className="passwordIcon">
                     {showPassword ? <FaEyeSlash/> : <FaEye/>}
@@ -79,12 +79,12 @@ const Login = () => {
                     </div>
 
                     <button className="btn btn-submit" type="submit">
-                        Login
+                        {t("label.login.login")}
                     </button>
                 </form>
 
                 <p>
-                    Don't have an account? <Link to="/students/register">Register</Link>
+                    {t("label.login.register.proposal")} <Link to="/students/register">{t("label.login.register")}</Link>
                 </p>
             </div>
         </>

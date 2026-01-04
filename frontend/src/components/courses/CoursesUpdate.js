@@ -4,11 +4,13 @@ import {validateCourse} from '../../validation/CourseValidation';
 import {Link, useParams, useNavigate} from 'react-router-dom';
 import AuthContext from "../../context/AuthProvider";
 import {authFetch} from "../auth/AuthFetch";
+import {useTranslation} from "react-i18next";
 
 function CoursesUpdate() {
     const {id} = useParams();
     const navigate = useNavigate();
     const {auth, setAuth} = useContext(AuthContext);
+    const {t} = useTranslation();
 
     const [course, setCourse] = useState(null);
     const [errors, setErrors] = useState({});
@@ -48,7 +50,7 @@ function CoursesUpdate() {
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length > 0) {
-            setServerMessage("Validation error");
+            setServerMessage(t("error.validation"));
             return;
         }
 
@@ -81,36 +83,36 @@ function CoursesUpdate() {
         }
     };
 
-    if (loading) return <p>Loading course data...</p>;
+    if (loading) return <p>{t("label.course.loading")}</p>;
 
     return (
         <div className="container">
-            <h1>Update Course</h1>
+            <h1>{t("label.course.update")}</h1>
             {serverMessage && <div className="error general-error">{serverMessage}</div>}
 
             <form onSubmit={handleSubmit} noValidate>
-                <label htmlFor="code">Course Code: </label>
+                <label htmlFor="code">{t("label.course.table.code")}: </label>
                 <input id="code" name="code" type="text"
                        value={course.code || ''} onChange={handleChange}/>
                 {errors.code && <span className="error">{errors.code}</span>}
 
-                <label htmlFor="name">Course Name: </label>
+                <label htmlFor="name">{t("label.course.table.name")}: </label>
                 <input id="name" name="name" type="text"
                        value={course.name || ''} onChange={handleChange}/>
                 {errors.name && <span className="error">{errors.name}</span>}
 
-                <label htmlFor="credit">Credit: </label>
+                <label htmlFor="credit">{t("label.course.table.credit")}: </label>
                 <input id="credit" name="credit" type="number"
                        value={course.credit || ''} onChange={handleChange}/>
                 {errors.credit && <span className="error">{errors.credit}</span>}
 
-                <label htmlFor="description">Description: </label>
+                <label htmlFor="description">{t("label.course.description")}: </label>
                 <input id="description" name="description" type="text"
                        value={course.description || ''} onChange={handleChange}/>
                 {errors.description && <span className="error">{errors.description}</span>}
 
-                <button className="btn btn-submit" type="submit">Update</button>
-                <Link className="btn btn-cancel" to="/courses">Cancel</Link>
+                <button className="btn btn-submit" type="submit">{t("label.general.update")}</button>
+                <Link className="btn btn-cancel" to="/courses">{t("label.general.cancel")}</Link>
             </form>
         </div>
     );

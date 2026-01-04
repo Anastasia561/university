@@ -1,29 +1,19 @@
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
+import enTranslation from '../lang/en/translation.json';
+import plTranslation from '../lang/pl/translation.json';
 
 const resources = {
-    en: {
-        translation: {
-            "error.login.invalid": "Invalid email or password",
-            "auth.server.error": "Server error",
-            "error.validation": "Validation error"
-        }
-    },
-    pl: {
-        translation: {
-            "error.login.invalid": "Nieprawidłowe dane logowania",
-            "auth.server.error": "Błąd serwera",
-            "error.validation": "Błąd walidacji"
-        }
-    }
+    en: { translation: enTranslation },
+    pl: { translation: plTranslation }
 };
 
 i18n
     .use(initReactI18next)
     .init({
         resources,
-        lng: navigator.language.startsWith('pl') ? 'pl' : 'pl',
-        fallbackLng: 'pl',
+        lng: navigator.language.startsWith('pl') ? 'pl' : 'en',
+        fallbackLng: 'en',
         interpolation: {
             escapeValue: false
         }

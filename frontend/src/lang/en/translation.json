@@ -1,0 +1,76 @@
+{
+  "error.login.invalid": "Invalid email or password",
+  "auth.server.error": "Server error",
+  "error.validation": "Validation error",
+
+
+  "label.login.header": "University Platform",
+  "label.login.login": "Login",
+  "label.login.email": "Email",
+  "label.login.email.placeholder": "Enter email",
+  "label.login.password": "Password",
+  "label.login.password.placeholder": "Enter password",
+  "label.login.register.proposal": "Don't have an account?",
+  "label.login.register": "Register",
+
+
+  "label.general.delete": "Delete",
+  "label.general.update": "Update",
+  "label.general.details": "Details",
+  "label.general.page.next": "Next",
+  "label.general.page.prev": "Previous",
+  "label.general.page.page": "Page",
+  "label.general.page.of": "of",
+  "label.general.create": "Create",
+  "label.general.cancel": "Cancel",
+  "label.general.confirm": "Confirm deletion",
+
+
+  "label.nav.header": "University",
+  "label.nav.courses": "Courses",
+  "label.nav.enrollments": "Enrollments",
+  "label.nav.students": "Students",
+  "label.nav.logout": "Logout",
+  "label.nav.student.courses": "My Courses",
+  "label.nav.student.enrollments": "My Enrollments",
+
+
+  "label.course.no": "No courses available",
+  "label.course.loading": "Loading courses...",
+  "label.course.data": "Courses Data",
+  "label.course.create": "Add Course",
+  "label.course.update": "Update Course",
+  "label.course.table.name": "Name",
+  "label.course.table.code": "Code",
+  "label.course.table.credit": "Credit",
+  "label.course.description": "Description",
+  "label.course.create.header": "Add course",
+  "label.course.delete.confirm" : "Are you sure you want to delete this course?",
+  "label.course.details": "Course details",
+  "label.course.info": "Course Information",
+  "label.course.students": "Enrolled Students",
+  "label.course.back": "Back to Courses List",
+
+
+  "label.student.email.student": "Student Email",
+  "label.student.no": "No students available",
+
+
+  "label.enrollment.date": "Due Date",
+  "label.enrollment.grade": "Final Grade",
+
+
+  "label.home.admin.wellcome": "Welcome to University Admin Panel",
+  "label.home.admin.descr": "Manage students, courses, and enrollments with ease",
+  "label.home.admin.part1": "This administrative system allows you to efficiently manage university operations",
+  "label.home.admin.part2": "You can browse and update student data, courses, enrollment details",
+  "label.home.admin.part3": "Use the navigation panel at the top to get started",
+
+  "label.home.guest.wellcome": "Welcome to University Panel",
+  "label.home.guest.descr": "Platform for course, student, enrollment management",
+  "label.home.guest.part2": "Please log in to get started",
+
+  "label.home.student.wellcome": "Welcome to University Student Panel",
+  "label.home.student.descr": "Manage your courses and enrollment with ease",
+  "label.home.student.part2": "You can browse courses and your enrollments"
+}

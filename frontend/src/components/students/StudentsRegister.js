@@ -70,7 +70,7 @@ function StudentsCreate() {
 
     return (
         <div className="container">
-            <h1>Add Student</h1>
+            <h1>Register as Student</h1>
 
             {serverMessage && <div className="error general-error">{serverMessage}</div>}
 

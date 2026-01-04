@@ -1,0 +1,76 @@
+{
+  "error.login.invalid": "Nieprawidłowe dane logowania",
+  "auth.server.error": "Błąd serwera",
+  "error.validation": "Błąd walidacji",
+
+
+  "label.login.header": "Platforma Uniwersytecka",
+  "label.login.login": "Zaloguj się",
+  "label.login.email": "Email",
+  "label.login.email.placeholder": "Wprowadź email",
+  "label.login.password": "Hasło",
+  "label.login.password.placeholder": "Wprowadź hasło",
+  "label.login.register.proposal": "Nie masz konta?",
+  "label.login.register": "Zarejestruj się",
+
+
+  "label.general.delete": "Usuń",
+  "label.general.update": "Edytuj",
+  "label.general.details": "Szczegóły",
+  "label.general.page.next": "Następna",
+  "label.general.page.prev": "Poprzednia",
+  "label.general.page.page": "Strona",
+  "label.general.page.of": "z",
+  "label.general.create": "Utwórz",
+  "label.general.cancel": "Anuluj",
+  "label.general.confirm": "Potwierdź usunięcie",
+
+
+  "label.nav.header": "Uniwersytet",
+  "label.nav.courses": "Kursy",
+  "label.nav.enrollments": "Zapisy",
+  "label.nav.students": "Studenci",
+  "label.nav.logout": "Wyloguj się",
+  "label.nav.student.courses": "Moje kursy",
+  "label.nav.student.enrollments": "Moje zapisy",
+
+
+  "label.course.no": "Brak dostępnych kursów",
+  "label.course.loading": "Ładowanie kursów...",
+  "label.course.data": "Dane kursów",
+  "label.course.create": "Dodaj kurs",
+  "label.course.update": "Edytuj kurs",
+  "label.course.table.name": "Nazwa",
+  "label.course.table.code": "Kod",
+  "label.course.table.credit": "Punkty ECTS",
+  "label.course.description": "Opis",
+  "label.course.create.header": "Dodaj kurs",
+  "label.course.delete.confirm": "Czy na pewno chcesz usunąć ten kurs?",
+  "label.course.details": "Szczegóły kursu",
+  "label.course.info": "Informacje o kursie",
+  "label.course.students": "Zapisani studenci",
+  "label.course.back": "Powrót do listy kursów",
+
+
+  "label.student.email.student": "Email studenta",
+  "label.student.no": "Brak dostępnych studentów",
+
+
+  "label.enrollment.date": "Termin zaliczenia",
+  "label.enrollment.grade": "Ocena końcowa",
+
+
+  "label.home.admin.wellcome": "Witamy w panelu administracyjnym uczelni",
+  "label.home.admin.descr": "Zarządzaj studentami, kursami i zapisami w prosty sposób",
+  "label.home.admin.part1": "Ten system administracyjny umożliwia efektywne zarządzanie funkcjonowaniem uczelni",
+  "label.home.admin.part2": "Możesz przeglądać i aktualizować dane studentów, kursy oraz szczegóły zapisów",
+  "label.home.admin.part3": "Skorzystaj z panelu nawigacyjnego u góry, aby rozpocząć",
+
+  "label.home.guest.wellcome": "Witamy w panelu uczelni",
+  "label.home.guest.descr": "Platforma do zarządzania kursami, studentami i zapisami",
+  "label.home.guest.part2": "Zaloguj się, aby rozpocząć",
+
+  "label.home.student.wellcome": "Witamy w panelu studenta",
+  "label.home.student.descr": "Zarządzaj swoimi kursami i zapisami w prosty sposób",
+  "label.home.student.part2": "Możesz przeglądać dostępne kursy oraz swoje zapisy"
+}

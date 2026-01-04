@@ -19,7 +19,7 @@ import pl.edu.backend.user.service.UserService;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImpl implements AuthService {
+class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
 
     private final JwtService jwtService;

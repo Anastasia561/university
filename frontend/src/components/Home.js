@@ -3,9 +3,11 @@ import '../styles/HomeStyles.css';
 
 import {useContext} from "react";
 import AuthContext from "../context/AuthProvider";
+import {useTranslation} from "react-i18next";
 
 function Home() {
     const {auth} = useContext(AuthContext);
+    const { t } = useTranslation();
 
     return (
         <>
@@ -13,20 +15,20 @@ function Home() {
                 <div className="img-text">
                     {auth?.role === "ROLE_ADMIN" && (
                         <>
-                            <h1>Welcome to University Admin Panel</h1>
-                            <p>Manage students, courses, and enrollments with ease</p>
+                            <h1>{t("label.home.admin.wellcome")}</h1>
+                            <p>{t("label.home.admin.descr")}</p>
                         </>
                     )}
                     {auth?.role === "ROLE_STUDENT" && (
                         <>
-                            <h1>Welcome to University Student Panel</h1>
-                            <p>Manage your courses and enrollment with ease</p>
+                            <h1>{t("label.home.student.wellcome")}</h1>
+                            <p>{t("label.home.student.descr")}</p>
                         </>
                     )}
                     {!auth?.role && (
                         <>
-                            <h1>Welcome to University Panel</h1>
-                            <p>Platform for course, student, enrollment management</p>
+                            <h1>{t("label.home.guest.wellcome")}</h1>
+                            <p>{t("label.home.guest.descr")}</p>
                         </>
                     )}
                 </div>
@@ -35,22 +37,22 @@ function Home() {
             <div className="container">
                 {auth?.role === "ROLE_ADMIN" && (
                     <>
-                        <p>This administrative system allows you to efficiently manage university operations></p>
-                        <p>You can browse and update student data, courses, enrollment details<br/>
-                            Use the navigation panel at the top to get started</p>
+                        <p>{t("label.home.admin.part1")}</p>
+                        <p>{t("label.home.admin.part2")}<br/>
+                            {t("label.home.admin.part3")}</p>
                     </>
                 )}
                 {auth?.role === "ROLE_STUDENT" && (
                     <>
-                        <p>This administrative system allows you to efficiently manage university operations</p>
-                        <p>You can browse courses and your enrollments<br/>
-                            Use the navigation panel at the top to get started</p>
+                        <p>{t("label.home.admin.part1")}</p>
+                        <p>{t("label.home.student.part2")}<br/>
+                            {t("label.home.admin.part3")}</p>
                     </>
                 )}
                 {!auth?.role && (
                     <>
-                        <p>This administrative system allows you to efficiently manage university operations</p>
-                        <p>Please log in to get started</p>
+                        <p>{t("label.home.admin.part1")}</p>
+                        <p>{t("label.home.guest.part2")}</p>
                     </>
                 )}
             </div>

@@ -75,29 +75,29 @@ function CoursesCreate() {
 
     return (
         <div className="container">
-            <h1>Add Course</h1>
+            <h1>{t("label.course.create.header")}</h1>
 
             {serverMessage && <div className="error general-error">{serverMessage}</div>}
 
             <form onSubmit={handleSubmit} noValidate>
-                <label htmlFor="code">Course Code: </label>
+                <label htmlFor="code">{t("label.course.table.name")} </label>
                 <input id="code" name="code" type="text" onChange={handleChange} required/>
                 {errors.code && <span className="error">{errors.code}</span>}
 
-                <label htmlFor="name">Course Name: </label>
+                <label htmlFor="name">{t("label.course.table.code")} </label>
                 <input id="name" name="name" type="text" onChange={handleChange} required/>
                 {errors.name && <span className="error">{errors.name}</span>}
 
-                <label htmlFor="credit">Credit: </label>
+                <label htmlFor="credit">{t("label.course.table.credit")} </label>
                 <input id="credit" name="credit" type="number" onChange={handleChange} required/>
                 {errors.credit && <span className="error">{errors.credit}</span>}
 
-                <label htmlFor="description">Description: </label>
+                <label htmlFor="description">{t("label.course.description")} </label>
                 <input id="description" name="description" type="text" onChange={handleChange} required/>
                 {errors.description && <span className="error">{errors.description}</span>}
 
-                <button className="btn btn-submit" type="submit">Create</button>
-                <Link className="btn btn-cancel" to="/courses">Cancel</Link>
+                <button className="btn btn-submit" type="submit">{t("label.general.create")}</button>
+                <Link className="btn btn-cancel" to="/courses">{t("label.general.cancel")}</Link>
             </form>
         </div>
     );

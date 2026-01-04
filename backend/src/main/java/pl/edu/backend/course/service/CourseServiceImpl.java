@@ -26,7 +26,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class CourseServiceImpl implements CourseService {
+class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
     private final EnrollmentRepository enrollmentRepository;

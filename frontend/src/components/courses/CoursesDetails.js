@@ -3,11 +3,13 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import AuthContext from "../../context/AuthProvider";
 import {authFetch} from "../auth/AuthFetch";
+import {useTranslation} from "react-i18next";
 
 function CoursesDetails() {
     const {id} = useParams();
     const {auth, setAuth} = useContext(AuthContext);
     const navigate = useNavigate()
+    const {t} = useTranslation();
 
     const [serverMessage, setServerMessage] = useState('');
     const [course, setCourse] = useState(null);
@@ -41,45 +43,45 @@ function CoursesDetails() {
     }
 
     if (!course) {
-        return <p>Loading course details...</p>;
+        return <p>{t("label.course.loading")}</p>;
     }
 
     return (
         <div className="container">
-            <h1 className="header">Course Details</h1>
-            <h2 className="header">Course Information</h2>
+            <h1 className="header">{t("label.course.details")}</h1>
+            <h2 className="header">{t("label.course.info")}</h2>
 
             {serverMessage && <div className="error general-error">{serverMessage}</div>}
 
             <ul className="details-list">
-                <li><strong>Course Code:</strong> {course.code}</li>
-                <li><strong>Course Name:</strong> {course.name}</li>
-                <li><strong>Credits:</strong> {course.credit}</li>
-                <li><strong>Description:</strong> {course.description}</li>
+                <li><strong>{t("label.course.table.code")}:</strong> {course.code}</li>
+                <li><strong>{t("label.course.table.name")}:</strong> {course.name}</li>
+                <li><strong>{t("label.course.table.credit")}:</strong> {course.credit}</li>
+                <li><strong>{t("label.course.description")}:</strong> {course.description}</li>
             </ul>
 
             {auth.accessToken && auth.role === "ROLE_ADMIN" && (
-                <h2 className="header">Enrolled Students</h2>
+                <h2 className="header">{t("label.course.students")}</h2>
             )}
 
             {auth.accessToken && auth.role === "ROLE_STUDENT" && (
-                <h2 className="header">Enrollments</h2>
+                <h2 className="header">{t("label.nav.enrollments")}</h2>
             )}
 
             <table>
                 <thead>
                 <tr>
                     {auth.accessToken && auth.role === "ROLE_ADMIN" && (
-                        <th>Student Email</th>
+                        <th>{t("label.student.email.student")}</th>
                     )}
-                    <th>Due Date</th>
-                    <th>Final Grade</th>
+                    <th>{t("label.enrollment.date")}</th>
+                    <th>{t("label.enrollment.grade")}</th>
                 </tr>
                 </thead>
                 <tbody>
                 {course.students.length === 0 ? (
                     <tr>
-                        <td colSpan="3">No students</td>
+                        <td colSpan="3">{t("label.students.no")}</td>
                     </tr>
                 ) : (
                     Array.isArray(course.students) && course.students.map((s, index) => (
@@ -95,7 +97,7 @@ function CoursesDetails() {
                 </tbody>
             </table>
 
-            <Link className="btn btn-back" to="/courses">Back to Courses List</Link>
+            <Link className="btn btn-back" to="/courses">{t("label.course.back")}</Link>
         </div>
     );
 }

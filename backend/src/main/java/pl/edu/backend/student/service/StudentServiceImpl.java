@@ -23,7 +23,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class StudentServiceImpl implements StudentService {
+class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final StudentMapper studentMapper;
     private final PasswordEncoder passwordEncoder;
