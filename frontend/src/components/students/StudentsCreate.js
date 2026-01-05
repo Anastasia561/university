@@ -54,7 +54,11 @@ function StudentsCreate() {
             if (!res.ok) {
                 const data = await res.json();
                 if (data.fieldErrors) setErrors(data.fieldErrors);
-                if (data.message) setServerMessage(data.message);
+                if (res.status === 400) {
+                    setServerMessage(t("error.validation"));
+                }else{
+                    setServerMessage(t("auth.server.error"));
+                }
             } else {
                 navigate('/students');
             }

@@ -23,7 +23,7 @@ function EnrollmentsDelete() {
 
             if (!res.ok) {
                 const data = await res.json();
-                setServerMessage(data.message);
+                setServerMessage(t("auth.server.error"))
             } else {
                 navigate('/enrollments');
             }
@@ -42,7 +42,7 @@ function EnrollmentsDelete() {
                 const data = await res.json();
 
                 if (!res.ok) {
-                    setServerMessage(data.message);
+                    setServerMessage(t("auth.server.error"))
                 } else {
                     setEnrollment(data);
                 }

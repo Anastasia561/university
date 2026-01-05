@@ -71,7 +71,11 @@ function CoursesUpdate() {
             if (!res.ok) {
                 const data = await res.json();
                 if (data.fieldErrors) setErrors(data.fieldErrors);
-                if (data.message) setServerMessage(data.message);
+                if (data.message === "Course code must be unique") {
+                    setServerMessage(t("error.course.unique"));
+                }else{
+                    setServerMessage(t("auth.server.error"));
+                }
             } else {
                 navigate('/courses');
             }

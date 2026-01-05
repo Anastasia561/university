@@ -38,7 +38,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDto> handleGenericException(Exception ex) {
-        ErrorResponseDto error = new ErrorResponseDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), "auth.server.error");
+        ErrorResponseDto error = new ErrorResponseDto(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Internal server error");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
@@ -68,7 +69,7 @@ public class GlobalExceptionHandler {
                 errors.put(error.getField(), error.getDefaultMessage())
         );
         ValidationErrorResponseDto dto = new ValidationErrorResponseDto(HttpStatus.BAD_REQUEST.value(),
-                "error.validation", errors);
+                "Validation error", errors);
         return ResponseEntity.badRequest().body(dto);
     }
 }

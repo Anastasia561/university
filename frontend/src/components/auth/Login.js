@@ -29,7 +29,12 @@ const Login = () => {
 
             const data = await response.json();
             if (!response.ok) {
-                setError(t(data.message));
+
+                if (data.message === "Invalid email or password") {
+                    setError(t("error.login.invalid"));
+                } else {
+                    setError(t("auth.server.error"));
+                }
                 return;
             }
 

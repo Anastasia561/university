@@ -27,7 +27,7 @@ function StudentsDelete() {
 
             if (!res.ok) {
                 const data = await res.json();
-                setServerMessage(data.message);
+                setServerMessage(t("auth.server.error"))
             } else {
                 navigate('/students');
             }
@@ -46,7 +46,7 @@ function StudentsDelete() {
                 const data = await res.json();
 
                 if (!res.ok) {
-                    setServerMessage(data.message);
+                    setServerMessage(t("auth.server.error"))
                     return;
                 }
 

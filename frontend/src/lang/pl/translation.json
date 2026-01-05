@@ -2,6 +2,9 @@
   "error.login.invalid": "Nieprawidłowe dane logowania",
   "auth.server.error": "Błąd serwera",
   "error.validation": "Błąd walidacji",
+  "error.course.unique": "Kod kursu musi być unikalny",
+  "error.student.unique": "Email studenta musi być unikalny",
+  "error.enrollment.conflict": "Student ma już aktywny zapis na ten kurs",
 
 
   "validation.student.fname.no": "Imię jest wymagane",

@@ -58,8 +58,10 @@ function CoursesCreate() {
                     if (data.fieldErrors) {
                         setErrors(data.fieldErrors);
                     }
-                    if (data.message) {
-                        setServerMessage(t(data.message));
+                    if (data.message === "Validation error") {
+                        setServerMessage(t("error.validation"));
+                    }else{
+                        setServerMessage(t("auth.server.error"))
                     }
                 } else {
                     navigate('/courses');
@@ -80,11 +82,11 @@ function CoursesCreate() {
             {serverMessage && <div className="error general-error">{serverMessage}</div>}
 
             <form onSubmit={handleSubmit} noValidate>
-                <label htmlFor="code">{t("label.course.table.name")} </label>
+                <label htmlFor="code">{t("label.course.table.code")} </label>
                 <input id="code" name="code" type="text" onChange={handleChange} required/>
                 {errors.code && <span className="error">{errors.code}</span>}
 
-                <label htmlFor="name">{t("label.course.table.code")} </label>
+                <label htmlFor="name">{t("label.course.table.name")} </label>
                 <input id="name" name="name" type="text" onChange={handleChange} required/>
                 {errors.name && <span className="error">{errors.name}</span>}
 

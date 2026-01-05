@@ -25,7 +25,7 @@ function CoursesDelete() {
             );
             if (!res.ok) {
                 const data = await res.json();
-                setServerMessage(data.message);
+                setServerMessage(t("auth.server.error"));
             } else {
                 navigate('/courses');
             }

@@ -21,7 +21,7 @@ function StudentsDetails() {
 
                     const data = await res.json();
                     if (!res.ok) {
-                        setServerMessage(data.message);
+                        setServerMessage(t("auth.server.error"))
                         return;
                     }
 

@@ -1,17 +1,14 @@
 import {Link, useNavigate} from "react-router-dom";
-import React, {useContext, useState} from "react";
-import AuthContext from "../../context/AuthProvider";
+import React, {useState} from "react";
 import {validateStudent} from "../../validation/StudentValidation";
-import {authFetch} from "../auth/AuthFetch";
 import {FaEye, FaEyeSlash} from "react-icons/fa";
 import {useTranslation} from "react-i18next";
 
-function StudentsCreate() {
+function StudentsRegister() {
     const navigate = useNavigate();
-    const {auth, setAuth} = useContext(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
     const [showRepeatPassword, setShowRepeatPassword] = useState(false);
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     const [serverMessage, setServerMessage] = useState('');
     const [errors, setErrors] = useState({});
@@ -43,25 +40,28 @@ function StudentsCreate() {
         }
 
         try {
-            const res = await authFetch(
-                '/api/students/register',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(student)
+            const res = await fetch('/api/students/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
                 },
-                auth, setAuth
-            );
+                body: JSON.stringify(student)
+            });
 
             if (!res.ok) {
                 const data = await res.json();
-                if (data.fieldErrors) setErrors(data.fieldErrors);
-                if (data.message) setServerMessage(data.message);
-            } else {
-                navigate('/login');
+                if (data.fieldErrors) {
+                    setErrors(data.fieldErrors);
+                }
+                if (res.status === 400) {
+                    setServerMessage(t("error.validation"));
+                } else {
+                    setServerMessage(t("auth.server.error"));
+                }
+
+                return;
             }
+            navigate('/login');
         } catch (err) {
             if (err.message === 'Session expired') {
                 navigate('/login');
@@ -134,4 +134,4 @@ function StudentsCreate() {
     );
 }
 
-export default StudentsCreate;
+export default StudentsRegister;

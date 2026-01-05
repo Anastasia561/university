@@ -4,10 +4,11 @@ import AuthContext from "../context/AuthProvider";
 import useLogout from "./auth/Logout";
 import "../styles/HeaderStyles.css"
 import {useTranslation} from "react-i18next";
+import {FaBook, FaClipboardList, FaSignInAlt, FaSignOutAlt, FaUsers} from "react-icons/fa";
 
 const Header = () => {
     const {auth} = useContext(AuthContext);
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const logout = useLogout();
 
     return (
@@ -18,25 +19,73 @@ const Header = () => {
                 <ul className="nav-links">
                     {!auth.accessToken && (
                         <>
-                            <li><Link to="/courses">{t("label.nav.courses")}</Link></li>
-                            <li><Link to="/login">{t("label.login.login")}</Link></li>
+                            <li>
+                                <Link to="/courses" className="nav-link">
+                                    <FaBook className="nav-icon"/>
+                                    {t("label.nav.courses")}
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link to="/login" className="nav-link">
+                                    <FaSignInAlt className="nav-icon"/>
+                                    {t("label.login.login")}
+                                </Link>
+                            </li>
                         </>
                     )}
 
                     {auth.accessToken && auth.role === "ROLE_STUDENT" && (
                         <>
-                            <li><Link to="/courses">{t("label.nav.student.courses")}</Link></li>
-                            <li><Link to="/enrollments">{t("label.nav.student.enrollments")}</Link></li>
-                            <li><Link to="#" onClick={logout}>{t("label.nav.logout")}</Link></li>
+                            <li>
+                                <Link to="/courses" className="nav-link">
+                                    <FaBook className="nav-icon"/>
+                                    {t("label.nav.student.courses")}
+                                 </Link>
+                            </li>
+                            <li>
+                                <Link to="/enrollments" className="nav-link">
+                                    <FaClipboardList className="nav-icon" />
+                                    {t("label.nav.student.enrollments")}
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link to="#" onClick={logout} className="nav-link">
+                                    <FaSignOutAlt className="nav-icon" />
+                                    {t("label.nav.logout")}
+                                </Link>
+                            </li>
                         </>
                     )}
 
                     {auth.accessToken && auth.role === "ROLE_ADMIN" && (
                         <>
-                            <li><Link to="/students">{t("label.nav.students")}</Link></li>
-                            <li><Link to="/courses">{t("label.nav.courses")}</Link></li>
-                            <li><Link to="/enrollments">{t("label.nav.enrollments")}</Link></li>
-                            <li><Link to="#" onClick={logout}>{t("label.nav.logout")}</Link></li>
+                            <li>
+                                <Link to="/students" className="nav-link">
+                                    <FaUsers className="nav-icon" />
+                                    {t("label.nav.students")}
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/courses" className="nav-link">
+                                    <FaBook className="nav-icon"/>
+                                    {t("label.nav.courses")}
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/enrollments" className="nav-link">
+                                    <FaClipboardList className="nav-icon" />
+                                    {t("label.nav.enrollments")}
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link to="#" onClick={logout} className="nav-link">
+                                    <FaSignOutAlt className="nav-icon" />
+                                    {t("label.nav.logout")}
+                                </Link>
+                            </li>
                         </>
                     )}
                 </ul>

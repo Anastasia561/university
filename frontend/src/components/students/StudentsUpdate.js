@@ -10,7 +10,7 @@ function StudentsUpdate() {
     const {id} = useParams();
     const navigate = useNavigate();
     const {auth, setAuth} = useContext(AuthContext);
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     const [student, setStudent] = useState(null);
     const [errors, setErrors] = useState({});
@@ -23,7 +23,7 @@ function StudentsUpdate() {
                 const res = await authFetch(`/api/students/details/${id}`, {}, auth, setAuth);
                 const data = await res.json();
                 if (!res.ok) {
-                    setServerMessage(data.message);
+                    setServerMessage(t("auth.server.error"))
                 }
                 setStudent(data);
             } catch (err) {
@@ -68,11 +68,18 @@ function StudentsUpdate() {
 
             if (!res.ok) {
                 const data = await res.json();
+
                 if (data.fieldErrors) setErrors(data.fieldErrors);
-                if (data.message) setServerMessage(data.message);
-            } else {
-                navigate('/students');
+
+                if (res.status === 400) {
+                    setServerMessage(t("error.student.unique"));
+                } else {
+                    setServerMessage(t("auth.server.error"));
+                }
+
+                return;
             }
+            navigate('/students');
         } catch (err) {
             if (err.message === 'Session expired') {
                 navigate('/login');

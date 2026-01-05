@@ -75,7 +75,6 @@ public class StudentController {
         return studentService.createStudent(dto);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public StudentViewDto registerStudent(

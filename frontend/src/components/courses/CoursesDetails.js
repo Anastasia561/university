@@ -21,7 +21,7 @@ function CoursesDetails() {
 
                 const data = await res.json();
                 if (!res.ok) {
-                    setServerMessage(data.message);
+                    setServerMessage(t("auth.server.error"));
                     return;
                 }
 
@@ -81,7 +81,7 @@ function CoursesDetails() {
                 <tbody>
                 {course.students.length === 0 ? (
                     <tr>
-                        <td colSpan="3">{t("label.students.no")}</td>
+                        <td colSpan="3">{t("label.student.no")}</td>
                     </tr>
                 ) : (
                     Array.isArray(course.students) && course.students.map((s, index) => (

@@ -42,7 +42,7 @@ function EnrollmentsUpdate() {
                 const res = await authFetch(`/api/enrollments/${id}`, {}, auth, setAuth);
                 const data = await res.json();
                 if (!res.ok) {
-                    setServerMessage(data.message);
+                    setServerMessage(t("auth.server.error"))
                 }
                 setEnrollment(data);
             } catch (err) {
@@ -89,11 +89,17 @@ function EnrollmentsUpdate() {
 
             if (!res.ok) {
                 const data = await res.json();
-                if (data.fieldErrors) setErrors(data.fieldErrors);
-                if (data.message) setServerMessage(data.message);
-            } else {
-                navigate('/enrollments');
+                if (data.fieldErrors) {
+                    setErrors(data.fieldErrors);
+                }
+                if (res.status === 409) {
+                    setServerMessage(t("error.enrollment.conflict"));
+                } else {
+                    setServerMessage(t("auth.server.error"));
+                }
+                return;
             }
+            navigate('/enrollments');
         } catch (err) {
             if (err.message === 'Session expired') {
                 navigate('/login');

@@ -2,6 +2,9 @@
   "error.login.invalid": "Invalid email or password",
   "auth.server.error": "Server error",
   "error.validation": "Validation error",
+  "error.course.unique": "Course code must be unique",
+  "error.student.unique": "Student email must be unique",
+  "error.enrollment.conflict" : "Student already has active enrollment for this course",
 
 
   "validation.student.fname.no": "First name is required",
@@ -46,7 +49,6 @@
 
   "validation.course.credit.no": "Credits are required",
   "validation.course.credit.valid": "Credits must be a number greater than 0",
-
 
 
   "label.login.header": "University Platform",

@@ -14,6 +14,14 @@
     font-size: 1.5rem;
     font-weight: bold;
     text-decoration: none;
+    transition:
+            color 0.25s ease,
+            transform 0.25s ease;
+}
+
+.nav-logo:hover {
+    color: #ffd700;
+    transform: translateY(-3px);
 }
 
 .nav-links {
@@ -34,8 +42,22 @@
     padding: 6px 12px;
     border-radius: 4px;
     text-align: center;
+    transition:
+            transform 0.2s ease,
+            background-color 0.2s ease;
 }
 
 .nav-links a:hover {
     background-color: #0056b3;
+    transform: translateY(-3px);
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nav-icon {
+    font-size: 1rem;
 }
