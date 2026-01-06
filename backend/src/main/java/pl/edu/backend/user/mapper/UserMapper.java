@@ -1,10 +1,10 @@
 package pl.edu.backend.user.mapper;
 
 import org.mapstruct.Mapper;
-import pl.edu.backend.student.dto.StudentProfileDto;
-import pl.edu.backend.student.model.Student;
+import pl.edu.backend.user.dto.UserProfileDto;
+import pl.edu.backend.user.model.User;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    StudentProfileDto toUserProfileDto(Student student);
+    UserProfileDto toUserProfileDto(User user);
 }
