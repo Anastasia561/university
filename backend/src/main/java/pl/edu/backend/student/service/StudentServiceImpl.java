@@ -6,11 +6,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.backend.student.dto.StudentCreateDto;
 import pl.edu.backend.student.dto.StudentPreviewDto;
+import pl.edu.backend.student.dto.StudentProfileDto;
 import pl.edu.backend.student.dto.StudentRegisterDto;
 import pl.edu.backend.student.dto.StudentUpdateDto;
 import pl.edu.backend.student.dto.StudentViewDto;
@@ -51,7 +54,18 @@ class StudentServiceImpl implements StudentService {
     public StudentPreviewDto getStudentPreview(UUID id) {
         return studentRepository.findByUuid(id)
                 .map(studentMapper::toStudentPreviewDto)
-                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+    }
+
+    @Override
+    public StudentProfileDto getStudentProfile() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        String email = auth.getName();
+
+        return studentRepository.findByEmail(email)
+                .map(studentMapper::toStudentProfileDto)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
     }
 
     @Override

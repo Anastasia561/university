@@ -10,6 +10,7 @@ import Login from "../components/auth/Login"
 import '../styles/GeneralStyles.css';
 
 import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom'
+import StudentProfile from "../components/profile/StudentProfile";
 
 function Main() {
     return (
@@ -21,6 +22,7 @@ function Main() {
                 <Route path="/courses/*" element={<CourseRoutes/>}/>
                 <Route path="/enrollments/*" element={<EnrollmentRoutes/>}/>
                 <Route path="/login" element={<Login/>}/>
+                <Route path="/profile" element={<StudentProfile/>}/>
                 <Route path="/" element={<Navigate to="/home" replace/>}/>
             </Routes>
         </Router>

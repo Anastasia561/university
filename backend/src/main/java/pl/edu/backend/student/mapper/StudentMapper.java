@@ -11,6 +11,7 @@ import pl.edu.backend.enrollment.model.Enrollment;
 import pl.edu.backend.student.dto.EnrollmentForStudentDto;
 import pl.edu.backend.student.dto.StudentCreateDto;
 import pl.edu.backend.student.dto.StudentPreviewDto;
+import pl.edu.backend.student.dto.StudentProfileDto;
 import pl.edu.backend.student.dto.StudentRegisterDto;
 import pl.edu.backend.student.dto.StudentUpdateDto;
 import pl.edu.backend.student.dto.StudentViewDto;
@@ -22,6 +23,8 @@ public interface StudentMapper {
     StudentPreviewDto toStudentPreviewDto(Student student);
 
     StudentViewDto toStudentViewDto(Student student);
+
+    StudentProfileDto toStudentProfileDto(Student student);
 
     @Mapping(source = "course.code", target = "courseCode")
     @Mapping(source = "date", target = "enrollmentDate")

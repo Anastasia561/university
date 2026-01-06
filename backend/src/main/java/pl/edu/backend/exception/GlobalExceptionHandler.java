@@ -40,6 +40,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDto> handleGenericException(Exception ex) {
         ErrorResponseDto error = new ErrorResponseDto(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "Internal server error");
+        System.out.println(ex.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 

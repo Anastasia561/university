@@ -71,6 +71,8 @@
   "label.general.create": "Utwórz",
   "label.general.cancel": "Anuluj",
   "label.general.confirm": "Potwierdź usunięcie",
+  "label.general.profile": "Twój profil",
+  "label.general.back": "Powrót do home",
 
 
   "label.nav.header": "Uniwersytet",
@@ -80,6 +82,7 @@
   "label.nav.logout": "Wyloguj się",
   "label.nav.student.courses": "Moje kursy",
   "label.nav.student.enrollments": "Moje zapisy",
+  "label.nav.profile": "Profil",
 
 
   "label.course.no": "Brak dostępnych kursów",

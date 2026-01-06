@@ -4,53 +4,39 @@
   "error.validation": "Validation error",
   "error.course.unique": "Course code must be unique",
   "error.student.unique": "Student email must be unique",
-  "error.enrollment.conflict" : "Student already has active enrollment for this course",
-
-
+  "error.enrollment.conflict": "Student already has active enrollment for this course",
   "validation.student.fname.no": "First name is required",
   "validation.student.fname.less": "First name can not be less then 3 characters",
   "validation.student.fname.more": "First name can not be more then 30 characters",
-
   "validation.student.flname.no": "Last name is required",
   "validation.student.lname.less": "Last name can not be less then 3 characters",
   "validation.student.lname.more": "Last name can not be more then 30 characters",
-
   "validation.student.bdate.no": "Birthdate field is required",
   "validation.student.bdate.future": "Birthdate can not be in the future",
   "validation.student.bdate.min": "Minimum age is required : 18 years",
-
   "validation.student.email.no": "Email is required",
   "validation.student.email.valid": "Email is not valid",
-
   "validation.student.pass.no": "Password is required",
   "validation.student.pass.size": "Password must be at least 8 characters",
   "validation.student.pass.digit": "Password must contain at least one digit",
   "validation.student.pass.char": "Password must contain at least one special character",
-
   "validation.student.rpass.no": "Repeat password is required",
   "validation.student.rpass.match": "Passwords do not match",
-
   "validation.enrollment.student": "Student is required",
   "validation.enrollment.course": "Course is required",
   "validation.enrollment.date.no": "Enrollment date is required",
   "validation.enrollment.date.past": "Enrollment date cannot be in the past",
-
   "validation.course.name.no": "Course name is required",
   "validation.course.name.less": "Course name can not be less then 3 characters",
   "validation.course.name.more": "Course name can not be more then 50 characters",
-
   "validation.course.code.no": "Course code is required",
   "validation.course.code.less": "Course code can not be less then 2 characters",
   "validation.course.code.more": "Course code can not be more then 5 characters",
-
   "validation.course.descr.no": "Course description is required",
   "validation.course.descr.less": "Course description can not be less then 2 characters",
   "validation.course.descr.more": "Course description can not be more then 100 characters",
-
   "validation.course.credit.no": "Credits are required",
   "validation.course.credit.valid": "Credits must be a number greater than 0",
-
-
   "label.login.header": "University Platform",
   "label.login.login": "Login",
   "label.login.email": "Email",
@@ -59,8 +45,6 @@
   "label.login.password.placeholder": "Enter password",
   "label.login.register.proposal": "Don't have an account?",
   "label.login.register": "Register",
-
-
   "label.general.delete": "Delete",
   "label.general.update": "Update",
   "label.general.details": "Details",
@@ -71,6 +55,8 @@
   "label.general.create": "Create",
   "label.general.cancel": "Cancel",
   "label.general.confirm": "Confirm deletion",
+  "label.general.profile": "Your Profile",
+  "label.general.back": "Back to Home",
 
 
   "label.nav.header": "University",
@@ -80,6 +66,7 @@
   "label.nav.logout": "Logout",
   "label.nav.student.courses": "My Courses",
   "label.nav.student.enrollments": "My Enrollments",
+  "label.nav.profile": "Profile",
 
 
   "label.course.no": "No courses available",

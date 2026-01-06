@@ -4,7 +4,7 @@ import AuthContext from "../context/AuthProvider";
 import useLogout from "./auth/Logout";
 import "../styles/HeaderStyles.css"
 import {useTranslation} from "react-i18next";
-import {FaBook, FaClipboardList, FaSignInAlt, FaSignOutAlt, FaUsers} from "react-icons/fa";
+import {FaBook, FaClipboardList, FaSignInAlt, FaSignOutAlt, FaUser, FaUsers} from "react-icons/fa";
 
 const Header = () => {
     const {auth} = useContext(AuthContext);
@@ -51,6 +51,13 @@ const Header = () => {
                             </li>
 
                             <li>
+                                <Link to="/profile" className="nav-link">
+                                    <FaUser className="nav-icon" />
+                                    {t("label.nav.profile")}
+                                </Link>
+                            </li>
+
+                            <li>
                                 <Link to="#" onClick={logout} className="nav-link">
                                     <FaSignOutAlt className="nav-icon" />
                                     {t("label.nav.logout")}
@@ -77,6 +84,13 @@ const Header = () => {
                                 <Link to="/enrollments" className="nav-link">
                                     <FaClipboardList className="nav-icon" />
                                     {t("label.nav.enrollments")}
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link to="/profile" className="nav-link">
+                                    <FaUser className="nav-icon" />
+                                    {t("label.nav.profile")}
                                 </Link>
                             </li>
 

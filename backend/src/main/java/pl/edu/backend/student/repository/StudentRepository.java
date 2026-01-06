@@ -10,11 +10,11 @@ import java.util.UUID;
 public interface StudentRepository extends JpaRepository<Student, Integer> {
     Optional<Student> findByUuid(UUID uuid);
 
-    Optional<Student> findByEmail(String code);
+    Optional<Student> findByEmail(String email);
 
     void deleteByUuid(UUID uuid);
 
     boolean existsByUuid(UUID id);
 
-    boolean existsByEmail(String code);
+    boolean existsByEmail(String email);
 }

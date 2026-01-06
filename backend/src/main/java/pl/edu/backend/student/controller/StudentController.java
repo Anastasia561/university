@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.backend.student.dto.StudentCreateDto;
 import pl.edu.backend.student.dto.StudentPreviewDto;
+import pl.edu.backend.student.dto.StudentProfileDto;
 import pl.edu.backend.student.dto.StudentRegisterDto;
 import pl.edu.backend.student.dto.StudentUpdateDto;
 import pl.edu.backend.student.dto.StudentViewDto;
@@ -55,6 +56,12 @@ public class StudentController {
     @GetMapping("/{id}")
     public StudentPreviewDto getStudentPreview(@PathVariable(name = "id") UUID id) {
         return studentService.getStudentPreview(id);
+    }
+
+    @PreAuthorize("hasRole('STUDENT')")
+    @GetMapping("/profile")
+    public StudentProfileDto getStudentProfile() {
+        return studentService.getStudentProfile();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
