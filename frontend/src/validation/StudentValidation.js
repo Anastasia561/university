@@ -39,8 +39,12 @@ export const validateStudent = (student, t) => {
 
     if ("password" in student) {
         let passErrors = validatePassword(student.password, student.repeatPassword, t);
-        errors.password = passErrors.password;
-        errors.repeatPassword = passErrors.repeatPassword;
+
+        if (passErrors.password)
+            errors.password = passErrors.password;
+
+        if (passErrors.repeatPassword)
+            errors.repeatPassword = passErrors.repeatPassword;
     }
 
     return errors;

@@ -8,7 +8,7 @@ import {FaBook, FaClipboardList, FaSignInAlt, FaSignOutAlt, FaUser, FaUsers} fro
 
 const Header = () => {
     const {auth} = useContext(AuthContext);
-    const {t} = useTranslation();
+    const {t, i18n} = useTranslation();
     const logout = useLogout();
 
     return (
@@ -102,6 +102,18 @@ const Header = () => {
                             </li>
                         </>
                     )}
+                    <li>
+                        <select
+                            className="lang-select"
+                            value={i18n.language}
+                            onChange={(e) =>
+                                i18n.changeLanguage(e.target.value)}
+                        >
+                            <option value="en">EN</option>
+                            <option value="pl">PL</option>
+                            <option value="es">ES</option>
+                        </select>
+                    </li>
                 </ul>
             </div>
         </nav>

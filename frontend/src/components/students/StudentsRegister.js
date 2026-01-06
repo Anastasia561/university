@@ -35,6 +35,8 @@ function StudentsRegister() {
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length > 0) {
+            console.log(validationErrors);
+            console.log("hello");
             setServerMessage(t("error.validation"));
             return;
         }
@@ -50,10 +52,12 @@ function StudentsRegister() {
 
             if (!res.ok) {
                 const data = await res.json();
+                console.log(data.message);
                 if (data.fieldErrors) {
                     setErrors(data.fieldErrors);
                 }
                 if (res.status === 400) {
+                    console.log(res.status);
                     setServerMessage(t("error.validation"));
                 } else {
                     setServerMessage(t("auth.server.error"));

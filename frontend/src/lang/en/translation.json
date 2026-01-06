@@ -11,7 +11,7 @@
   "validation.student.fname.less": "First name can not be less then 3 characters",
   "validation.student.fname.more": "First name can not be more then 30 characters",
 
-  "validation.student.flname.no": "Last name is required",
+  "validation.student.lname.no": "Last name is required",
   "validation.student.lname.less": "Last name can not be less then 3 characters",
   "validation.student.lname.more": "Last name can not be more then 30 characters",
 
