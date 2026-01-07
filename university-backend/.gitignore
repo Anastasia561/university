@@ -6,3 +6,4 @@ target/
 src/main/resources/schema.sql
 src/main/resources/data.sql
 db/
+.idea
