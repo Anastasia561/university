@@ -1,0 +1,112 @@
+package pl.edu.backend.student.service;
+
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import pl.edu.backend.student.dto.StudentCreateDto;
+import pl.edu.backend.student.dto.StudentPreviewDto;
+import pl.edu.backend.student.dto.StudentProfileDto;
+import pl.edu.backend.student.dto.StudentRegisterDto;
+import pl.edu.backend.student.dto.StudentUpdateDto;
+import pl.edu.backend.student.dto.StudentViewDto;
+import pl.edu.backend.student.mapper.StudentMapper;
+import pl.edu.backend.student.model.Student;
+import pl.edu.backend.student.repository.StudentRepository;
+
+import java.util.List;
+import java.util.UUID;
+
+@Service
+@RequiredArgsConstructor
+class StudentServiceImpl implements StudentService {
+    private final StudentRepository studentRepository;
+    private final StudentMapper studentMapper;
+    private final PasswordEncoder passwordEncoder;
+
+    @Override
+    public List<StudentPreviewDto> getAllPreviewNonPageable() {
+        return studentRepository.findAll().stream().map(studentMapper::toStudentPreviewDto).toList();
+    }
+
+    @Override
+    public Page<StudentPreviewDto> getAllPreviewPageable(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("firstName").ascending());
+        return studentRepository.findAll(pageable)
+                .map(studentMapper::toStudentPreviewDto);
+    }
+
+    @Override
+    public StudentViewDto getStudentDetails(UUID id) {
+        return studentRepository.findByUuid(id)
+                .map(studentMapper::toStudentViewDto)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+    }
+
+    @Override
+    public StudentPreviewDto getStudentPreview(UUID id) {
+        return studentRepository.findByUuid(id)
+                .map(studentMapper::toStudentPreviewDto)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+    }
+
+    @Override
+    public StudentProfileDto getStudentProfile() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        String email = auth.getName();
+
+        return studentRepository.findByEmail(email)
+                .map(studentMapper::toStudentProfileDto)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+    }
+
+    @Override
+    @Transactional
+    public StudentViewDto createStudent(StudentCreateDto dto) {
+        Student student = studentMapper.toStudent(dto, passwordEncoder);
+        Student saved = studentRepository.save(student);
+        return studentMapper.toStudentViewDto(saved);
+    }
+
+    @Override
+    @Transactional
+    public StudentViewDto updateStudent(UUID id, StudentUpdateDto dto) {
+        Student student = studentRepository.findByUuid(id)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+
+        if (!student.getEmail().equals(dto.email()) && studentRepository.existsByEmail(dto.email())) {
+            throw new IllegalArgumentException("Student email must be unique");
+        }
+        studentMapper.updateFromDto(dto, student);
+
+        return studentMapper.toStudentViewDto(student);
+    }
+
+    @Override
+    @Transactional
+    public void deleteStudent(UUID id) {
+        if (!studentRepository.existsByUuid(id)) {
+            throw new EntityNotFoundException("Student not found");
+        }
+        studentRepository.deleteByUuid(id);
+    }
+
+    @Override
+    @Transactional
+    public StudentViewDto registerStudent(StudentRegisterDto dto) {
+        if (!dto.password().equals(dto.repeatPassword())) {
+            throw new IllegalArgumentException("Passwords do not match");
+        }
+        Student student = studentMapper.toStudentForRegistration(dto, passwordEncoder);
+        Student saved = studentRepository.save(student);
+        return studentMapper.toStudentViewDto(saved);
+    }
+}

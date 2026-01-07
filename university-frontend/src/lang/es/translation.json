@@ -1,0 +1,156 @@
+{
+  "error.login.invalid": "Correo electrónico o contraseña inválidos",
+  "auth.server.error": "Error del servidor",
+  "error.validation": "Error de validación",
+  "error.course.unique": "El código del curso debe ser único",
+  "error.student.unique": "El correo electrónico del estudiante debe ser único",
+  "error.enrollment.conflict": "El estudiante ya tiene una inscripción activa para este curso",
+
+
+  "validation.student.fname.no": "El nombre es obligatorio",
+  "validation.student.fname.less": "El nombre no puede tener menos de 3 caracteres",
+  "validation.student.fname.more": "El nombre no puede tener más de 30 caracteres",
+
+  "validation.student.flname.no": "El apellido es obligatorio",
+  "validation.student.lname.less": "El apellido no puede tener menos de 3 caracteres",
+  "validation.student.lname.more": "El apellido no puede tener más de 30 caracteres",
+
+  "validation.student.bdate.no": "La fecha de nacimiento es obligatoria",
+  "validation.student.bdate.future": "La fecha de nacimiento no puede ser futura",
+  "validation.student.bdate.min": "Edad mínima requerida: 18 años",
+
+  "validation.student.email.no": "El correo electrónico es obligatorio",
+  "validation.student.email.valid": "El correo electrónico no es válido",
+
+  "validation.student.pass.no": "La contraseña es obligatoria",
+  "validation.student.pass.size": "La contraseña debe tener al menos 8 caracteres",
+  "validation.student.pass.digit": "La contraseña debe contener al menos un dígito",
+  "validation.student.pass.char": "La contraseña debe contener al menos un carácter especial",
+
+  "validation.student.rpass.no": "Repetir la contraseña es obligatorio",
+  "validation.student.rpass.match": "Las contraseñas no coinciden",
+
+  "validation.enrollment.student": "El estudiante es obligatorio",
+  "validation.enrollment.course": "El curso es obligatorio",
+  "validation.enrollment.date.no": "La fecha de inscripción es obligatoria",
+  "validation.enrollment.date.past": "La fecha de inscripción no puede ser pasada",
+
+  "validation.course.name.no": "El nombre del curso es obligatorio",
+  "validation.course.name.less": "El nombre del curso no puede tener menos de 3 caracteres",
+  "validation.course.name.more": "El nombre del curso no puede tener más de 50 caracteres",
+
+  "validation.course.code.no": "El código del curso es obligatorio",
+  "validation.course.code.less": "El código del curso no puede tener menos de 2 caracteres",
+  "validation.course.code.more": "El código del curso no puede tener más de 5 caracteres",
+
+  "validation.course.descr.no": "La descripción del curso es obligatoria",
+  "validation.course.descr.less": "La descripción del curso no puede tener menos de 2 caracteres",
+  "validation.course.descr.more": "La descripción del curso no puede tener más de 100 caracteres",
+
+  "validation.course.credit.no": "Los créditos son obligatorios",
+  "validation.course.credit.valid": "Los créditos deben ser un número mayor que 0",
+
+
+  "label.login.header": "Plataforma Universitaria",
+  "label.login.login": "Iniciar sesión",
+  "label.login.email": "Correo electrónico",
+  "label.login.email.placeholder": "Introduce tu correo electrónico",
+  "label.login.password": "Contraseña",
+  "label.login.password.placeholder": "Introduce tu contraseña",
+  "label.login.register.proposal": "¿No tienes una cuenta?",
+  "label.login.register": "Registrarse",
+
+
+  "label.general.delete": "Eliminar",
+  "label.general.update": "Actualizar",
+  "label.general.details": "Detalles",
+  "label.general.page.next": "Siguiente",
+  "label.general.page.prev": "Anterior",
+  "label.general.page.page": "Página",
+  "label.general.page.of": "de",
+  "label.general.create": "Crear",
+  "label.general.cancel": "Cancelar",
+  "label.general.confirm": "Confirmar eliminación",
+  "label.general.profile": "Tu Perfil",
+  "label.general.back": "Volver al inicio",
+  "label.general.password.update": "Cambiar contraseña",
+
+
+  "label.nav.header": "Universidad",
+  "label.nav.courses": "Cursos",
+  "label.nav.enrollments": "Inscripciones",
+  "label.nav.students": "Estudiantes",
+  "label.nav.logout": "Cerrar sesión",
+  "label.nav.student.courses": "Mis cursos",
+  "label.nav.student.enrollments": "Mis inscripciones",
+  "label.nav.profile": "Perfil",
+
+
+  "label.course.no": "No hay cursos disponibles",
+  "label.course.loading": "Cargando cursos...",
+  "label.course.data": "Datos de los cursos",
+  "label.course.create": "Agregar curso",
+  "label.course.update": "Actualizar curso",
+  "label.course.table.name": "Nombre del curso",
+  "label.course.table.code": "Código del curso",
+  "label.course.table.credit": "Créditos",
+  "label.course.description": "Descripción",
+  "label.course.create.header": "Agregar curso",
+  "label.course.delete.confirm": "¿Estás seguro de que deseas eliminar este curso?",
+  "label.course.details": "Detalles del curso",
+  "label.course.info": "Información del curso",
+  "label.course.students": "Estudiantes inscritos",
+  "label.course.back": "Volver a la lista de cursos",
+  "label.course.select": "Seleccionar curso",
+
+
+  "label.enrollment.no": "No hay inscripciones disponibles",
+  "label.enrollment.loading": "Cargando inscripciones...",
+  "label.enrollment.data": "Datos de inscripciones",
+  "label.enrollment.update": "Actualizar inscripción",
+  "label.enrollment.create": "Agregar inscripción",
+  "label.enrollment.date": "Fecha límite",
+  "label.enrollment.grade": "Nota final",
+  "label.enrollment.full.date": "Fecha límite de inscripción",
+  "label.enrollment.grade.select": "Seleccionar nota",
+  "label.enrollment.delete.confirm": "¿Estás seguro de que deseas eliminar esta inscripción?",
+  "label.enrollment.details": "Detalles de inscripción",
+  "label.enrollment.info": "Información de inscripción",
+  "label.enrollment.back": "Volver a la lista de inscripciones",
+
+
+  "label.student.loading": "Cargando estudiantes...",
+  "label.student.data": "Datos de estudiantes",
+  "label.student.email.student": "Correo electrónico del estudiante",
+  "label.student.no": "No hay estudiantes disponibles",
+  "label.student.select": "Seleccionar estudiante",
+  "label.student.info": "Información del estudiante",
+  "label.student.fname": "Nombre",
+  "label.student.lname": "Apellido",
+  "label.student.email": "Correo electrónico",
+  "label.student.create": "Agregar estudiante",
+  "label.student.bdate": "Fecha de nacimiento",
+  "label.student.delete.confirm": "¿Estás seguro de que deseas eliminar este estudiante?",
+  "label.student.details": "Detalles del estudiante",
+  "label.student.back": "Volver a la lista de estudiantes",
+  "label.student.register": "Registrarse como estudiante",
+  "label.student.password": "Contraseña",
+  "label.student.password.placeholder": "Introduce la contraseña",
+  "label.student.rpass": "Repetir contraseña",
+  "label.student.update": "Actualizar estudiante",
+
+
+  "label.home.admin.wellcome": "Bienvenido al panel de administración universitaria",
+  "label.home.admin.descr": "Gestiona estudiantes, cursos e inscripciones con facilidad",
+  "label.home.admin.part1": "Este sistema administrativo te permite gestionar eficientemente las operaciones universitarias",
+  "label.home.admin.part2": "Puedes ver y actualizar datos de estudiantes, cursos e inscripciones",
+  "label.home.admin.part3": "Usa el panel de navegación en la parte superior para comenzar",
+
+  "label.home.guest.wellcome": "Bienvenido al panel universitario",
+  "label.home.guest.descr": "Plataforma para la gestión de cursos, estudiantes e inscripciones",
+  "label.home.guest.part2": "Por favor, inicia sesión para comenzar",
+
+  "label.home.student.wellcome": "Bienvenido al panel de estudiantes universitarios",
+  "label.home.student.descr": "Gestiona tus cursos e inscripciones con facilidad",
+  "label.home.student.part2": "Puedes ver los cursos y tus inscripciones"
+}
