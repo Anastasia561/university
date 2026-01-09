@@ -2,7 +2,7 @@ export const authFetch = async (url, options = {}, auth, setAuth) => {
     let accessToken = auth?.accessToken;
 
     const refreshToken = async () => {
-        const refreshRes = await fetch('/api/auth/refresh', {
+        const refreshRes = await fetch(`/api/auth/refresh`, {
             method: 'POST',
             credentials: 'include'
         });
