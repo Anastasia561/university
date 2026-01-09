@@ -1,0 +1,58 @@
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+-- Table: users
+CREATE TABLE users
+(
+    id         SERIAL PRIMARY KEY,
+    first_name VARCHAR(20)  NOT NULL,
+    last_name  VARCHAR(20)  NOT NULL,
+    email      VARCHAR(50)  NOT NULL,
+    password   VARCHAR(250) NOT NULL,
+    role       VARCHAR(30)  NOT NULL
+);
+
+-- Table: student
+CREATE TABLE student
+(
+    id         INTEGER PRIMARY KEY,
+    uuid       UUID DEFAULT gen_random_uuid() NOT NULL UNIQUE,
+    birth_date DATE                           NOT NULL,
+    CONSTRAINT student_users_fk
+        FOREIGN KEY (id) REFERENCES users (id)
+);
+
+-- Table: refresh_token
+CREATE TABLE refresh_token
+(
+    id       SERIAL PRIMARY KEY,
+    users_id INTEGER      NOT NULL,
+    token    VARCHAR(512) NOT NULL,
+    CONSTRAINT fk_refresh_token_user
+        FOREIGN KEY (users_id) REFERENCES users (id)
+);
+
+-- Table: course
+CREATE TABLE course
+(
+    id          SERIAL PRIMARY KEY,
+    uuid        UUID DEFAULT gen_random_uuid() NOT NULL UNIQUE,
+    name        VARCHAR(50)                    NOT NULL,
+    code        VARCHAR(5)                     NOT NULL,
+    credit      INTEGER                        NOT NULL,
+    description VARCHAR(100)                   NOT NULL
+);
+
+-- Table: enrollment
+CREATE TABLE enrollment
+(
+    id              SERIAL PRIMARY KEY,
+    uuid            UUID DEFAULT gen_random_uuid() NOT NULL UNIQUE,
+    course_id       INTEGER                        NOT NULL,
+    student_id      INTEGER                        NOT NULL,
+    enrollment_date DATE                           NOT NULL,
+    final_grade     DECIMAL(3, 1),
+    CONSTRAINT enrollment_course_fk
+        FOREIGN KEY (course_id) REFERENCES course (id),
+    CONSTRAINT enrollment_student_fk
+        FOREIGN KEY (student_id) REFERENCES student (id)
+);
