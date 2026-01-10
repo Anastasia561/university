@@ -12,9 +12,5 @@ spring:
       mode: always
       schema-locations: file:./db/01_schema.sql
 
-  config.import: optional:file:.env[.properties]
-
 jwt:
   secret: ${JWT_SECRET}
-  accessTokenExpirationTimeMs: 900_000 #15 min
-  refreshTokenExpirationTimeMs: 2_592_000_000 #30 days

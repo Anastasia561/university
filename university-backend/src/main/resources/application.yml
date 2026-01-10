@@ -2,20 +2,18 @@ spring:
   application:
     name: backend
 
-  datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
-
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    hibernate.ddl-auto: none
+    hibernate:
+      ddl-auto: none
+
+  config:
+    import: optional:file:.env[.properties]
 
 server:
   servlet:
     context-path: /api
 
 jwt:
-  secret: ${JWT_SECRET}
-  accessTokenExpirationTimeMs: 900_000 #15 min
-  refreshTokenExpirationTimeMs: 2_592_000_000 #30 days
+  accessTokenExpirationTimeMs: 900_000      # 15 min
+  refreshTokenExpirationTimeMs: 2_592_000_000 # 30 days
