@@ -90,15 +90,15 @@ class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
-    public CourseViewDto createCourse(CourseCreateDto dto) {
+    public CoursePreviewDto createCourse(CourseCreateDto dto) {
         Course course = courseMapper.toEntity(dto);
         Course savedCourse = courseRepository.save(course);
-        return courseMapper.toCourseViewDto(savedCourse);
+        return courseMapper.toCoursePreviewDto(savedCourse);
     }
 
     @Override
     @Transactional
-    public CourseViewDto updateCourse(UUID courseId, CourseUpdateDto dto) {
+    public CoursePreviewDto updateCourse(UUID courseId, CourseUpdateDto dto) {
         Course course = courseRepository.findByUuid(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
@@ -106,7 +106,7 @@ class CourseServiceImpl implements CourseService {
             throw new IllegalArgumentException("Course code must be unique");
         }
         courseMapper.updateFromDto(dto, course);
-        return courseMapper.toCourseViewDto(course);
+        return courseMapper.toCoursePreviewDto(course);
     }
 
     @Override

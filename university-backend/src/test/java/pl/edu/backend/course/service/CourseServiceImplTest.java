@@ -244,20 +244,19 @@ public class CourseServiceImplTest {
         savedCourse.setId(1);
         savedCourse.setName("Math");
 
-        CourseViewDto viewDto = new CourseViewDto("Test name", "Math", 3,
-                "Basic math course", new ArrayList<>());
+        CoursePreviewDto viewDto = new CoursePreviewDto(UUID.randomUUID(), "Test name", "Math", 5);
 
         when(courseMapper.toEntity(createDto)).thenReturn(course);
         when(courseRepository.save(course)).thenReturn(savedCourse);
-        when(courseMapper.toCourseViewDto(savedCourse)).thenReturn(viewDto);
+        when(courseMapper.toCoursePreviewDto(savedCourse)).thenReturn(viewDto);
 
-        CourseViewDto result = courseService.createCourse(createDto);
+        CoursePreviewDto result = courseService.createCourse(createDto);
 
         assertEquals(viewDto, result);
 
         verify(courseMapper).toEntity(createDto);
         verify(courseRepository).save(course);
-        verify(courseMapper).toCourseViewDto(savedCourse);
+        verify(courseMapper).toCoursePreviewDto(savedCourse);
     }
 
     @Test
@@ -312,19 +311,18 @@ public class CourseServiceImplTest {
         CourseUpdateDto dto = new CourseUpdateDto(
                 "Math updated", "MATH101", 3, "test descr");
 
-        CourseViewDto viewDto = new CourseViewDto("Math updated", "MATH101", 3,
-                "new desc", new ArrayList<>());
+        CoursePreviewDto viewDto = new CoursePreviewDto(UUID.randomUUID(), "MATH101", "code", 3);
 
         when(courseRepository.findByUuid(courseId)).thenReturn(Optional.of(course));
-        when(courseMapper.toCourseViewDto(course)).thenReturn(viewDto);
+        when(courseMapper.toCoursePreviewDto(course)).thenReturn(viewDto);
 
-        CourseViewDto result = courseService.updateCourse(courseId, dto);
+        CoursePreviewDto result = courseService.updateCourse(courseId, dto);
 
         assertEquals(viewDto, result);
 
         verify(courseRepository).findByUuid(courseId);
         verify(courseMapper).updateFromDto(dto, course);
-        verify(courseMapper).toCourseViewDto(course);
+        verify(courseMapper).toCoursePreviewDto(course);
         verify(courseRepository, never()).existsByCode(any());
     }
 
@@ -337,21 +335,20 @@ public class CourseServiceImplTest {
 
         CourseUpdateDto dto = new CourseUpdateDto("Math updated", "NEW_CODE", 3, "test descr");
 
-        CourseViewDto viewDto = new CourseViewDto("Math updated", "NEW_CODE", 3,
-                "desc", new ArrayList<>());
+        CoursePreviewDto viewDto = new CoursePreviewDto(UUID.randomUUID(), "Math updated", "NEW_CODE", 3);
 
         when(courseRepository.findByUuid(courseId)).thenReturn(Optional.of(course));
         when(courseRepository.existsByCode("NEW_CODE")).thenReturn(false);
-        when(courseMapper.toCourseViewDto(course)).thenReturn(viewDto);
+        when(courseMapper.toCoursePreviewDto(course)).thenReturn(viewDto);
 
-        CourseViewDto result = courseService.updateCourse(courseId, dto);
+        CoursePreviewDto result = courseService.updateCourse(courseId, dto);
 
         assertEquals(viewDto, result);
 
         verify(courseRepository).findByUuid(courseId);
         verify(courseRepository).existsByCode("NEW_CODE");
         verify(courseMapper).updateFromDto(dto, course);
-        verify(courseMapper).toCourseViewDto(course);
+        verify(courseMapper).toCoursePreviewDto(course);
     }
 
     @Test

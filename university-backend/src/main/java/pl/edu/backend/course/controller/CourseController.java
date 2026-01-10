@@ -57,7 +57,7 @@ public class CourseController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public CourseViewDto updateCourse(
+    public CoursePreviewDto updateCourse(
             @PathVariable(name = "id") UUID id,
             @RequestBody @Valid CourseUpdateDto dto
     ) {
@@ -67,7 +67,7 @@ public class CourseController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CourseViewDto createCourse(
+    public CoursePreviewDto createCourse(
             @RequestBody @Valid CourseCreateDto dto
     ) {
         return courseService.createCourse(dto);

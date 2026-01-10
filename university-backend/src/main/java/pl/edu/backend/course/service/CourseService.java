@@ -18,9 +18,9 @@ public interface CourseService {
 
     CoursePreviewDto getCoursePreview(UUID courseId);
 
-    CourseViewDto createCourse(CourseCreateDto dto);
+    CoursePreviewDto createCourse(CourseCreateDto dto);
 
-    CourseViewDto updateCourse(UUID courseId, CourseUpdateDto dto);
+    CoursePreviewDto updateCourse(UUID courseId, CourseUpdateDto dto);
 
     void deleteCourse(UUID courseId);
 }

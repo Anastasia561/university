@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
-    @ExceptionHandler({InvalidRefreshTokenException.class, UsernameNotFoundException.class})
+    @ExceptionHandler({InvalidRefreshTokenException.class, UsernameNotFoundException.class, BadCredentialsException.class})
     public ResponseEntity<ErrorResponseDto> handleInvalidRefreshTokenException(InvalidRefreshTokenException ex) {
         ErrorResponseDto error = new ErrorResponseDto(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
@@ -51,14 +51,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponseDto> handleAccessDeniedException(AccessDeniedException ex) {
-        ErrorResponseDto error = new ErrorResponseDto(HttpStatus.UNAUTHORIZED.value(), "Access denied");
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
-    }
-
-    @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ErrorResponseDto> handleBadCredentials(BadCredentialsException ex) {
-        ErrorResponseDto error = new ErrorResponseDto(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+        ErrorResponseDto error = new ErrorResponseDto(HttpStatus.FORBIDDEN.value(), "Access denied");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
