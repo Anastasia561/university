@@ -50,7 +50,7 @@ public class EnrollmentController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public EnrollmentPreviewDto updateCourse(
+    public EnrollmentPreviewDto updateEnrollment(
             @PathVariable(name = "id") UUID id,
             @RequestBody @Valid EnrollmentCreateDto dto
     ) {
@@ -60,7 +60,7 @@ public class EnrollmentController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EnrollmentPreviewDto createCourse(
+    public EnrollmentPreviewDto createEnrollment(
             @RequestBody @Valid EnrollmentCreateDto dto
     ) {
         return enrollmentService.createEnrollment(dto);
@@ -69,7 +69,7 @@ public class EnrollmentController {
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCourse(@PathVariable(name = "id") UUID id) {
+    public void deleteEnrollment(@PathVariable(name = "id") UUID id) {
         enrollmentService.deleteEnrollment(id);
     }
 }

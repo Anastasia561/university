@@ -73,7 +73,6 @@ public class CourseControllerTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.students[0].email").value("anna.k@example.com"))
                 .andExpect(jsonPath("$.students[0].finalGrade").value(4.0))
                 .andExpect(jsonPath("$.students[0].enrollmentDate").value("2024-02-10"));
-
     }
 
     @Test
