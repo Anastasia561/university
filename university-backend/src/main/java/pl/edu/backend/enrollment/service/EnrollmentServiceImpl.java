@@ -68,45 +68,46 @@ class EnrollmentServiceImpl implements EnrollmentService {
 
     @Override
     @Transactional
-    public EnrollmentViewDto createEnrollment(EnrollmentCreateDto dto) {
+    public EnrollmentPreviewDto createEnrollment(EnrollmentCreateDto dto) {
         Enrollment saved = null;
-        if (studentNotEnrolled(dto.studentEmail(), dto.courseCode())) {
-            Student student = studentRepository.findByEmail(dto.studentEmail())
-                    .orElseThrow(() -> new IllegalArgumentException("Student not found"));
-            Course course = courseRepository.findByCode(dto.courseCode())
-                    .orElseThrow(() -> new IllegalArgumentException("Course not found"));
 
+        Student student = studentRepository.findByEmail(dto.studentEmail())
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+        Course course = courseRepository.findByCode(dto.courseCode())
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
+
+        if (studentNotEnrolled(dto.studentEmail(), dto.courseCode())) {
             Enrollment enrollment = enrollmentMapper.toEnrollment(dto);
             enrollment.setStudent(student);
             enrollment.setCourse(course);
 
             saved = enrollmentRepository.save(enrollment);
         }
-        return enrollmentMapper.toEnrollmentViewDto(saved);
+        return enrollmentMapper.toEnrollmentPreviewDto(saved);
     }
 
     @Override
     @Transactional
-    public EnrollmentViewDto updateEnrollment(UUID id, EnrollmentCreateDto dto) {
+    public EnrollmentPreviewDto updateEnrollment(UUID id, EnrollmentCreateDto dto) {
         Enrollment enrollment = enrollmentRepository.findByUuid(id)
                 .orElseThrow(() -> new EntityNotFoundException("Enrollment not found"));
 
         boolean studentChanged = !enrollment.getStudent().getEmail().equals(dto.studentEmail());
         boolean courseChanged = !enrollment.getCourse().getCode().equals(dto.courseCode());
 
-        if ((studentChanged || courseChanged) && studentNotEnrolled(dto.studentEmail(), dto.courseCode())) {
-            Course course = courseRepository.findByCode(dto.courseCode())
-                    .orElseThrow(() -> new EntityNotFoundException("Course not found"));
-            Student student = studentRepository.findByEmail(dto.studentEmail())
-                    .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+        Course course = courseRepository.findByCode(dto.courseCode())
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
+        Student student = studentRepository.findByEmail(dto.studentEmail())
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
 
+        if ((studentChanged || courseChanged) && studentNotEnrolled(dto.studentEmail(), dto.courseCode())) {
             enrollment.setCourse(course);
             enrollment.setStudent(student);
         }
 
         enrollmentMapper.updateFromDto(dto, enrollment);
 
-        return enrollmentMapper.toEnrollmentViewDto(enrollment);
+        return enrollmentMapper.toEnrollmentPreviewDto(enrollment);
     }
 
     @Override

@@ -119,7 +119,7 @@ public class CourseMapperImplTest {
     }
 
     @Test
-    void shouldNotUpdateCourse_whenFieldsAreValid() {
+    void shouldNotUpdateCourse_whenFieldsAreInvalid() {
         Course course = new Course();
         course.setName("Old Name");
         course.setCode("old code");

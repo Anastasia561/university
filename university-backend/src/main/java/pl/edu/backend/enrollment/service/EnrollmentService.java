@@ -14,9 +14,9 @@ public interface EnrollmentService {
 
     EnrollmentPreviewDto getEnrollmentPreview(UUID id);
 
-    EnrollmentViewDto createEnrollment(EnrollmentCreateDto dto);
+    EnrollmentPreviewDto createEnrollment(EnrollmentCreateDto dto);
 
-    EnrollmentViewDto updateEnrollment(UUID id, EnrollmentCreateDto dto);
+    EnrollmentPreviewDto updateEnrollment(UUID id, EnrollmentCreateDto dto);
 
     void deleteEnrollment(UUID id);
 }

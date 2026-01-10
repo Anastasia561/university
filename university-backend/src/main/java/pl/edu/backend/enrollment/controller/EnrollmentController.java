@@ -50,7 +50,7 @@ public class EnrollmentController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public EnrollmentViewDto updateCourse(
+    public EnrollmentPreviewDto updateCourse(
             @PathVariable(name = "id") UUID id,
             @RequestBody @Valid EnrollmentCreateDto dto
     ) {
@@ -60,7 +60,7 @@ public class EnrollmentController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EnrollmentViewDto createCourse(
+    public EnrollmentPreviewDto createCourse(
             @RequestBody @Valid EnrollmentCreateDto dto
     ) {
         return enrollmentService.createEnrollment(dto);

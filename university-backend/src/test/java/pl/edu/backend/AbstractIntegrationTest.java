@@ -11,6 +11,5 @@ import pl.edu.backend.config.TestContainersConfig;
 @Testcontainers
 @AutoConfigureMockMvc
 @Import(TestContainersConfig.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AbstractIntegrationTest {
 }
