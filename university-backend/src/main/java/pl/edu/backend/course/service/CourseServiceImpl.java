@@ -18,7 +18,6 @@ import pl.edu.backend.course.dto.StudentForCourseDetailsDto;
 import pl.edu.backend.course.mapper.CourseMapper;
 import pl.edu.backend.course.model.Course;
 import pl.edu.backend.course.repository.CourseRepository;
-import pl.edu.backend.enrollment.repository.EnrollmentRepository;
 
 import java.util.List;
 import java.util.Objects;
@@ -29,7 +28,6 @@ import java.util.UUID;
 class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
-    private final EnrollmentRepository enrollmentRepository;
 
     @Override
     public List<CoursePreviewDto> getAllPreviewNonPageable() {
@@ -69,11 +67,10 @@ class CourseServiceImpl implements CourseService {
 
         CourseViewDto courseViewDto = courseMapper.toCourseViewDto(course);
         if (isStudent) {
-            List<StudentForCourseDetailsDto> enrollmentsInfo =
-                    enrollmentRepository.findByStudentEmailAndCourseCode(email, course.getCode()).stream()
-                            .map(e ->
-                                    new StudentForCourseDetailsDto(email, e.getFinalGrade(), e.getDate()))
-                            .toList();
+            List<StudentForCourseDetailsDto> enrollmentsInfo = course.getEnrollments().stream()
+                    .filter(e -> e.getStudent().getEmail().equals(email))
+                    .map(e -> new StudentForCourseDetailsDto(email, e.getFinalGrade(), e.getDate()))
+                    .toList();
             courseViewDto = new CourseViewDto(course.getName(), course.getCode(), course.getCredit(),
                     course.getDescription(), enrollmentsInfo);
         }
@@ -85,6 +82,12 @@ class CourseServiceImpl implements CourseService {
     public CoursePreviewDto getCoursePreview(UUID courseId) {
         return courseRepository.findByUuid(courseId)
                 .map(courseMapper::toCoursePreviewDto)
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
+    }
+
+    @Override
+    public Course getCourseByCode(String code) {
+        return courseRepository.findByCode(code)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
     }
 

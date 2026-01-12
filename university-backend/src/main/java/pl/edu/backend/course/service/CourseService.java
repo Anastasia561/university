@@ -5,6 +5,7 @@ import pl.edu.backend.course.dto.CourseCreateDto;
 import pl.edu.backend.course.dto.CoursePreviewDto;
 import pl.edu.backend.course.dto.CourseUpdateDto;
 import pl.edu.backend.course.dto.CourseViewDto;
+import pl.edu.backend.course.model.Course;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,4 +24,6 @@ public interface CourseService {
     CoursePreviewDto updateCourse(UUID courseId, CourseUpdateDto dto);
 
     void deleteCourse(UUID courseId);
+
+    Course getCourseByCode(String code);
 }

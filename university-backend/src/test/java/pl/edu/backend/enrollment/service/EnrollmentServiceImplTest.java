@@ -17,7 +17,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import pl.edu.backend.auth.core.CustomUserDetails;
 import pl.edu.backend.course.model.Course;
-import pl.edu.backend.course.repository.CourseRepository;
+import pl.edu.backend.course.service.CourseService;
 import pl.edu.backend.enrollment.dto.CourseForEnrollmentDto;
 import pl.edu.backend.enrollment.dto.EnrollmentCreateDto;
 import pl.edu.backend.enrollment.dto.EnrollmentPreviewDto;
@@ -28,7 +28,7 @@ import pl.edu.backend.enrollment.model.Enrollment;
 import pl.edu.backend.enrollment.repository.EnrollmentRepository;
 import pl.edu.backend.exception.StudentAlreadyEnrolledException;
 import pl.edu.backend.student.model.Student;
-import pl.edu.backend.student.repository.StudentRepository;
+import pl.edu.backend.student.service.StudentService;
 import pl.edu.backend.user.model.Role;
 
 import java.time.LocalDate;
@@ -54,10 +54,10 @@ public class EnrollmentServiceImplTest {
     private EnrollmentMapper enrollmentMapper;
 
     @Mock
-    private CourseRepository courseRepository;
+    private CourseService courseService;
 
     @Mock
-    private StudentRepository studentRepository;
+    private StudentService studentService;
 
     @InjectMocks
     private EnrollmentServiceImpl enrollmentService;
@@ -214,8 +214,8 @@ public class EnrollmentServiceImplTest {
 
         when(enrollmentRepository.isStudentAlreadyEnrolled(studentEmail, courseCode)).thenReturn(false);
 
-        when(studentRepository.findByEmail(studentEmail)).thenReturn(Optional.of(student));
-        when(courseRepository.findByCode(courseCode)).thenReturn(Optional.of(course));
+        when(studentService.getStudentByEmail(studentEmail)).thenReturn(student);
+        when(courseService.getCourseByCode(courseCode)).thenReturn(course);
         when(enrollmentMapper.toEnrollment(dto)).thenReturn(enrollment);
         when(enrollmentRepository.save(enrollment)).thenReturn(savedEnrollment);
         when(enrollmentMapper.toEnrollmentPreviewDto(savedEnrollment)).thenReturn(previewDto);
@@ -224,8 +224,8 @@ public class EnrollmentServiceImplTest {
 
         assertEquals(previewDto, result);
 
-        verify(studentRepository).findByEmail(studentEmail);
-        verify(courseRepository).findByCode(courseCode);
+        verify(studentService).getStudentByEmail(studentEmail);
+        verify(courseService).getCourseByCode(courseCode);
         verify(enrollmentRepository).save(enrollment);
         verify(enrollmentMapper).toEnrollment(dto);
         verify(enrollmentMapper).toEnrollmentPreviewDto(savedEnrollment);
@@ -241,8 +241,8 @@ public class EnrollmentServiceImplTest {
         EnrollmentCreateDto dto = new EnrollmentCreateDto(courseCode, studentEmail,
                 LocalDate.of(2030, 1, 1), 5.0);
 
-        when(studentRepository.findByEmail(studentEmail)).thenReturn(Optional.of(student));
-        when(courseRepository.findByCode(courseCode)).thenReturn(Optional.of(course));
+        when(studentService.getStudentByEmail(studentEmail)).thenReturn(student);
+        when(courseService.getCourseByCode(courseCode)).thenReturn(course);
         when(enrollmentRepository.isStudentAlreadyEnrolled(studentEmail, courseCode)).thenReturn(true);
 
         StudentAlreadyEnrolledException exception = assertThrows(
@@ -253,47 +253,6 @@ public class EnrollmentServiceImplTest {
         assertEquals("Student with email student@example.com is already enrolled for course with code CS101",
                 exception.getMessage());
         verifyNoInteractions(enrollmentMapper);
-    }
-
-    @Test
-    void shouldThrowEntityNotFoundException_whenStudentWasNotFoundForCreate() {
-        String studentEmail = "student@example.com";
-        String courseCode = "CS101";
-
-        EnrollmentCreateDto dto = new EnrollmentCreateDto(courseCode, studentEmail,
-                LocalDate.of(2030, 1, 1), 5.0);
-
-        when(studentRepository.findByEmail(studentEmail)).thenReturn(Optional.empty());
-
-        EntityNotFoundException exception = assertThrows(
-                EntityNotFoundException.class,
-                () -> enrollmentService.createEnrollment(dto)
-        );
-
-        assertEquals("Student not found", exception.getMessage());
-        verifyNoInteractions(courseRepository, enrollmentMapper, enrollmentRepository);
-    }
-
-    @Test
-    void shouldThrowEntityNotFoundException_whenCourseWasNotFoundForCreate() {
-        String studentEmail = "student@example.com";
-        String courseCode = "CS101";
-
-        Student student = new Student();
-
-        EnrollmentCreateDto dto = new EnrollmentCreateDto(courseCode, studentEmail,
-                LocalDate.of(2030, 1, 1), 5.0);
-
-        when(studentRepository.findByEmail(studentEmail)).thenReturn(Optional.of(student));
-        when(courseRepository.findByCode(courseCode)).thenReturn(Optional.empty());
-
-        EntityNotFoundException exception = assertThrows(
-                EntityNotFoundException.class,
-                () -> enrollmentService.createEnrollment(dto)
-        );
-
-        assertEquals("Course not found", exception.getMessage());
-        verifyNoInteractions(enrollmentMapper, enrollmentRepository);
     }
 
     @Test
@@ -313,70 +272,7 @@ public class EnrollmentServiceImplTest {
         );
 
         assertEquals("Enrollment not found", exception.getMessage());
-        verifyNoInteractions(enrollmentMapper, studentRepository, courseRepository);
-    }
-
-    @Test
-    void shouldThrowEntityNotFoundException_whenStudentWasNotFoundForUpdate() {
-        String studentEmail = "student@example.com";
-        String courseCode = "CS101";
-        UUID id = UUID.randomUUID();
-
-        Student student = new Student();
-        student.setEmail(studentEmail);
-
-        Course course = new Course();
-        course.setCode(courseCode);
-
-        Enrollment enrollment = new Enrollment();
-        enrollment.setStudent(student);
-        enrollment.setCourse(course);
-
-        EnrollmentCreateDto dto = new EnrollmentCreateDto(courseCode, studentEmail,
-                LocalDate.of(2030, 1, 1), 5.0);
-
-        when(enrollmentRepository.findByUuid(id)).thenReturn(Optional.of(enrollment));
-        when(courseRepository.findByCode(courseCode)).thenReturn(Optional.of(course));
-        when(studentRepository.findByEmail(studentEmail)).thenReturn(Optional.empty());
-
-        EntityNotFoundException exception = assertThrows(
-                EntityNotFoundException.class,
-                () -> enrollmentService.updateEnrollment(id, dto)
-        );
-
-        assertEquals("Student not found", exception.getMessage());
-        verifyNoInteractions(enrollmentMapper);
-    }
-
-    @Test
-    void shouldThrowEntityNotFoundException_whenCourseWasNotFoundForUpdate() {
-        String studentEmail = "student@example.com";
-        String courseCode = "CS101";
-        UUID id = UUID.randomUUID();
-
-        Student student = new Student();
-        student.setEmail(studentEmail);
-
-        Course course = new Course();
-        course.setCode(courseCode);
-
-        Enrollment enrollment = new Enrollment();
-        enrollment.setStudent(student);
-        enrollment.setCourse(course);
-
-        EnrollmentCreateDto dto = new EnrollmentCreateDto(courseCode, studentEmail,
-                LocalDate.of(2030, 1, 1), 5.0);
-
-        when(enrollmentRepository.findByUuid(id)).thenReturn(Optional.of(enrollment));
-        when(courseRepository.findByCode(courseCode)).thenReturn(Optional.empty());
-
-        EntityNotFoundException exception = assertThrows(
-                EntityNotFoundException.class,
-                () -> enrollmentService.updateEnrollment(id, dto)
-        );
-
-        assertEquals("Course not found", exception.getMessage());
-        verifyNoInteractions(enrollmentMapper, studentRepository);
+        verifyNoInteractions(enrollmentMapper, studentService, courseService);
     }
 
     @Test
@@ -410,8 +306,8 @@ public class EnrollmentServiceImplTest {
                 newStudentEmail, LocalDate.of(2030, 1, 1), 5.0);
 
         when(enrollmentRepository.findByUuid(enrollmentId)).thenReturn(Optional.of(existingEnrollment));
-        when(studentRepository.findByEmail(newStudentEmail)).thenReturn(Optional.of(newStudent));
-        when(courseRepository.findByCode(newCourseCode)).thenReturn(Optional.of(newCourse));
+        when(studentService.getStudentByEmail(newStudentEmail)).thenReturn(newStudent);
+        when(courseService.getCourseByCode(newCourseCode)).thenReturn(newCourse);
 
         when(enrollmentRepository.isStudentAlreadyEnrolled(newStudentEmail, newCourseCode)).thenReturn(false);
 
@@ -424,8 +320,8 @@ public class EnrollmentServiceImplTest {
         assertEquals(previewDto, result);
 
         verify(enrollmentRepository).findByUuid(enrollmentId);
-        verify(studentRepository).findByEmail(newStudentEmail);
-        verify(courseRepository).findByCode(newCourseCode);
+        verify(studentService).getStudentByEmail(newStudentEmail);
+        verify(courseService).getCourseByCode(newCourseCode);
         verify(enrollmentMapper).updateFromDto(dto, existingEnrollment);
         verify(enrollmentMapper).toEnrollmentPreviewDto(existingEnrollment);
         assertEquals(newStudent, existingEnrollment.getStudent());
@@ -456,7 +352,7 @@ public class EnrollmentServiceImplTest {
 
         assertEquals("Enrollment not found", exception.getMessage());
         verify(enrollmentRepository).existsByUuid(enrollmentId);
-        verifyNoInteractions(enrollmentMapper, studentRepository, courseRepository);
+        verifyNoInteractions(enrollmentMapper, studentService, courseService);
     }
 
     private void mockAuth(Role role) {

@@ -23,7 +23,6 @@ import pl.edu.backend.course.dto.CourseViewDto;
 import pl.edu.backend.course.mapper.CourseMapper;
 import pl.edu.backend.course.model.Course;
 import pl.edu.backend.course.repository.CourseRepository;
-import pl.edu.backend.enrollment.repository.EnrollmentRepository;
 import pl.edu.backend.user.model.Role;
 
 import java.util.ArrayList;
@@ -45,9 +44,6 @@ import static org.mockito.Mockito.when;
 public class CourseServiceImplTest {
     @Mock
     private CourseRepository courseRepository;
-
-    @Mock
-    private EnrollmentRepository enrollmentRepository;
 
     @Mock
     private CourseMapper courseMapper;
@@ -178,8 +174,6 @@ public class CourseServiceImplTest {
         course.setDescription("Test descr");
 
         when(courseRepository.findByUuid(any(UUID.class))).thenReturn(Optional.of(course));
-        when(enrollmentRepository.findByStudentEmailAndCourseCode(any(String.class), any(String.class)))
-                .thenReturn(new ArrayList<>());
 
         CourseViewDto dto = new CourseViewDto(course.getName(), "alg", 3, "Test descr", new ArrayList<>());
 
@@ -193,7 +187,6 @@ public class CourseServiceImplTest {
         assertTrue(result.students().isEmpty());
 
         verify(courseRepository).findByUuid(any(UUID.class));
-        verify(enrollmentRepository).findByStudentEmailAndCourseCode(any(String.class), any(String.class));
         verify(courseMapper).toCourseViewDto(course);
     }
 
@@ -216,6 +209,40 @@ public class CourseServiceImplTest {
 
         verify(courseRepository).findByUuid(any(UUID.class));
         verify(courseMapper).toCoursePreviewDto(course);
+    }
+
+    @Test
+    void shouldReturnCourseByCode_whenCodeParameterIsValid() {
+        Course course = new Course();
+        course.setName("Math");
+        course.setCode("alg");
+        course.setDescription("Test descr");
+
+        when(courseRepository.findByCode(any(String.class))).thenReturn(Optional.of(course));
+
+        Course result = courseService.getCourseByCode("alg");
+
+        assertEquals("Math", result.getName());
+        assertEquals("alg", result.getCode());
+        assertEquals("Test descr", result.getDescription());
+
+        verify(courseRepository).findByCode(any(String.class));
+        verifyNoInteractions(courseMapper);
+    }
+
+    @Test
+    void shouldThrowEntityNotFoundException_whenCodeParameterIsNotValid() {
+        when(courseRepository.findByCode(any(String.class))).thenReturn(Optional.empty());
+
+        EntityNotFoundException exception = assertThrows(
+                EntityNotFoundException.class,
+                () -> courseService.getCourseByCode("gg")
+        );
+
+        assertEquals("Course not found", exception.getMessage());
+
+        verify(courseRepository).findByCode(any(String.class));
+        verifyNoInteractions(courseMapper);
     }
 
     @Test

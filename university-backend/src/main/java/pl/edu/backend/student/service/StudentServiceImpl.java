@@ -51,6 +51,12 @@ class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public Student getStudentByEmail(String email) {
+        return studentRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+    }
+
+    @Override
     public StudentPreviewDto getStudentPreview(UUID id) {
         return studentRepository.findByUuid(id)
                 .map(studentMapper::toStudentPreviewDto)

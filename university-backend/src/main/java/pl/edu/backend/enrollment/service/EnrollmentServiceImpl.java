@@ -11,7 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import pl.edu.backend.course.model.Course;
-import pl.edu.backend.course.repository.CourseRepository;
+import pl.edu.backend.course.service.CourseService;
 import pl.edu.backend.enrollment.dto.EnrollmentCreateDto;
 import pl.edu.backend.enrollment.dto.EnrollmentPreviewDto;
 import pl.edu.backend.enrollment.dto.EnrollmentViewDto;
@@ -20,7 +20,7 @@ import pl.edu.backend.enrollment.model.Enrollment;
 import pl.edu.backend.enrollment.repository.EnrollmentRepository;
 import pl.edu.backend.exception.StudentAlreadyEnrolledException;
 import pl.edu.backend.student.model.Student;
-import pl.edu.backend.student.repository.StudentRepository;
+import pl.edu.backend.student.service.StudentService;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -29,8 +29,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 class EnrollmentServiceImpl implements EnrollmentService {
     private final EnrollmentRepository enrollmentRepository;
-    private final StudentRepository studentRepository;
-    private final CourseRepository courseRepository;
+    private final StudentService studentService;
+    private final CourseService courseService;
     private final EnrollmentMapper enrollmentMapper;
 
     @Override
@@ -71,10 +71,8 @@ class EnrollmentServiceImpl implements EnrollmentService {
     public EnrollmentPreviewDto createEnrollment(EnrollmentCreateDto dto) {
         Enrollment saved = null;
 
-        Student student = studentRepository.findByEmail(dto.studentEmail())
-                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
-        Course course = courseRepository.findByCode(dto.courseCode())
-                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
+        Student student = studentService.getStudentByEmail(dto.studentEmail());
+        Course course = courseService.getCourseByCode(dto.courseCode());
 
         if (studentNotEnrolled(dto.studentEmail(), dto.courseCode())) {
             Enrollment enrollment = enrollmentMapper.toEnrollment(dto);
@@ -95,10 +93,8 @@ class EnrollmentServiceImpl implements EnrollmentService {
         boolean studentChanged = !enrollment.getStudent().getEmail().equals(dto.studentEmail());
         boolean courseChanged = !enrollment.getCourse().getCode().equals(dto.courseCode());
 
-        Course course = courseRepository.findByCode(dto.courseCode())
-                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
-        Student student = studentRepository.findByEmail(dto.studentEmail())
-                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+        Course course = courseService.getCourseByCode(dto.courseCode());
+        Student student = studentService.getStudentByEmail(dto.studentEmail());
 
         if ((studentChanged || courseChanged) && studentNotEnrolled(dto.studentEmail(), dto.courseCode())) {
             enrollment.setCourse(course);

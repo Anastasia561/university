@@ -8,6 +8,7 @@ import pl.edu.backend.student.dto.StudentProfileDto;
 import pl.edu.backend.student.dto.StudentRegisterDto;
 import pl.edu.backend.student.dto.StudentUpdateDto;
 import pl.edu.backend.student.dto.StudentViewDto;
+import pl.edu.backend.student.model.Student;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,4 +31,6 @@ public interface StudentService {
     StudentViewDto updateStudent(UUID id, StudentUpdateDto dto);
 
     void deleteStudent(UUID id);
+
+    Student getStudentByEmail(String email);
 }
