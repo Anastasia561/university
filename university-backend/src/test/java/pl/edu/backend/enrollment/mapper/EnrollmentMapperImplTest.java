@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class EnrollmentMapperImplTest {
+class EnrollmentMapperImplTest {
     private EnrollmentMapper enrollmentMapper;
 
     @BeforeEach
@@ -24,7 +24,7 @@ public class EnrollmentMapperImplTest {
     }
 
     @Test
-    public void shouldMapEnrollmentCreateDtoToEntity_whenInputIsValid() {
+    void shouldMapEnrollmentCreateDtoToEntity_whenInputIsValid() {
         EnrollmentCreateDto dto = new EnrollmentCreateDto("code", "test@gmail.com",
                 LocalDate.of(2030, 1, 1), 5.0);
 
@@ -39,7 +39,7 @@ public class EnrollmentMapperImplTest {
     }
 
     @Test
-    public void shouldMapEnrollmentToPreviewDto_whenInputIsValid() {
+    void shouldMapEnrollmentToPreviewDto_whenInputIsValid() {
         Course course = new Course();
         course.setCode("code");
 
@@ -66,7 +66,7 @@ public class EnrollmentMapperImplTest {
     }
 
     @Test
-    public void shouldMapEnrollmentToViewDto_whenInputIsValid() {
+    void shouldMapEnrollmentToViewDto_whenInputIsValid() {
         Course course = new Course();
         course.setCode("code");
 
@@ -93,7 +93,7 @@ public class EnrollmentMapperImplTest {
     }
 
     @Test
-    public void shouldUpdateEnrollmentFromDto_whenInputIsValid() {
+    void shouldUpdateEnrollmentFromDto_whenInputIsValid() {
         Course course = new Course();
         course.setCode("code");
 
@@ -118,7 +118,7 @@ public class EnrollmentMapperImplTest {
     }
 
     @Test
-    public void shouldNotUpdateEnrollmentFromDto_whenInputIsInvalid() {
+    void shouldNotUpdateEnrollmentFromDto_whenInputIsInvalid() {
         Course course = new Course();
         course.setCode("code");
 

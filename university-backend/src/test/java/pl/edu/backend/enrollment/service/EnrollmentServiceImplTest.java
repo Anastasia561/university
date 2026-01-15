@@ -46,7 +46,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class EnrollmentServiceImplTest {
+class EnrollmentServiceImplTest {
     @Mock
     private EnrollmentRepository enrollmentRepository;
 
@@ -63,7 +63,7 @@ public class EnrollmentServiceImplTest {
     private EnrollmentServiceImpl enrollmentService;
 
     @Test
-    public void shouldReturnAllEnrollmentsPreviewPageable_whenRequestedByAdmin() {
+    void shouldReturnAllEnrollmentsPreviewPageable_whenRequestedByAdmin() {
         mockAuth(Role.ADMIN);
         Pageable pageable = PageRequest.of(0, 5, Sort.by("date").ascending());
 
@@ -94,7 +94,7 @@ public class EnrollmentServiceImplTest {
     }
 
     @Test
-    public void shouldReturnAllEnrollmentsPreviewPageable_whenRequestedByStudent() {
+    void shouldReturnAllEnrollmentsPreviewPageable_whenRequestedByStudent() {
         mockAuth(Role.STUDENT);
         Pageable pageable = PageRequest.of(0, 5, Sort.by("date").ascending());
 
@@ -125,7 +125,7 @@ public class EnrollmentServiceImplTest {
     }
 
     @Test
-    public void shouldReturnEnrollmentDetails_whenInputIsValid() {
+    void shouldReturnEnrollmentDetails_whenInputIsValid() {
         UUID id = UUID.randomUUID();
         Enrollment enrollment = new Enrollment();
         StudentForEnrollmentDto student = new StudentForEnrollmentDto("test", "test", "email");
@@ -146,7 +146,7 @@ public class EnrollmentServiceImplTest {
     }
 
     @Test
-    public void shouldThrowEntityNotFoundException_whenInputIsNotValid() {
+    void shouldThrowEntityNotFoundException_whenInputIsNotValid() {
         UUID id = UUID.randomUUID();
         when(enrollmentRepository.findByUuid(id)).thenReturn(Optional.empty());
 
@@ -162,7 +162,7 @@ public class EnrollmentServiceImplTest {
     }
 
     @Test
-    public void shouldReturnEnrollmentPreview_whenInputIsValid() {
+    void shouldReturnEnrollmentPreview_whenInputIsValid() {
         UUID id = UUID.randomUUID();
         Enrollment enrollment = new Enrollment();
 
@@ -182,7 +182,7 @@ public class EnrollmentServiceImplTest {
     }
 
     @Test
-    public void shouldThrowEntityNotFoundException_whenInputIsNotValidForEnrollmentPreview() {
+    void shouldThrowEntityNotFoundException_whenInputIsNotValidForEnrollmentPreview() {
         UUID id = UUID.randomUUID();
         when(enrollmentRepository.findByUuid(id)).thenReturn(Optional.empty());
 
@@ -198,7 +198,7 @@ public class EnrollmentServiceImplTest {
     }
 
     @Test
-    public void shouldCreateEnrollment_whenInputIsValidAndStudentIsNotAlreadyEnrolled() {
+    void shouldCreateEnrollment_whenInputIsValidAndStudentIsNotAlreadyEnrolled() {
         String studentEmail = "student@example.com";
         String courseCode = "CS101";
 
@@ -276,7 +276,7 @@ public class EnrollmentServiceImplTest {
     }
 
     @Test
-    public void shouldUpdateEnrollment_whenInputIsValid() {
+    void shouldUpdateEnrollment_whenInputIsValid() {
         UUID enrollmentId = UUID.randomUUID();
         String oldStudentEmail = "old@example.com";
         String newStudentEmail = "new@example.com";
@@ -329,7 +329,7 @@ public class EnrollmentServiceImplTest {
     }
 
     @Test
-    public void shouldDeleteEnrollment_whenEnrollmentExists() {
+    void shouldDeleteEnrollment_whenEnrollmentExists() {
         UUID enrollmentId = UUID.randomUUID();
 
         when(enrollmentRepository.existsByUuid(enrollmentId)).thenReturn(true);

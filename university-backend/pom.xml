@@ -203,7 +203,7 @@
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.0</minimum>
+                                            <minimum>0.7</minimum>
                                         </limit>
                                     </limits>
                                     <includes>
@@ -216,7 +216,7 @@
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.0</minimum>
+                                            <minimum>0.9</minimum>
                                         </limit>
                                     </limits>
                                     <includes>

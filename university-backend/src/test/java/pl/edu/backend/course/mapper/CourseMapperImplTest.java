@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CourseMapperImplTest {
+class CourseMapperImplTest {
     private CourseMapper courseMapper;
 
     @BeforeEach
@@ -28,7 +28,7 @@ public class CourseMapperImplTest {
     }
 
     @Test
-    public void shouldMapCourseToCoursePreviewDto_whenInputIsValid() {
+    void shouldMapCourseToCoursePreviewDto_whenInputIsValid() {
         Course course = new Course();
         course.setUuid(UUID.fromString("550e8400-e29b-41d4-a716-446655440000"));
         course.setName("Course Name");
