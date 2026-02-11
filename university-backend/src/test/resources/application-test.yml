@@ -1,5 +1,4 @@
 testcontainers:
-  reuse.enable: true
   postgres:
     image: postgres:15-alpine
     username: ${TEST_USER}

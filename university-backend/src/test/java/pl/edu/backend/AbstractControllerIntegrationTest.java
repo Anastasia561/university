@@ -5,13 +5,16 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import pl.edu.backend.auth.dto.AuthRequestDto;
 import pl.edu.backend.auth.service.AuthService;
+import pl.edu.backend.config.TestContainersConfig;
 import pl.edu.backend.user.model.Role;
 import tools.jackson.databind.ObjectMapper;
 
@@ -27,7 +30,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @SpringBootTest
 @Transactional
 @AutoConfigureMockMvc
-public abstract class AbstractControllerIntegrationTest extends AbstractIntegrationTest {
+@ActiveProfiles("test")
+@Import(TestContainersConfig.class)
+public abstract class AbstractControllerIntegrationTest {
     @Autowired
     private AuthService authService;
 
